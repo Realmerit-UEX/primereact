@@ -1,11 +1,15 @@
-const UsersSection = (props) => {
-    const colorScheme = props.dark ? 'light' : 'dark';
+import AppContentContext from '@/components/layout/appcontentcontext';
+import { useContext } from 'react';
+
+const UsersSection = () => {
+    const { darkMode } = useContext(AppContentContext);
+    const colorScheme = darkMode ? 'light' : 'dark';
     const usersData = ['fox', 'airbus', 'mercedes', 'ebay', 'ford', 'vw', 'intel', 'unicredit', 'lufthansa', 'nvidia', 'verizon', 'amex'];
 
     const getUsersImages = () =>
         usersData.map((name) => ({
             name,
-            image: `https://primefaces.org/cdn/primereact/images/landing-new/whouses/${name}-${colorScheme}.svg`
+            image: `https://primefaces.org/cdn/primereact/images/landing/whouses/${name}-${colorScheme}.svg`
         }));
 
     const Marquee = ({ users, reverse }) => (

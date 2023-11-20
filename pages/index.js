@@ -5,6 +5,7 @@ import HeroSection from '@/components/landing/herosection';
 import TemplateSection from '@/components/landing/templatesection';
 import ThemeSection from '@/components/landing/themesection';
 import UsersSection from '@/components/landing/userssection';
+<<<<<<< HEAD
 import Topbar from '@/components/layout/topbar';
 import { classNames } from '@/components/lib/utils/Utils';
 import NewsSection from '@/components/news/newssection';
@@ -62,6 +63,29 @@ export default function Home(props) {
 
         replaceTableTheme(newTheme);
     }, [props.dark]); // eslint-disable-line react-hooks/exhaustive-deps
+=======
+import AppContentContext from '@/components/layout/appcontentcontext';
+import Topbar from '@/components/layout/topbar';
+import { useMountEffect } from '@/components/lib/primereact.all';
+import { classNames } from '@/components/lib/utils/Utils';
+import NewsSection from '@/components/news/newssection';
+import Head from 'next/head';
+import { useContext } from 'react';
+
+export default function Home() {
+    const { newsActive, darkMode, changeTheme } = useContext(AppContentContext);
+    const landingClass = classNames('landing', { 'layout-light': !darkMode, 'layout-dark': darkMode, 'layout-news-active': newsActive });
+
+    const toggleDarkMode = () => {
+        const newTheme = darkMode ? 'lara-light-cyan' : 'lara-dark-cyan';
+
+        changeTheme(newTheme, !darkMode);
+    };
+
+    useMountEffect(() => {
+        changeTheme(darkMode ? 'lara-dark-cyan' : 'lara-light-cyan', darkMode);
+    });
+>>>>>>> upstream/master
 
     return (
         <div className={landingClass}>
@@ -82,15 +106,24 @@ export default function Home(props) {
                 <meta property="og:image" content="https://primefaces.org/static/social/primereact-preview.jpg"></meta>
                 <meta property="og:ttl" content="604800"></meta>
             </Head>
+<<<<<<< HEAD
             <NewsSection newsActive={newsActive} setNewsActive={setNewsActive} />
             <Topbar dark={props.dark} showConfigurator={false} showMenuButton={false} darkModeSwitch={onDarkModeToggle} />
             <HeroSection dark={props.dark} />
             <FeaturesSection dark={props.dark} />
             <UsersSection dark={props.dark} />
             <ThemeSection theme={tableTheme} onThemeChange={(t) => onTableThemeChange(t)} dark={props.dark} />
+=======
+            <NewsSection />
+            <Topbar onDarkSwitchClick={toggleDarkMode} />
+            <HeroSection />
+            <FeaturesSection />
+            <UsersSection />
+            <ThemeSection />
+>>>>>>> upstream/master
             <BlockSection />
-            <TemplateSection dark={props.dark} />
-            <FooterSection dark={props.dark} />
+            <TemplateSection />
+            <FooterSection />
         </div>
     );
 }
