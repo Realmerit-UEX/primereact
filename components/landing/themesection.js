@@ -179,11 +179,7 @@ const ThemeSection = () => {
             <div className="section-header">Themes</div>
             <p className="section-detail">Crafted on a design-agnostic infrastructure, choose from a vast amount of themes such as material, bootstrap, tailwind, primeone or develop your own.</p>
             <div className="flex flex-wrap justify-content-center">
-<<<<<<< HEAD
-                <button type="button" className={classNames('font-medium linkbox mr-3 mt-4', { active: props.theme && props.theme.startsWith('lara') })} onClick={() => changeTheme('lara', 'cyan')}>
-=======
                 <button type="button" className={classNames('font-medium linkbox mr-3 mt-4', { active: tableTheme && tableTheme.startsWith('lara') })} onClick={() => changeTheme('lara', 'cyan')}>
->>>>>>> upstream/master
                     PrimeOne
                 </button>
                 <button type="button" className={classNames('font-medium linkbox mr-3 mt-4', { active: tableTheme && tableTheme.startsWith('md') })} onClick={() => changeTheme('md', 'indigo')}>

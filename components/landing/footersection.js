@@ -149,18 +149,12 @@ const FooterSection = () => {
                         <a href="https://github.com/primefaces/primereact" className="linkbox block w-3rem h-3rem flex align-items-center justify-content-center mr-3">
                             <i className="pi pi-github"></i>
                         </a>
-<<<<<<< HEAD
-                        <a href="https://discord.gg/gzKFYnpmCY" className="linkbox block w-3rem h-3rem flex align-items-center justify-content-center">
-                            <i className="pi pi-discord"></i>
-                        </a>
-=======
                         <a href="https://discord.gg/gzKFYnpmCY" className="linkbox block w-3rem h-3rem flex align-items-center justify-content-center mr-3">
                             <i className="pi pi-discord"></i>
                         </a>
                         <a href="https://github.com/orgs/primefaces/discussions" className="linkbox block w-3rem h-3rem flex align-items-center justify-content-center">
                             <i className="pi pi-comments"></i>
                         </a>
->>>>>>> upstream/master
                     </div>
                 </div>
             </div>

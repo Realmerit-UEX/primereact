@@ -5,65 +5,6 @@ import HeroSection from '@/components/landing/herosection';
 import TemplateSection from '@/components/landing/templatesection';
 import ThemeSection from '@/components/landing/themesection';
 import UsersSection from '@/components/landing/userssection';
-<<<<<<< HEAD
-import Topbar from '@/components/layout/topbar';
-import { classNames } from '@/components/lib/utils/Utils';
-import NewsSection from '@/components/news/newssection';
-import Head from 'next/head';
-import { useEffect, useState } from 'react';
-
-export default function Home(props) {
-    const [tableTheme, setTableTheme] = useState('lara-light-cyan');
-    const [newsActive, setNewsActive] = useState(false);
-    const landingClass = classNames('landing', { 'layout-light': !props.dark, 'layout-dark': props.dark, 'layout-news-active': newsActive });
-
-    const onTableThemeChange = (newTheme) => {
-        replaceTableTheme(newTheme);
-    };
-
-    const replaceTableTheme = (newTheme) => {
-        const elementId = 'home-table-link';
-        const linkElement = document.getElementById(elementId);
-        const tableThemeTokens = linkElement?.getAttribute('href').split('/') || null;
-        const currentTableTheme = tableThemeTokens ? tableThemeTokens[tableThemeTokens.length - 2] : null;
-
-        if (currentTableTheme !== newTheme && tableThemeTokens) {
-            const newThemeUrl = linkElement.getAttribute('href').replace(currentTableTheme, newTheme);
-
-            const cloneLinkElement = linkElement.cloneNode(true);
-
-            cloneLinkElement.setAttribute('id', elementId + '-clone');
-            cloneLinkElement.setAttribute('href', newThemeUrl);
-            cloneLinkElement.addEventListener('load', () => {
-                linkElement.remove();
-                cloneLinkElement.setAttribute('id', elementId);
-            });
-            linkElement.parentNode?.insertBefore(cloneLinkElement, linkElement.nextSibling);
-
-            setTableTheme(newTheme);
-        }
-    };
-
-    const onDarkModeToggle = () => {
-        let newTheme;
-        let currentTheme = props.theme;
-
-        if (props.dark) {
-            newTheme = currentTheme.replace('dark', 'light');
-        } else {
-            if (currentTheme.includes('light') && currentTheme !== 'fluent-light') newTheme = currentTheme.replace('light', 'dark');
-            else newTheme = 'lara-dark-indigo'; //fallback
-        }
-
-        props.onThemeChange(newTheme, !props.dark);
-    };
-
-    useEffect(() => {
-        const newTheme = props.dark ? tableTheme.replace('light', 'dark') : tableTheme.replace('dark', 'light');
-
-        replaceTableTheme(newTheme);
-    }, [props.dark]); // eslint-disable-line react-hooks/exhaustive-deps
-=======
 import AppContentContext from '@/components/layout/appcontentcontext';
 import Topbar from '@/components/layout/topbar';
 import { useMountEffect } from '@/components/lib/primereact.all';
@@ -85,7 +26,6 @@ export default function Home() {
     useMountEffect(() => {
         changeTheme(darkMode ? 'lara-dark-cyan' : 'lara-light-cyan', darkMode);
     });
->>>>>>> upstream/master
 
     return (
         <div className={landingClass}>
@@ -106,21 +46,12 @@ export default function Home() {
                 <meta property="og:image" content="https://primefaces.org/static/social/primereact-preview.jpg"></meta>
                 <meta property="og:ttl" content="604800"></meta>
             </Head>
-<<<<<<< HEAD
-            <NewsSection newsActive={newsActive} setNewsActive={setNewsActive} />
-            <Topbar dark={props.dark} showConfigurator={false} showMenuButton={false} darkModeSwitch={onDarkModeToggle} />
-            <HeroSection dark={props.dark} />
-            <FeaturesSection dark={props.dark} />
-            <UsersSection dark={props.dark} />
-            <ThemeSection theme={tableTheme} onThemeChange={(t) => onTableThemeChange(t)} dark={props.dark} />
-=======
             <NewsSection />
             <Topbar onDarkSwitchClick={toggleDarkMode} />
             <HeroSection />
             <FeaturesSection />
             <UsersSection />
             <ThemeSection />
->>>>>>> upstream/master
             <BlockSection />
             <TemplateSection />
             <FooterSection />

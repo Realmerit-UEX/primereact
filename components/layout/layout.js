@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import PrimeReact from '@/components/lib/api/Api';
-import { PrimeReactContext } from '@/components/lib/api/PrimeReactContext';
-import { classNames } from '@/components/lib/utils/Utils';
-=======
 import AppContentContext from '@/components/layout/appcontentcontext';
 import Config from '@/components/layout/config';
 import Footer from '@/components/layout/footer';
@@ -10,19 +5,10 @@ import Menu from '@/components/layout/menu';
 import Topbar from '@/components/layout/topbar';
 import { PrimeReactContext } from '@/components/lib/api/PrimeReactContext';
 import { DomHandler, classNames } from '@/components/lib/utils/Utils';
->>>>>>> upstream/master
 import NewsSection from '@/components/news/newssection';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
-<<<<<<< HEAD
-import AppContentContext from './appcontentcontext';
-import Config from './config';
-import Footer from './footer';
-import Menu from './menu';
-import Topbar from './topbar';
-=======
->>>>>>> upstream/master
 
 export default function Layout({ children }) {
     const [sidebarActive, setSidebarActive] = useState(false);
@@ -89,44 +75,6 @@ export default function Layout({ children }) {
                 <meta property="og:ttl" content="604800"></meta>
                 <link rel="icon" href="https://primefaces.org/cdn/primereact/images/favicon.ico" type="image/x-icon"></link>
             </Head>
-<<<<<<< HEAD
-            {props.newsActive && <NewsSection announcement={props.announcement} onClose={props.onNewsClose} />}
-            <Topbar dark={props.dark} showConfigurator={true} showMenuButton={true} onMenuButtonClick={onMenuButtonClick} onConfigButtonClick={onConfigButtonClick} darkModeSwitch={toggleColorScheme} />
-
-            <AppContentContext.Provider
-                value={{
-                    ripple: ripple,
-                    inputStyle: inputStyle,
-                    disabled: disabled,
-                    darkTheme: props.dark,
-                    setDisabled: setDisabled,
-                    onInputStyleChange: onInputStyleChange,
-                    onRippleChange: onRippleChange,
-                    onHideOverlaysOnDocumentScrolling: onHideOverlaysOnDocumentScrolling
-                }}
-            >
-                <div className={classNames('layout-mask', { 'layout-mask-active': sidebarActive })} onClick={onMaskClick}></div>
-                <Config
-                    ripple={ripple}
-                    inputStyle={inputStyle}
-                    disabled={disabled}
-                    onRippleChange={onRippleChange}
-                    onHideOverlaysOnDocumentScrolling={onHideOverlaysOnDocumentScrolling}
-                    onInputStyleChange={onInputStyleChange}
-                    onThemeChange={onThemeChange}
-                    active={configActive}
-                    onHide={onConfigHide}
-                    dark={props.dark}
-                    theme={props.theme}
-                    darkModeSwitch={toggleColorScheme}
-                />
-                <div className="layout-content">
-                    <Menu active={sidebarActive} darkTheme={props.dark} />
-                    <div className="layout-content-slot">{props.children}</div>
-                </div>
-                <Footer></Footer>
-            </AppContentContext.Provider>
-=======
             <NewsSection />
             <Topbar showConfigurator showMenuButton onMenuButtonClick={() => setSidebarActive(true)} onConfigButtonClick={() => setConfigActive(true)} onDarkSwitchClick={toggleDarkMode} />
             <div className={classNames('layout-mask', { 'layout-mask-active': sidebarActive })} onClick={() => setSidebarActive(false)}></div>
@@ -136,7 +84,6 @@ export default function Layout({ children }) {
                 <div className="layout-content-slot">{children}</div>
             </div>
             <Footer />
->>>>>>> upstream/master
         </div>
     );
 }

@@ -1,18 +1,11 @@
-<<<<<<< HEAD
-=======
 import AppContentContext from '@/components/layout/appcontentcontext';
 import { PrimeReactContext } from '@/components/lib/api/PrimeReactContext';
->>>>>>> upstream/master
 import { Button } from '@/components/lib/button/Button';
 import { InputSwitch } from '@/components/lib/inputswitch/InputSwitch';
 import { SelectButton } from '@/components/lib/selectbutton/SelectButton';
 import { Sidebar } from '@/components/lib/sidebar/Sidebar';
 import { classNames } from '@/components/lib/utils/Utils';
-<<<<<<< HEAD
-import { useEffect, useState } from 'react';
-=======
 import { useContext, useEffect, useState } from 'react';
->>>>>>> upstream/master
 
 export default function Config(props) {
     const [scale, setScale] = useState(14);
@@ -140,11 +133,7 @@ export default function Config(props) {
                                 'hover:border-500 surface-border': !isThemeActive('lara', 'green')
                             })}
                             style={{ borderRadius: '30px' }}
-<<<<<<< HEAD
-                            onClick={() => changeTheme('lara', 'green')}
-=======
                             onClick={() => switchTheme('lara', 'green')}
->>>>>>> upstream/master
                         >
                             <span className="block h-1rem w-full" style={{ borderRadius: ' 30px', background: 'linear-gradient(180deg, #4dac9c 0%, rgba(77, 172, 156, 0.5) 100%)' }}></span>
                         </button>
@@ -196,11 +185,7 @@ export default function Config(props) {
                                 'hover:border-500 surface-border': !isThemeActive('lara', 'teal')
                             })}
                             style={{ borderRadius: '30px' }}
-<<<<<<< HEAD
-                            onClick={() => changeTheme('lara', 'teal')}
-=======
                             onClick={() => switchTheme('lara', 'teal')}
->>>>>>> upstream/master
                         >
                             <span className="block h-1rem w-full" style={{ borderRadius: ' 30px', background: 'linear-gradient(180deg, #14b8a6 0%, rgba(20, 184, 166, 0.5) 100%)' }}></span>
                         </button>

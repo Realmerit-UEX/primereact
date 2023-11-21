@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-import { useMountEffect } from '@/components/lib/hooks/Hooks';
-import { useRef } from 'react';
-import AnnouncementData from '../../data/news.json';
-=======
 import AppContentContext from '@/components/layout/appcontentcontext';
 import { useMountEffect } from '@/components/lib/hooks/Hooks';
 import News from '@/data/news.json';
 import { useContext } from 'react';
->>>>>>> upstream/master
 
 export default function NewsSection() {
     const { newsActive, announcement, showNews, hideNews } = useContext(AppContentContext);
@@ -28,12 +22,6 @@ export default function NewsSection() {
             showNews(News);
         }
     });
-<<<<<<< HEAD
-
-    const onNewsClose = () => {
-        props.setNewsActive(false);
-=======
->>>>>>> upstream/master
 
     const close = () => {
         hideNews();
