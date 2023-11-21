@@ -334,7 +334,7 @@ function addPrimeReact() {
 function addPackageJson() {
     const outputDir = path.resolve(__dirname, process.env.OUTPUT_DIR);
     const packageJson = `{
-    "name": "primereact",
+    "name": "@quarkunlimit/primereact",
     "version": "${pkg.version}",
     "private": false,
     "author": "PrimeTek Informatics",
