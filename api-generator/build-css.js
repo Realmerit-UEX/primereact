@@ -3,7 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const uglifycss = require('gulp-uglifycss');
 const rename = require('gulp-rename');
-
+const postcss = require('postcss');
+const postcssPresetEnv = require('postcss-preset-env');
 // directories
 const rootDir = path.resolve(__dirname, '../');
 const distDir = path.resolve(rootDir, 'dist/resources');
@@ -80,7 +81,7 @@ function processFile(filePath) {
                     console.log(`Styles from ${filePath} added to primereact.css`);
                 } else {
                     if (filePath.endsWith('ComponentBase.js')) {
-                        globalCSS.push(matches[1]);
+                        globalCSS += `\n${matches[1]}`;
                     }
                 }
             }
@@ -103,8 +104,9 @@ findFilesWithExtension(libDir, fileExtensionToFind);
 
 // close the layer
 fs.appendFileSync(path.resolve(distDir, 'primereact.css'), `}\n`);
-fs.appendFileSync(path.resolve(distDir, 'primereact.css'), `\n${globalCSS.join()}`);
-
+fs.appendFileSync(path.resolve(distDir, 'primereact.css'), `\n${globalCSS}`);
+const result = postcss([postcssPresetEnv({ browsers: 'chrome 87' })]).process(fs.readFileSync(path.resolve(distDir, 'primereact.css')));
+fs.writeFileSync(path.resolve(distDir, 'primereact.css'), result.css);
 // Create a Gulp task to minimize the generated CSS
 gulp.task('minify-css', function () {
     return gulp
