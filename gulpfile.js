@@ -77,4 +77,4 @@ gulp.task('copy-package.json', function () {
 
 //Building project with run sequence
 gulp.task('copy-files', gulp.series('copy-d.ts', 'copy-package.json'));
-gulp.task('build-resources', gulp.series('build-primereactcss', 'images', 'build-themes', 'build-meta', 'copy-files'));
+gulp.task('build-resources', gulp.series('images', 'build-themes', 'build-meta', 'copy-files'));
