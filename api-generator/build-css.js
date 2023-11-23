@@ -47,6 +47,7 @@ function removeLayerAndLastBrace(inputString) {
     return withoutLayer;
 }
 
+let globalCSS = [];
 function processFile(filePath) {
     try {
         const regexes = [
@@ -56,17 +57,18 @@ function processFile(filePath) {
             /const checkboxStyles = `([\s\S]*?)`/s,
             /const inputTextStyles = `([\s\S]*?)`/s,
             /const radioButtonStyles = `([\s\S]*?)`/s,
-            /const iconStyles = `([\s\S]*?)`/s,
-            /const commonStyles = `([\s\S]*?)`/s
+            /const iconStyles = `([\s\S]*?)`/s
         ];
         const fileContent = fs.readFileSync(filePath, 'utf8');
 
         for (let index = 0; index < regexes.length; index++) {
             const regex = regexes[index];
+
             const matches = regex.exec(fileContent);
 
             if (matches && matches[1]) {
                 let styles = matches[1];
+
                 const hasLayer = styles.includes('@layer primereact');
 
                 if (hasLayer) {
@@ -76,6 +78,10 @@ function processFile(filePath) {
 
                     // eslint-disable-next-line no-console
                     console.log(`Styles from ${filePath} added to primereact.css`);
+                } else {
+                    if (filePath.endsWith('ComponentBase.js')) {
+                        globalCSS.push(matches[1]);
+                    }
                 }
             }
         }
@@ -97,6 +103,7 @@ findFilesWithExtension(libDir, fileExtensionToFind);
 
 // close the layer
 fs.appendFileSync(path.resolve(distDir, 'primereact.css'), `}\n`);
+fs.appendFileSync(path.resolve(distDir, 'primereact.css'), `\n${globalCSS.join()}`);
 
 // Create a Gulp task to minimize the generated CSS
 gulp.task('minify-css', function () {
