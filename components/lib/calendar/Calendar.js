@@ -2716,55 +2716,64 @@ export const Calendar = React.memo(
         const createTitleMonthElement = (month, monthIndex) => {
             const monthNames = localeOption('monthNames', props.locale);
 
-            if (renderMonthsNavigator(monthIndex)) {
+            // if (renderMonthsNavigator(monthIndex)) {
+            //     const viewDate = getViewDate();
+            //     const viewMonth = viewDate.getMonth();
+            //     const displayedMonthOptions = monthNames
+            //         .map((month, index) => ((!isInMinYear(viewDate) || index >= props.minDate.getMonth()) && (!isInMaxYear(viewDate) || index <= props.maxDate.getMonth()) ? { label: month, value: index, index } : null))
+            //         .filter((option) => !!option);
+            //     const displayedMonthNames = displayedMonthOptions.map((option) => option.label);
+            //     const selectProps = mergeProps(
+            //         {
+            //             className: cx('select'),
+            //             onChange: (e) => onMonthDropdownChange(e, e.target.value),
+            //             value: viewMonth
+            //         },
+            //         ptm('select')
+            //     );
+            //     const content = (
+            //         <select {...selectProps}>
+            //             {displayedMonthOptions.map((option) => {
+            //                 const optionProps = mergeProps(
+            //                     {
+            //                         value: option.value
+            //                     },
+            //                     ptm('option')
+            //                 );
+
+            //                 return (
+            //                     <option {...optionProps} key={option.label}>
+            //                         {option.label}
+            //                     </option>
+            //                 );
+            //             })}
+            //         </select>
+            //     );
+
+            //     return content;
+            // }
+            if (props.monthNavigatorTemplate) {
                 const viewDate = getViewDate();
                 const viewMonth = viewDate.getMonth();
                 const displayedMonthOptions = monthNames
                     .map((month, index) => ((!isInMinYear(viewDate) || index >= props.minDate.getMonth()) && (!isInMaxYear(viewDate) || index <= props.maxDate.getMonth()) ? { label: month, value: index, index } : null))
                     .filter((option) => !!option);
                 const displayedMonthNames = displayedMonthOptions.map((option) => option.label);
-                const selectProps = mergeProps(
-                    {
-                        className: cx('select'),
-                        onChange: (e) => onMonthDropdownChange(e, e.target.value),
-                        value: viewMonth
-                    },
-                    ptm('select')
-                );
-                const content = (
-                    <select {...selectProps}>
-                        {displayedMonthOptions.map((option) => {
-                            const optionProps = mergeProps(
-                                {
-                                    value: option.value
-                                },
-                                ptm('option')
-                            );
+                const idx = props.numberOfMonths > 1 ? month : viewMonth;
 
-                            return (
-                                <option {...optionProps} key={option.label}>
-                                    {option.label}
-                                </option>
-                            );
-                        })}
-                    </select>
-                );
+                const defaultContentOptions = {
+                    onChange: onMonthDropdownChange,
+                    className: 'p-datepicker-month',
+                    value: viewMonth,
+                    names: displayedMonthNames,
+                    options: displayedMonthOptions,
+                    element: content,
+                    displayMonth: displayedMonthNames[idx],
+                    switchToMonthView,
+                    props
+                };
 
-                if (props.monthNavigatorTemplate) {
-                    const defaultContentOptions = {
-                        onChange: onMonthDropdownChange,
-                        className: 'p-datepicker-month',
-                        value: viewMonth,
-                        names: displayedMonthNames,
-                        options: displayedMonthOptions,
-                        element: content,
-                        props
-                    };
-
-                    return ObjectUtils.getJSXElement(props.monthNavigatorTemplate, defaultContentOptions);
-                }
-
-                return content;
+                return ObjectUtils.getJSXElement(props.monthNavigatorTemplate, defaultContentOptions);
             }
 
             const monthTitleProps = mergeProps(
