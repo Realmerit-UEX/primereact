@@ -246,6 +246,7 @@ export const CalendarBase = ComponentBase.extend({
         footerTemplate: null,
         formatDateTime: null,
         headerTemplate: null,
+        headerRightTemplate: null,
         hideOnDateTimeSelect: false,
         hourFormat: '24',
         icon: null,

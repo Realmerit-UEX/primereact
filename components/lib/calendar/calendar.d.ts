@@ -286,6 +286,10 @@ export interface CalendarState {
      * Current viewDate state.
      */
     viewDate: Nullable<Date>;
+    /**
+     * 多面板是否打开了年/月选择框
+     */
+    multiplePickerShow: boolean;
 }
 
 /**
@@ -440,6 +444,22 @@ interface CalendarDateTemplateEvent {
     selectable: boolean;
 }
 
+interface CalendarHeaderTemplateEvent {
+    /**
+     * 前一年
+     */
+    navBackwardYear: () => void;
+    /**
+     * 后一年
+     * @returns
+     */
+    navForwardYear: () => void;
+    /**
+     * 当前面板
+     */
+    currentView: undefined | 'date' | 'month' | 'year';
+}
+
 /**
  * Custom visible change event
  * @see {@link CalendarProps.onVisibleChange}
@@ -503,7 +523,21 @@ interface CalendarNavigatorTemplateEvent {
  * @extends {CalendarNavigatorTemplateEvent}
  * @event
  */
-interface CalendarMonthNavigatorTemplateEvent extends CalendarNavigatorTemplateEvent {}
+interface CalendarMonthNavigatorTemplateEvent extends CalendarNavigatorTemplateEvent {
+    /**
+     * 打开月选择器
+     * @returns
+     */
+    multiplePickerMonth: () => void;
+    /**
+     * 当前面板
+     */
+    currentView: undefined | 'date' | 'month' | 'year';
+    /**
+     * 当前月份
+     */
+    displayMonth: string;
+}
 
 /**
  * Custom year navigator template event
@@ -511,7 +545,21 @@ interface CalendarMonthNavigatorTemplateEvent extends CalendarNavigatorTemplateE
  * @extends {CalendarNavigatorTemplateEvent}
  * @event
  */
-interface CalendarYearNavigatorTemplateEvent extends CalendarNavigatorTemplateEvent {}
+interface CalendarYearNavigatorTemplateEvent extends CalendarNavigatorTemplateEvent {
+    /**
+     * 打开年选择器
+     * @returns
+     */
+    multiplePickerYear: () => void;
+    /**
+     * 当前面板
+     */
+    currentView: undefined | 'date' | 'month' | 'year';
+    /**
+     * 当前年份
+     */
+    displayYear: string;
+}
 
 /**
  * Defines valid base properties in Calendar component.
@@ -867,7 +915,12 @@ interface CalendarBaseProps {
      * Custom header template of overlay.
      * @return {React.ReactNode}
      */
-    headerTemplate?(): React.ReactNode;
+    headerTemplate?(event: CalendarHeaderTemplateEvent): React.ReactNode;
+    /**
+     * Custom header template of overlay.
+     * @return {React.ReactNode}
+     */
+    headerRightTemplate?(event: CalendarHeaderTemplateEvent): React.ReactNode;
     /**
      * Function that gets a navigator information and returns the navigator element in header.
      * @param {CalendarMonthNavigatorTemplateEvent} event - Custom month navigator template event.
