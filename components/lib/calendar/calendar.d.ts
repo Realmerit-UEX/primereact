@@ -30,6 +30,8 @@ export interface CalendarPassThroughMethodOptions {
     context: CalendarContext;
 }
 
+export type TCurrentView = undefined | 'date' | 'month' | 'year';
+
 /**
  * Custom passthrough(pt) options.
  * @see {@link CalendarProps.pt}
@@ -287,9 +289,9 @@ export interface CalendarState {
      */
     viewDate: Nullable<Date>;
     /**
-     * 多面板是否打开了年/月选择框
+     * 当前面板
      */
-    multiplePickerShow: boolean;
+    currentView: TCurrentView;
 }
 
 /**
@@ -457,7 +459,7 @@ interface CalendarHeaderTemplateEvent {
     /**
      * 当前面板
      */
-    currentView: undefined | 'date' | 'month' | 'year';
+    currentView: TCurrentView;
 }
 
 /**
@@ -528,11 +530,11 @@ interface CalendarMonthNavigatorTemplateEvent extends CalendarNavigatorTemplateE
      * 打开月选择器
      * @returns
      */
-    multiplePickerMonth: () => void;
+    switchToMonthView: () => void;
     /**
      * 当前面板
      */
-    currentView: undefined | 'date' | 'month' | 'year';
+    currentView: TCurrentView;
     /**
      * 当前月份
      */
@@ -550,11 +552,11 @@ interface CalendarYearNavigatorTemplateEvent extends CalendarNavigatorTemplateEv
      * 打开年选择器
      * @returns
      */
-    multiplePickerYear: () => void;
+    switchToYearView: () => void;
     /**
      * 当前面板
      */
-    currentView: undefined | 'date' | 'month' | 'year';
+    currentView: TCurrentView;
     /**
      * 当前年份
      */
@@ -916,11 +918,6 @@ interface CalendarBaseProps {
      * @return {React.ReactNode}
      */
     headerTemplate?(event: CalendarHeaderTemplateEvent): React.ReactNode;
-    /**
-     * Custom header template of overlay.
-     * @return {React.ReactNode}
-     */
-    headerRightTemplate?(event: CalendarHeaderTemplateEvent): React.ReactNode;
     /**
      * Function that gets a navigator information and returns the navigator element in header.
      * @param {CalendarMonthNavigatorTemplateEvent} event - Custom month navigator template event.
