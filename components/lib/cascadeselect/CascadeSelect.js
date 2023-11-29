@@ -324,7 +324,6 @@ export const CascadeSelect = React.memo(
 
         const createLabel = () => {
             const label = props.value ? getOptionLabel(props.value) : props.placeholder || 'p-emptylabel';
-
             const labelProps = mergeProps(
                 {
                     ref: labelRef,
@@ -332,6 +331,16 @@ export const CascadeSelect = React.memo(
                 },
                 ptm('label')
             );
+            if (props.labelTemplate) {
+                const defaultOptions = {
+                    className: 'p-cascadeselect-label',
+                    element: null,
+                    props
+                };
+                const content = ObjectUtils.getJSXElement(props.labelTemplate, defaultOptions);
+
+                return <div {...labelProps}>{props.value ? content : props.placeholder || ''}</div>;
+            }
 
             return <span {...labelProps}>{label}</span>;
         };
@@ -421,6 +430,7 @@ export const CascadeSelect = React.memo(
                                 optionGroupIcon={props.optionGroupIcon}
                                 optionLabel={props.optionLabel}
                                 optionValue={props.optionValue}
+                                parentActive={props.value != null}
                                 level={0}
                                 optionGroupLabel={props.optionGroupLabel}
                                 optionGroupChildren={props.optionGroupChildren}

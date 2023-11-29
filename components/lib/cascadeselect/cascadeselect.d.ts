@@ -201,6 +201,10 @@ export interface CascadeSelectProps extends Omit<React.DetailedHTMLProps<React.I
      */
     placeholder?: string | undefined;
     /**
+     * The template of label.
+     */
+    labelTemplate?: React.ReactNode | ((option: any) => React.ReactNode) | undefined;
+    /**
      * The template of items.
      */
     itemTemplate?: React.ReactNode | ((option: any) => React.ReactNode) | undefined;
