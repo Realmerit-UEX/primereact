@@ -2752,6 +2752,43 @@ export const Calendar = React.memo(
         const createTitleMonthElement = (month, monthIndex) => {
             const monthNames = localeOption('monthNames', props.locale);
 
+            // if (renderMonthsNavigator(monthIndex)) {
+            //     const viewDate = getViewDate();
+            //     const viewMonth = viewDate.getMonth();
+            //     const displayedMonthOptions = monthNames
+            //         .map((month, index) => ((!isInMinYear(viewDate) || index >= props.minDate.getMonth()) && (!isInMaxYear(viewDate) || index <= props.maxDate.getMonth()) ? { label: month, value: index, index } : null))
+            //         .filter((option) => !!option);
+            //     const displayedMonthNames = displayedMonthOptions.map((option) => option.label);
+            //     const selectProps = mergeProps(
+            //         {
+            //             className: cx('select'),
+            //             onChange: (e) => onMonthDropdownChange(e, e.target.value),
+            //             value: viewMonth
+            //         },
+            //         ptm('select')
+            //     );
+            //     const content = (
+            //         <select {...selectProps}>
+            //             {displayedMonthOptions.map((option) => {
+            //                 const optionProps = mergeProps(
+            //                     {
+            //                         value: option.value
+            //                     },
+            //                     ptm('option')
+            //                 );
+
+            //                 return (
+            //                     <option {...optionProps} key={option.label}>
+            //                         {option.label}
+            //                     </option>
+            //                 );
+            //             })}
+            //         </select>
+            //     );
+
+            //     return content;
+            // }
+
             if (props.monthNavigatorTemplate) {
                 const viewDate = getViewDate();
                 const viewMonth = viewDate.getMonth();
@@ -2803,6 +2840,33 @@ export const Calendar = React.memo(
                 const viewDate = getViewDate();
                 const viewYear = viewDate.getFullYear();
                 const displayedYearNames = yearOptions.filter((year) => !(props.minDate && props.minDate.getFullYear() > year) && !(props.maxDate && props.maxDate.getFullYear() < year));
+                // const selectProps = mergeProps(
+                //     {
+                //         className: cx('select'),
+                //         onChange: (e) => onYearDropdownChange(e, e.target.value),
+                //         value: viewYear
+                //     },
+                //     ptm('select')
+                // );
+
+                // const content = (
+                //     <select {...selectProps}>
+                //         {displayedYearNames.map((year) => {
+                //             const optionProps = mergeProps(
+                //                 {
+                //                     value: year
+                //                 },
+                //                 ptm('option')
+                //             );
+
+                //             return (
+                //                 <option {...optionProps} key={year}>
+                //                     {year}
+                //                 </option>
+                //             );
+                //         })}
+                //     </select>
+                // );
 
                 if (props.yearNavigatorTemplate) {
                     const options = yearPickerValues();
@@ -2938,12 +3002,7 @@ export const Calendar = React.memo(
                 })
             );
 
-            return (
-                <span {...dayLabelProps}>
-                    {content}
-                    <Ripple />
-                </span>
-            );
+            return <span {...dayLabelProps}>{content}</span>;
         };
 
         const createWeek = (weekDates, weekNumber, groupIndex) => {
