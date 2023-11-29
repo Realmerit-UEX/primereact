@@ -103,16 +103,33 @@ export const CascadeSelectSub = React.memo((props) => {
     const findNextItem = (item) => {
         const nextItem = item.nextElementSibling;
 
-        return nextItem ? (DomHandler.hasClass(nextItem, 'p-disabled') || !DomHandler.hasClass(nextItem, 'p-cascadeselect-item') ? findNextItem(nextItem) : nextItem) : null;
+        if (!nextItem) return null;
+
+        const isDisabled = DomHandler.isAttributeEquals(nextItem, 'data-p-disabled', true);
+        const isNotItem = DomHandler.isAttributeNotEquals(nextItem, 'data-pc-section', 'item');
+
+        return isDisabled || isNotItem ? findNextItem(nextItem) : nextItem;
     };
 
     const findPrevItem = (item) => {
         const prevItem = item.previousElementSibling;
 
-        return prevItem ? (DomHandler.hasClass(prevItem, 'p-disabled') || !DomHandler.hasClass(prevItem, 'p-cascadeselect-item') ? findPrevItem(prevItem) : prevItem) : null;
+        if (!prevItem) return null;
+
+        const isDisabled = DomHandler.isAttributeEquals(prevItem, 'data-p-disabled', true);
+        const isNotItem = DomHandler.isAttributeNotEquals(prevItem, 'data-pc-section', 'item');
+
+        return isDisabled || isNotItem ? findNextItem(prevItem) : prevItem;
     };
 
     const onOptionClick = (event, option) => {
+        if (option.disabled) {
+            props.onPanelHide();
+            event.preventDefault();
+
+            return;
+        }
+
         if (isOptionGroup(option)) {
             setActiveOptionState((prevActiveOption) => (prevActiveOption === option ? null : option));
 
@@ -244,7 +261,8 @@ export const CascadeSelectSub = React.memo((props) => {
                 style: option.style,
                 role: 'none',
                 'data-p-item-group': isOptionGroup(option),
-                'data-p-highlight': activeOptionState === option
+                'data-p-highlight': activeOptionState === option,
+                'data-p-disabled': option.disabled
             },
             getPTOptions('item')
         );

@@ -142,7 +142,11 @@ export const CascadeSelect = React.memo(
                 //down
                 case 40:
                     if (overlayVisibleState) {
-                        DomHandler.findSingle(overlayRef.current, '[data-pc-section="item"]').children[0].focus();
+                        const doms = DomHandler.findSingle(overlayRef.current, '[data-pc-section="item"]:not([data-p-disabled="true"])');
+
+                        if (doms) {
+                            doms.children[0].focus();
+                        }
                     } else if (event.altKey && props.options && props.options.length) {
                         show();
                     }

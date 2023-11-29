@@ -28,7 +28,8 @@ const classes = {
     item: ({ option, isOptionGroup, activeOptionState }) =>
         classNames('p-cascadeselect-item', {
             'p-cascadeselect-item-group': isOptionGroup(option),
-            'p-cascadeselect-item-active p-highlight': activeOptionState === option
+            'p-cascadeselect-item-active p-highlight': activeOptionState === option,
+            'p-disabled': option.disabled
         }),
     dropdownIcon: 'p-cascadeselect-trigger-icon',
     dropdownButton: 'p-cascadeselect-trigger',
