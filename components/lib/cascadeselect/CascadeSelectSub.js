@@ -58,6 +58,7 @@ export const CascadeSelectSub = React.memo((props) => {
 
             case 'Right':
             case 'ArrowRight':
+                if (option.disabled) return;
                 if (isOptionGroup(option)) {
                     if (activeOptionState === option) {
                         listItem.children[1].children[0].children[0].focus();
