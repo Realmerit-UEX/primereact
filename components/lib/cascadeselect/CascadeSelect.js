@@ -331,6 +331,7 @@ export const CascadeSelect = React.memo(
                 },
                 ptm('label')
             );
+
             if (props.labelTemplate) {
                 const defaultOptions = {
                     className: 'p-cascadeselect-label',
