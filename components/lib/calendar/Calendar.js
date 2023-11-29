@@ -22,12 +22,15 @@ export const Calendar = React.memo(
         const [focusedState, setFocusedState] = React.useState(false);
         const [overlayVisibleState, setOverlayVisibleState] = React.useState(false);
         const [viewDateState, setViewDateState] = React.useState(null);
+        const [currentView, setCurrentView] = React.useState('date');
+
         const metaData = {
             props,
             state: {
                 focused: focusedState,
                 overlayVisible: overlayVisibleState,
-                viewDate: viewDateState
+                viewDate: viewDateState,
+                currentView
             }
         };
         const { ptm, cx, isUnstyled } = CalendarBase.setMetaData(metaData);
@@ -48,7 +51,6 @@ export const Calendar = React.memo(
         const nextButton = React.useRef(false);
         const onChangeRef = React.useRef(null);
 
-        const [currentView, setCurrentView] = React.useState('date');
         const [currentMonth, setCurrentMonth] = React.useState(null);
         const [currentYear, setCurrentYear] = React.useState(null);
         const [yearOptions, setYearOptions] = React.useState([]);
@@ -271,6 +273,22 @@ export const Calendar = React.memo(
             }
         };
 
+        const navBackwardYear = (event) => {
+            if (props.disabled) {
+                event.preventDefault();
+
+                return;
+            }
+
+            let newViewDate = cloneDate(getViewDate());
+
+            newViewDate.setDate(1);
+            newViewDate.setFullYear(decrementYear());
+
+            updateViewDate(event, newViewDate);
+            event.preventDefault();
+        };
+
         const navBackward = (event) => {
             if (props.disabled) {
                 event.preventDefault();
@@ -310,6 +328,24 @@ export const Calendar = React.memo(
             } else if (currentView === 'year') {
                 newViewDate.setFullYear(decrementDecade());
             }
+
+            updateViewDate(event, newViewDate);
+
+            event.preventDefault();
+        };
+
+        const navForwardYear = (event) => {
+            if (props.disabled) {
+                event.preventDefault();
+
+                return;
+            }
+
+            let newViewDate = cloneDate(getViewDate());
+
+            newViewDate.setDate(1);
+
+            newViewDate.setFullYear(incrementYear());
 
             updateViewDate(event, newViewDate);
 
@@ -1362,7 +1398,7 @@ export const Calendar = React.memo(
         };
 
         const decrementDecade = () => {
-            const _currentYear = currentYear - 10;
+            const _currentYear = currentYear - 12;
 
             setCurrentYear(_currentYear);
 
@@ -1370,7 +1406,7 @@ export const Calendar = React.memo(
         };
 
         const incrementDecade = () => {
-            const _currentYear = currentYear + 10;
+            const _currentYear = currentYear + 12;
 
             setCurrentYear(_currentYear);
 
@@ -2752,6 +2788,7 @@ export const Calendar = React.memo(
 
             //     return content;
             // }
+
             if (props.monthNavigatorTemplate) {
                 const viewDate = getViewDate();
                 const viewMonth = viewDate.getMonth();
@@ -2767,10 +2804,11 @@ export const Calendar = React.memo(
                     value: viewMonth,
                     names: displayedMonthNames,
                     options: displayedMonthOptions,
-                    element: content,
+                    element: null,
                     displayMonth: displayedMonthNames[idx],
+                    props,
                     switchToMonthView,
-                    props
+                    currentView
                 };
 
                 return ObjectUtils.getJSXElement(props.monthNavigatorTemplate, defaultContentOptions);
@@ -2802,44 +2840,47 @@ export const Calendar = React.memo(
                 const viewDate = getViewDate();
                 const viewYear = viewDate.getFullYear();
                 const displayedYearNames = yearOptions.filter((year) => !(props.minDate && props.minDate.getFullYear() > year) && !(props.maxDate && props.maxDate.getFullYear() < year));
-                const selectProps = mergeProps(
-                    {
-                        className: cx('select'),
-                        onChange: (e) => onYearDropdownChange(e, e.target.value),
-                        value: viewYear
-                    },
-                    ptm('select')
-                );
+                // const selectProps = mergeProps(
+                //     {
+                //         className: cx('select'),
+                //         onChange: (e) => onYearDropdownChange(e, e.target.value),
+                //         value: viewYear
+                //     },
+                //     ptm('select')
+                // );
 
-                const content = (
-                    <select {...selectProps}>
-                        {displayedYearNames.map((year) => {
-                            const optionProps = mergeProps(
-                                {
-                                    value: year
-                                },
-                                ptm('option')
-                            );
+                // const content = (
+                //     <select {...selectProps}>
+                //         {displayedYearNames.map((year) => {
+                //             const optionProps = mergeProps(
+                //                 {
+                //                     value: year
+                //                 },
+                //                 ptm('option')
+                //             );
 
-                            return (
-                                <option {...optionProps} key={year}>
-                                    {year}
-                                </option>
-                            );
-                        })}
-                    </select>
-                );
+                //             return (
+                //                 <option {...optionProps} key={year}>
+                //                     {year}
+                //                 </option>
+                //             );
+                //         })}
+                //     </select>
+                // );
 
                 if (props.yearNavigatorTemplate) {
-                    const options = displayedYearNames.map((name, i) => ({ label: name, value: name, index: i }));
+                    const options = yearPickerValues();
                     const defaultContentOptions = {
                         onChange: onYearDropdownChange,
                         className: 'p-datepicker-year',
                         value: viewYear,
                         names: displayedYearNames,
                         options,
-                        element: content,
-                        props
+                        element: null,
+                        props,
+                        switchToYearView,
+                        currentView,
+                        displayYear: metaYear
                     };
 
                     return ObjectUtils.getJSXElement(props.yearNavigatorTemplate, defaultContentOptions);
@@ -2961,12 +3002,7 @@ export const Calendar = React.memo(
                 })
             );
 
-            return (
-                <span {...dayLabelProps}>
-                    {content}
-                    <Ripple />
-                </span>
-            );
+            return <span {...dayLabelProps}>{content}</span>;
         };
 
         const createWeek = (weekDates, weekNumber, groupIndex) => {
@@ -3079,7 +3115,14 @@ export const Calendar = React.memo(
             const title = createTitle(monthMetaData, index);
 
             const dateViewGrid = createDateViewGrid(monthMetaData, weekDays, index);
-            const header = props.headerTemplate ? props.headerTemplate() : null;
+
+            const headerTemplateProps = {
+                navBackwardYear,
+                navForwardYear,
+                currentView
+            };
+
+            const header = props.headerTemplate ? props.headerTemplate(headerTemplateProps) : null;
             const monthKey = monthMetaData.month + '-' + monthMetaData.year;
             const groupProps = mergeProps(
                 {
@@ -3143,9 +3186,9 @@ export const Calendar = React.memo(
 
         const yearPickerValues = () => {
             let yearPickerValues = [];
-            let base = currentYear - (currentYear % 10);
+            let base = currentYear - (currentYear % 12);
 
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 12; i++) {
                 yearPickerValues.push(base + i);
             }
 

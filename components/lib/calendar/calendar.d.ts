@@ -30,6 +30,8 @@ export interface CalendarPassThroughMethodOptions {
     context: CalendarContext;
 }
 
+export type TCurrentView = undefined | 'date' | 'month' | 'year';
+
 /**
  * Custom passthrough(pt) options.
  * @see {@link CalendarProps.pt}
@@ -286,6 +288,10 @@ export interface CalendarState {
      * Current viewDate state.
      */
     viewDate: Nullable<Date>;
+    /**
+     * 当前面板
+     */
+    currentView: TCurrentView;
 }
 
 /**
@@ -440,6 +446,22 @@ interface CalendarDateTemplateEvent {
     selectable: boolean;
 }
 
+interface CalendarHeaderTemplateEvent {
+    /**
+     * 前一年
+     */
+    navBackwardYear: () => void;
+    /**
+     * 后一年
+     * @returns
+     */
+    navForwardYear: () => void;
+    /**
+     * 当前面板
+     */
+    currentView: TCurrentView;
+}
+
 /**
  * Custom visible change event
  * @see {@link CalendarProps.onVisibleChange}
@@ -503,7 +525,21 @@ interface CalendarNavigatorTemplateEvent {
  * @extends {CalendarNavigatorTemplateEvent}
  * @event
  */
-interface CalendarMonthNavigatorTemplateEvent extends CalendarNavigatorTemplateEvent {}
+interface CalendarMonthNavigatorTemplateEvent extends CalendarNavigatorTemplateEvent {
+    /**
+     * 打开月选择器
+     * @returns
+     */
+    switchToMonthView: () => void;
+    /**
+     * 当前面板
+     */
+    currentView: TCurrentView;
+    /**
+     * 当前月份
+     */
+    displayMonth: string;
+}
 
 /**
  * Custom year navigator template event
@@ -511,7 +547,21 @@ interface CalendarMonthNavigatorTemplateEvent extends CalendarNavigatorTemplateE
  * @extends {CalendarNavigatorTemplateEvent}
  * @event
  */
-interface CalendarYearNavigatorTemplateEvent extends CalendarNavigatorTemplateEvent {}
+interface CalendarYearNavigatorTemplateEvent extends CalendarNavigatorTemplateEvent {
+    /**
+     * 打开年选择器
+     * @returns
+     */
+    switchToYearView: () => void;
+    /**
+     * 当前面板
+     */
+    currentView: TCurrentView;
+    /**
+     * 当前年份
+     */
+    displayYear: string;
+}
 
 /**
  * Defines valid base properties in Calendar component.
@@ -867,7 +917,7 @@ interface CalendarBaseProps {
      * Custom header template of overlay.
      * @return {React.ReactNode}
      */
-    headerTemplate?(): React.ReactNode;
+    headerTemplate?(event: CalendarHeaderTemplateEvent): React.ReactNode;
     /**
      * Function that gets a navigator information and returns the navigator element in header.
      * @param {CalendarMonthNavigatorTemplateEvent} event - Custom month navigator template event.
