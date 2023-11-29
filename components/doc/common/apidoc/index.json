@@ -6439,7 +6439,13 @@
                         },
                         {
                             "name": "headerTemplate",
-                            "parameters": [],
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "CalendarHeaderTemplateEvent"
+                                }
+                            ],
                             "returnType": "ReactNode",
                             "description": "Custom header template of overlay."
                         },
@@ -6784,6 +6790,26 @@
                             "readonly": false,
                             "type": "CalendarProps",
                             "description": "The props of Calendar component"
+                        },
+                        {
+                            "name": "switchToMonthView",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "Function"
+                        },
+                        {
+                            "name": "currentView",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "TCurrentView",
+                            "description": "当前面板"
+                        },
+                        {
+                            "name": "displayMonth",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "string",
+                            "description": "当前月份"
                         }
                     ]
                 },
@@ -6832,6 +6858,26 @@
                             "readonly": false,
                             "type": "CalendarProps",
                             "description": "The props of Calendar component"
+                        },
+                        {
+                            "name": "switchToYearView",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "Function"
+                        },
+                        {
+                            "name": "currentView",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "TCurrentView",
+                            "description": "当前面板"
+                        },
+                        {
+                            "name": "displayYear",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "string",
+                            "description": "当前年份"
                         }
                     ]
                 }
@@ -7288,6 +7334,13 @@
                             "readonly": false,
                             "type": "Nullable<Date>",
                             "description": "Current viewDate state."
+                        },
+                        {
+                            "name": "currentView",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "TCurrentView",
+                            "description": "当前面板"
                         }
                     ],
                     "callbacks": []
@@ -7421,6 +7474,31 @@
                             "readonly": false,
                             "type": "Nullable<string | Date | Date[]>",
                             "description": "Selected date"
+                        }
+                    ],
+                    "callbacks": []
+                },
+                "CalendarHeaderTemplateEvent": {
+                    "relatedProp": "",
+                    "props": [
+                        {
+                            "name": "navBackwardYear",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "Function"
+                        },
+                        {
+                            "name": "navForwardYear",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "Function"
+                        },
+                        {
+                            "name": "currentView",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "TCurrentView",
+                            "description": "当前面板"
                         }
                     ],
                     "callbacks": []
@@ -8002,7 +8080,13 @@
                         },
                         {
                             "name": "headerTemplate",
-                            "parameters": [],
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "CalendarHeaderTemplateEvent"
+                                }
+                            ],
                             "returnType": "ReactNode",
                             "description": "Custom header template of overlay."
                         },
@@ -8174,6 +8258,9 @@
                 },
                 "CalendarPassThroughTransitionType": {
                     "values": "ReactCSSTransitionProps | Function | undefined"
+                },
+                "TCurrentView": {
+                    "values": "undefined | \"date\" | \"month\" | \"year\""
                 }
             }
         }
@@ -9000,6 +9087,14 @@
                             "type": "ReactNode | Function",
                             "default": "",
                             "description": "The template of items."
+                        },
+                        {
+                            "name": "labelTemplate",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "ReactNode | Function",
+                            "default": "",
+                            "description": "The template of label."
                         },
                         {
                             "name": "name",
