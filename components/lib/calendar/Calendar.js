@@ -1537,12 +1537,8 @@ export const Calendar = React.memo(
 
         const onOverlayEntered = () => {
             if (!props.touchUI && overlayRef && overlayRef.current && inputRef && inputRef.current && !appendDisabled()) {
-                if (props.view === 'date') {
-                    overlayRef.current.style.width = DomHandler.getOuterWidth(overlayRef.current) + 'px';
-                    overlayRef.current.style.minWidth = DomHandler.getOuterWidth(inputRef.current) + 'px';
-                } else {
-                    overlayRef.current.style.width = DomHandler.getOuterWidth(inputRef.current) + 'px';
-                }
+                overlayRef.current.style.width = DomHandler.getOuterWidth(overlayRef.current) + 'px';
+                overlayRef.current.style.minWidth = DomHandler.getOuterWidth(inputRef.current) + 'px';
             }
 
             bindOverlayListener();
