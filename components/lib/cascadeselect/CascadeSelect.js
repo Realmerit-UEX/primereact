@@ -272,7 +272,8 @@ export const CascadeSelect = React.memo(
             getOverlay: () => overlayRef.current,
             getInput: () => inputRef.current,
             getLabel: () => labelRef.current,
-            focus: () => DomHandler.focus(inputRef.current)
+            focus: () => DomHandler.focus(inputRef.current),
+            hide
         }));
 
         useMountEffect(() => {
