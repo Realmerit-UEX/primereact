@@ -263,8 +263,8 @@ const Tailwind = {
                     'focus:outline-none focus:outline-offset-0 focus:shadow-[inset_0_0_0_0.2rem_rgba(191,219,254,1)] dark:focus:shadow-[inset_0_0_0_0.2rem_rgba(147,197,253,0.5)]', // Focus styles.
                     {
                         'border-gray-300 bg-white text-gray-700 hover:bg-white hover:border-gray-400 hover:text-gray-600 dark:bg-gray-900 dark:border-blue-900/40 dark:text-white/80 dark:hover:bg-gray-800/80':
-                            parent.state.d_activeIndex !== context.index, // Condition-based hover styles.
-                        'bg-white border-blue-500 text-blue-500 dark:bg-gray-900 dark:border-blue-300 dark:text-blue-300': parent.state.d_activeIndex === context.index // Condition-based active styles.
+                            parent.state.activeIndex !== context.index, // Condition-based hover styles.
+                        'bg-white border-blue-500 text-blue-500 dark:bg-gray-900 dark:border-blue-300 dark:text-blue-300': parent.state.activeIndex === context.index // Condition-based active styles.
                     }
                 ),
                 style: { marginBottom: '-2px' } // Negative margin style.
@@ -882,8 +882,8 @@ const Tailwind = {
             className: classNames(
                 'inline-flex items-center',
                 {
-                    'cursor-pointer': !props.readonly,
-                    'cursor-default': props.readonly
+                    'cursor-pointer': !props.readOnly,
+                    'cursor-default': props.readOnly
                 },
                 {
                     'outline-none outline-offset-0 shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] dark:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]': context.focused
@@ -1016,7 +1016,7 @@ const Tailwind = {
         label: 'font-bold text-center w-full',
         icon: ({ props }) => ({
             className: classNames(' mr-2', {
-                'text-gray-600 dark:text-white/70': !props.modelValue,
+                'text-gray-600 dark:text-white/70': !props.checked,
                 'text-white': props.checked
             })
         })
@@ -1312,8 +1312,8 @@ const Tailwind = {
         labelContainer: 'overflow-hidden flex flex-auto cursor-pointer',
         label: ({ props }) => ({
             className: classNames('block overflow-hidden whitespace-nowrap cursor-pointer overflow-ellipsis', 'text-gray-800 dark:text-white/80', 'p-3 transition duration-200', {
-                '!p-3': props.display !== 'chip' && (props?.modelValue == null || props?.modelValue == undefined),
-                '!py-1.5 px-3': props.display === 'chip' && props?.modelValue !== null
+                '!p-3': props.display !== 'chip' && (props.value == null || props.value == undefined),
+                '!py-1.5 px-3': props.display === 'chip' && props.value !== null
             })
         }),
         token: {
