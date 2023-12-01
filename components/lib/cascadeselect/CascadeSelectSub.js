@@ -10,9 +10,10 @@ export const CascadeSelectSub = React.memo((props) => {
     const context = React.useContext(PrimeReactContext);
     const { ptm, cx } = props;
 
-    const getPTOptions = (key) => {
+    const getPTOptions = (key, options) => {
         return ptm(key, {
-            hostName: props.hostName
+            hostName: props.hostName,
+            ...options
         });
     };
 
@@ -266,7 +267,7 @@ export const CascadeSelectSub = React.memo((props) => {
                 'data-p-highlight': activeOptionState === option,
                 'data-p-disabled': option.disabled
             },
-            getPTOptions('item')
+            getPTOptions('item', { option, isOptionGroup, activeOptionState })
         );
 
         return (
