@@ -13,7 +13,7 @@ export const CascadeSelectSub = React.memo((props) => {
     const getPTOptions = (key, options) => {
         return ptm(key, {
             hostName: props.hostName,
-            ...options
+            state: { ...options }
         });
     };
 
@@ -258,16 +258,18 @@ export const CascadeSelectSub = React.memo((props) => {
             getPTOptions('content')
         );
 
+        const isSelected = activeOptionState === option;
+        const isGroup = isOptionGroup(option);
         const itemProps = mergeProps(
             {
-                className: classNames(option.className, cx('item', { option, isOptionGroup, activeOptionState })),
+                className: classNames(option.className, cx('item', { option, isGroup, isSelected })),
                 style: option.style,
                 role: 'none',
-                'data-p-item-group': isOptionGroup(option),
-                'data-p-highlight': activeOptionState === option,
+                'data-p-item-group': isGroup,
+                'data-p-highlight': isSelected,
                 'data-p-disabled': option.disabled
             },
-            getPTOptions('item', { option, isOptionGroup, activeOptionState })
+            getPTOptions('item', { option, selected: isSelected, group: isGroup })
         );
 
         return (
