@@ -27,7 +27,21 @@ export interface CascadeSelectPassThroughMethodOptions {
     state: CascadeSelectState;
     context: CascadeSelectContext;
 }
+export interface CascadeSelectPanelHeaderTemplateOptions {
+    /**
+     * Style class of the panel.
+     */
+    className: string;
 
+    /**
+     * The JSX element that represents the panel.
+     */
+    element: JSX.Element;
+    /**
+     * The props of the CascadeSelect component.
+     */
+    props: CascadeSelectProps;
+}
 /**
  * Defines current inline state in CascadeSelect component.
  */
@@ -322,6 +336,10 @@ export interface CascadeSelectProps extends Omit<React.DetailedHTMLProps<React.I
      * @defaultValue false
      */
     unstyled?: boolean;
+    /**
+     * The template of header.
+     */
+    panelHeaderTemplate?: React.ReactNode | ((options: CascadeSelectPanelHeaderTemplateOptions) => React.ReactNode);
 }
 
 /**
@@ -360,4 +378,8 @@ export declare class CascadeSelect extends React.Component<CascadeSelectProps, a
      * @return {HTMLSpanElement} Label element
      */
     public getLabel(): HTMLSpanElement;
+    /**
+     * Used to hide Panel
+     */
+    public hide(): void;
 }
