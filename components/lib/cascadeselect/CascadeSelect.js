@@ -297,7 +297,7 @@ export const CascadeSelect = React.memo(
 
         useUpdateEffect(() => {
             updateSelectionPath();
-        }, [props.value]);
+        }, [props.value, props.options]);
 
         useUnmountEffect(() => {
             ZIndexUtils.clear(overlayRef.current);
