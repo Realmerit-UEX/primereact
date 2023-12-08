@@ -215,6 +215,10 @@ export interface CascadeSelectProps extends Omit<React.DetailedHTMLProps<React.I
      */
     options?: SelectItemOptionsType | undefined;
     /**
+     * 没有内容时的自定义占位
+     */
+    notFoundContent?: React.ReactNode;
+    /**
      * Property name or getter function to use as the label of an option.
      */
     optionLabel?: string | undefined;

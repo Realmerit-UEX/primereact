@@ -217,6 +217,7 @@ export const CascadeSelectSub = React.memo((props) => {
                     onOptionGroupSelect={onOptionGroupSelect}
                     parentActive={parentActive}
                     optionGroupLabel={props.optionGroupLabel}
+                    notFoundContent={props.notFoundContent}
                     optionGroupChildren={props.optionGroupChildren}
                     dirty={props.dirty}
                     template={props.template}
@@ -285,7 +286,7 @@ export const CascadeSelectSub = React.memo((props) => {
     };
 
     const createMenu = () => {
-        return props.options ? props.options.map(createOption) : null;
+        return props.options?.length ? props.options.map(createOption) : props.notFoundContent;
     };
 
     const submenu = createMenu();

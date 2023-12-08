@@ -451,6 +451,7 @@ export const CascadeSelect = React.memo(
                                 level={0}
                                 optionGroupLabel={props.optionGroupLabel}
                                 optionGroupChildren={props.optionGroupChildren}
+                                notFoundContent={props.notFoundContent}
                                 onOptionSelect={onOptionSelect}
                                 onOptionGroupSelect={onOptionGroupSelect}
                                 root
