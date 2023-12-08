@@ -980,7 +980,7 @@ export const Calendar = React.memo(
         const updateViewDate = (event, value) => {
             validateDate(value);
 
-            if (props.onViewDateChange) {
+            if (props.onViewDateChange && event) {
                 props.onViewDateChange({
                     originalEvent: event,
                     value
@@ -2615,7 +2615,11 @@ export const Calendar = React.memo(
             if (!props.onViewDateChange && !viewStateChanged.current) {
                 setValue(props.value);
             }
-        }, [props.onViewDateChange, props.value]);
+
+            if (props.viewDate) {
+                updateViewDate(null, getViewDate(props.viewDate));
+            }
+        }, [props.onViewDateChange, props.value, props.viewDate]);
 
         useUpdateEffect(() => {
             const newDate = props.value;
@@ -2652,7 +2656,7 @@ export const Calendar = React.memo(
 
         useUpdateEffect(() => {
             updateInputfield(props.value);
-        }, [props.dateFormat, props.hourFormat, props.timeOnly, props.showSeconds, props.showMillisec, props.showTime]);
+        }, [props.dateFormat, props.hourFormat, props.timeOnly, props.showSeconds, props.showMillisec, props.showTime, props.locale]);
 
         useUpdateEffect(() => {
             if (overlayRef.current) {
