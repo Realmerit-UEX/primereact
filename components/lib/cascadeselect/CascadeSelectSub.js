@@ -286,7 +286,7 @@ export const CascadeSelectSub = React.memo((props) => {
     };
 
     const createMenu = () => {
-        return props.options.length ? props.options.map(createOption) : props.notFoundContent;
+        return props.options?.length ? props.options.map(createOption) : props.notFoundContent;
     };
 
     const submenu = createMenu();
