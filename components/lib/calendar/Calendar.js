@@ -1533,20 +1533,8 @@ export const Calendar = React.memo(
             }
 
             if (!props.touchUI && overlayRef && overlayRef.current && inputRef && inputRef.current && !appendDisabled()) {
-                let inputWidth = DomHandler.getOuterWidth(inputRef.current);
-
-                // #5435 must have reasonable width if input is too small
-                if (inputWidth < 220) {
-                    inputWidth = 220;
-                }
-
-                if (props.view === 'date') {
-                    overlayRef.current.style.width = DomHandler.getOuterWidth(overlayRef.current) + 'px';
-                    overlayRef.current.style.minWidth = inputWidth + 'px';
-                } else {
-                    overlayRef.current.style.minWidth = inputWidth + 'px';
-                    overlayRef.current.style.width = inputWidth + 'px';
-                }
+                overlayRef.current.style.width = DomHandler.getOuterWidth(overlayRef.current) + 'px';
+                overlayRef.current.style.minWidth = DomHandler.getOuterWidth(inputRef.current) + 'px';
             }
 
             alignOverlay();
