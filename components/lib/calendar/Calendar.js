@@ -1857,7 +1857,6 @@ export const Calendar = React.memo(
             let validDate = true;
             let validDay = true;
             let validMonth = true;
-            let validDateFn = true;
 
             if (props.minDate) {
                 if (props.minDate.getFullYear() > year) {
@@ -1887,7 +1886,9 @@ export const Calendar = React.memo(
                 }
             }
 
-            if (props.disabledDates || props.enabledDates) {
+            if (props.disabledDate) {
+                validDate = props.disabledDate(year, month, day);
+            } else if (props.disabledDates || props.enabledDates) {
                 validDate = !isDateDisabled(day, month, year);
             }
 
@@ -1899,11 +1900,7 @@ export const Calendar = React.memo(
                 validMonth = false;
             }
 
-            if (props.disabledDate) {
-                validDateFn = props.disabledDate(year, month, day);
-            }
-
-            return validMin && validMax && validDate && validDay && validMonth && validDateFn;
+            return validMin && validMax && validDate && validDay && validMonth;
         };
 
         const isSelectableTime = (value) => {
