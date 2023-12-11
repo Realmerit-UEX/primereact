@@ -3024,6 +3024,7 @@ export const Calendar = React.memo(
                 },
                 ptm('dayLabel', {
                     context: {
+                        date,
                         selected: isSelected(date),
                         disabled: !date.selectable
                     }
