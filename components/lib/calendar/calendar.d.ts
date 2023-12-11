@@ -413,6 +413,37 @@ interface CalendarSelectEvent {
 }
 
 /**
+ * 自定义时间选择器
+ */
+interface CalendarTimeTemplateEvent {
+    /**
+     * 设置小时
+     * @param e
+     * @param newHour
+     * @returns
+     */
+    selectHour: (e: React.MouseEvent<HTMLElement>, newHour: number) => void;
+    /**
+     * 设置分钟
+     * @param e
+     * @param newMinute
+     * @returns
+     */
+    selectMinute: (e: React.MouseEvent<HTMLElement>, newMinute: number) => void;
+    /**
+     * 设置秒
+     * @param e
+     * @param newSecond
+     * @returns
+     */
+    selectSecond: (e: React.MouseEvent<HTMLElement>, newSecond: number) => void;
+    /**
+     * 当前时间
+     */
+    time: string;
+}
+
+/**
  * Custom date template event
  * @see {@link CalendarProps.dateTemplate}
  * @event
@@ -617,6 +648,10 @@ interface CalendarBaseProps {
      */
     disabled?: boolean | undefined;
     /**
+     * 检查日期是否合法
+     */
+    disabledDate?: (year: number, month: number, day: number) => boolean;
+    /**
      * Array with dates to disable.
      */
     disabledDates?: Date[] | undefined;
@@ -797,6 +832,19 @@ interface CalendarBaseProps {
      * @defaultValue false
      */
     showTime?: boolean | undefined;
+    /**
+     * 面板主体内容样式
+     */
+    panelContentClassName?: string | undefined;
+    /*
+     * 面板主体样式
+     */
+    panelContentWrapperClassName?: string | undefined;
+    /**
+     * UEX自定义时间选择器样式
+     */
+    timeTemplate?(event: CalendarTimeTemplateEvent): React.ReactNode;
+
     /**
      * When enabled, calendar will show week numbers.
      * @defaultValue false

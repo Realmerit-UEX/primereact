@@ -485,6 +485,24 @@ export const Calendar = React.memo(
             onPanelClick(event);
         };
 
+        const selectHour = (event, newHour) => {
+            const currentTime = getCurrentDateTime();
+
+            updateTime(event, newHour, currentTime.getMinutes(), currentTime.getSeconds(), currentTime.getMilliseconds());
+        };
+
+        const selectMinute = (event, newMinute) => {
+            const currentTime = getCurrentDateTime();
+
+            updateTime(event, currentTime.getHours(), newMinute, currentTime.getSeconds(), currentTime.getMilliseconds());
+        };
+
+        const selectSecond = (event, newSecond) => {
+            const currentTime = getCurrentDateTime();
+
+            updateTime(event, currentTime.getHours(), currentTime.getMinutes(), newSecond, currentTime.getMilliseconds());
+        };
+
         const onTimePickerElementMouseDown = (event, type, direction) => {
             if (!props.disabled) {
                 repeat(event, null, type, direction);
@@ -1868,7 +1886,9 @@ export const Calendar = React.memo(
                 }
             }
 
-            if (props.disabledDates || props.enabledDates) {
+            if (props.disabledDate) {
+                validDate = props.disabledDate(year, month, day);
+            } else if (props.disabledDates || props.enabledDates) {
                 validDate = !isDateDisabled(day, month, year);
             }
 
@@ -3001,6 +3021,7 @@ export const Calendar = React.memo(
                 },
                 ptm('dayLabel', {
                     context: {
+                        date,
                         selected: isSelected(date),
                         disabled: !date.selectable
                     }
@@ -3585,6 +3606,19 @@ export const Calendar = React.memo(
             return null;
         };
 
+        const createUEXTimePicker = () => {
+            if (props.timeTemplate && (props.showTime || props.timeOnly) && currentView === 'date') {
+                return props.timeTemplate({
+                    selectHour,
+                    selectMinute,
+                    selectSecond,
+                    time: props.value ? formatTime(props.value) : ''
+                });
+            }
+
+            return null;
+        };
+
         const createInputElement = () => {
             if (!props.inline) {
                 return (
@@ -3779,9 +3813,12 @@ export const Calendar = React.memo(
             'p-input-filled': (context && context.inputStyle === 'filled') || PrimeReact.inputStyle === 'filled',
             'p-ripple-disabled': (context && context.ripple === false) || PrimeReact.ripple === false
         });
+        const panelContentClassName = classNames('p-datepicker-panel-content', props.panelContentClassName);
+        const panelContentWrapperClassName = classNames('p-datepicker-panel-content-wrapper', props.panelContentWrapperClassName);
+
         const content = createContent();
         const datePicker = createDatePicker();
-        const timePicker = createTimePicker();
+        const timePicker = createUEXTimePicker();
         const buttonBar = createButtonBar();
         const footer = createFooter();
         const monthPicker = createMonthPicker();
@@ -3796,6 +3833,33 @@ export const Calendar = React.memo(
             CalendarBase.getOtherProps(props),
             ptm('root')
         );
+
+        let PanelContent = (
+            <>
+                {datePicker}
+                {monthPicker}
+                {yearPicker}
+                {buttonBar}
+                {footer}
+            </>
+        );
+
+        if (timePicker) {
+            PanelContent = (
+                <>
+                    <div className={panelContentWrapperClassName}>
+                        <div className={panelContentClassName}>
+                            {datePicker}
+                            {monthPicker}
+                            {yearPicker}
+                        </div>
+                        {timePicker}
+                    </div>
+                    {buttonBar}
+                    {footer}
+                </>
+            );
+        }
 
         return (
             <span ref={elementRef} {...rootProps}>
@@ -3818,12 +3882,7 @@ export const Calendar = React.memo(
                     ptm={ptm}
                     cx={cx}
                 >
-                    {datePicker}
-                    {timePicker}
-                    {monthPicker}
-                    {yearPicker}
-                    {buttonBar}
-                    {footer}
+                    {PanelContent}
                 </CalendarPanel>
             </span>
         );
