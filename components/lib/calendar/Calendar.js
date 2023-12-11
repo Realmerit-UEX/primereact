@@ -560,7 +560,6 @@ export const Calendar = React.memo(
             }
         };
 
-        // xxx
         const incrementHour = (event) => {
             const currentTime = getCurrentDateTime();
             const currentHour = currentTime.getHours();
