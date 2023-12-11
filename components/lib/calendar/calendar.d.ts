@@ -648,6 +648,10 @@ interface CalendarBaseProps {
      */
     disabled?: boolean | undefined;
     /**
+     * 检查日期是否合法
+     */
+    disabledDate?: (year: number, month: number, day: number) => boolean;
+    /**
      * Array with dates to disable.
      */
     disabledDates?: Date[] | undefined;
