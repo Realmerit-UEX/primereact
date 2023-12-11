@@ -2715,7 +2715,12 @@ export const Calendar = React.memo(
                 ptm('previousButton')
             );
 
-            return <Button type="button" ref={previousButton} icon={backwardNavigatorIcon} {...previousButtonProps} />;
+            return (
+                <button ref={previousButton} {...previousButtonProps}>
+                    {backwardNavigatorIcon}
+                    <Ripple />
+                </button>
+            );
         };
 
         const createForwardNavigator = (isVisible) => {
@@ -2737,7 +2742,12 @@ export const Calendar = React.memo(
                 ptm('nextButton')
             );
 
-            return <Button type="button" ref={nextButton} icon={forwardNavigatorIcon} {...nextButtonProps} />;
+            return (
+                <button ref={nextButton} {...nextButtonProps}>
+                    {forwardNavigatorIcon}
+                    <Ripple />
+                </button>
+            );
         };
 
         const renderMonthsNavigator = (index) => {

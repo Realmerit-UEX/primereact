@@ -1133,10 +1133,10 @@ const Tailwind = {
             })
         }),
         input: {
-            root: ({ props }) => ({
+            root: ({ parent }) => ({
                 className: classNames('font-sans text-base text-gray-600 dark:text-white/80 bg-white dark:bg-gray-900 p-3 border border-gray-300 dark:border-blue-900/40 transition-colors duration-200 appearance-none', 'hover:border-blue-500', {
-                    'rounded-lg': !props.showIcon,
-                    'border-r-0 rounded-l-lg': props.showIcon
+                    'rounded-lg': !parent.props.showIcon,
+                    'border-r-0 rounded-l-lg': parent.props.showIcon
                 })
             })
         },
@@ -1155,13 +1155,11 @@ const Tailwind = {
             className: classNames('flex items-center justify-between', 'p-2 text-gray-700 dark:text-white/80 bg-white dark:bg-gray-900 font-semibold m-0 border-b border-gray-300 dark:border-blue-900/40 rounded-t-lg')
         },
         previousButton: {
-            root: ({ props }) => ({
-                className: classNames(
-                    'flex items-center justify-center cursor-pointer overflow-hidden relative',
-                    'w-8 h-8 text-gray-600 dark:text-white/70 border-0 bg-transparent rounded-full transition-colors duration-200 ease-in-out',
-                    'hover:text-gray-700 dark:hover:text-white/80 hover:border-transparent hover:bg-gray-200 dark:hover:bg-gray-800/80 '
-                )
-            })
+            className: classNames(
+                'flex items-center justify-center cursor-pointer overflow-hidden relative',
+                'w-8 h-8 text-gray-600 dark:text-white/70 border-0 bg-transparent rounded-full transition-colors duration-200 ease-in-out',
+                'hover:text-gray-700 dark:hover:text-white/80 hover:border-transparent hover:bg-gray-200 dark:hover:bg-gray-800/80 '
+            )
         },
         title: 'leading-8 mx-auto',
         monthTitle: {
@@ -1171,13 +1169,11 @@ const Tailwind = {
             className: classNames('text-gray-700 dark:text-white/80 transition duration-200 font-semibold p-2', 'hover:text-blue-500')
         },
         nextButton: {
-            root: ({ props }) => ({
-                className: classNames(
-                    'flex items-center justify-center cursor-pointer overflow-hidden relative',
-                    'w-8 h-8 text-gray-600 dark:text-white/70 border-0 bg-transparent rounded-full transition-colors duration-200 ease-in-out',
-                    'hover:text-gray-700 dark:hover:text-white/80 hover:border-transparent hover:bg-gray-200 dark:hover:bg-gray-800/80 '
-                )
-            })
+            className: classNames(
+                'flex items-center justify-center cursor-pointer overflow-hidden relative',
+                'w-8 h-8 text-gray-600 dark:text-white/70 border-0 bg-transparent rounded-full transition-colors duration-200 ease-in-out',
+                'hover:text-gray-700 dark:hover:text-white/80 hover:border-transparent hover:bg-gray-200 dark:hover:bg-gray-800/80 '
+            )
         },
         table: {
             className: classNames('border-collapse w-full', 'my-2')
@@ -3177,7 +3173,7 @@ const Tailwind = {
                     context.size === 'small' ? 'p-2' : context.size === 'large' ? 'p-5' : 'p-4', // Size
                     'dark:text-white/80 dark:border-blue-900/40', // Dark Mode
                     {
-                        'sticky bg-inherit': props.frozen || props.frozen === '', // Frozen Columns
+                        'sticky bg-inherit': props && (props.frozen || props.frozen === ''), // Frozen Columns
                         'border-x border-y': context.showGridlines
                     }
                 )
