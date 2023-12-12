@@ -3608,11 +3608,13 @@ export const Calendar = React.memo(
 
         const createTimeTemplate = () => {
             if (props.timeTemplate && (props.showTime || props.timeOnly) && currentView === 'date') {
+                const value = props.value?.[1] || props.value?.[0] || props.value;
+
                 return props.timeTemplate({
                     selectHour,
                     selectMinute,
                     selectSecond,
-                    time: props.value ? formatTime(props.value) : ''
+                    time: formatTime(value)
                 });
             }
 
