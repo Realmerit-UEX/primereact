@@ -3735,7 +3735,7 @@ export const Calendar = React.memo(
                                     className: cx('month', { isMonthSelected, isSelectable, i, currentYear }),
                                     onClick: (event) => onMonthSelect(event, i),
                                     onKeyDown: (event) => onMonthCellKeydown(event, i),
-                                    'data-p-disabled': !m.selectable,
+                                    'data-p-disabled': !isSelectable(0, i, currentYear),
                                     'data-p-highlight': isMonthSelected(i)
                                 },
                                 ptm('month', {
