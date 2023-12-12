@@ -262,6 +262,7 @@ export const MultiSelectBase = ComponentBase.extend({
         selectAll: false,
         selectAllLabel: null,
         selectedItemTemplate: null,
+        selectedTemplate: null,
         selectedItemsLabel: '{0} items selected',
         selectionLimit: null,
         showClear: false,
