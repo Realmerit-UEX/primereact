@@ -3606,7 +3606,7 @@ export const Calendar = React.memo(
             return null;
         };
 
-        const createUEXTimePicker = () => {
+        const createTimeTemplate = () => {
             if (props.timeTemplate && (props.showTime || props.timeOnly) && currentView === 'date') {
                 return props.timeTemplate({
                     selectHour,
@@ -3818,7 +3818,7 @@ export const Calendar = React.memo(
 
         const content = createContent();
         const datePicker = createDatePicker();
-        const timePicker = createUEXTimePicker();
+        const timePicker = createTimeTemplate();
         const buttonBar = createButtonBar();
         const footer = createFooter();
         const monthPicker = createMonthPicker();
