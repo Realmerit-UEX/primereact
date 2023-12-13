@@ -3614,13 +3614,15 @@ export const Calendar = React.memo(
             return null;
         };
 
-        const createUEXTimePicker = () => {
+        const createTimeTemplate = () => {
             if (props.timeTemplate && (props.showTime || props.timeOnly) && currentView === 'date') {
+                const value = props.value?.[1] || props.value?.[0] || props.value;
+
                 return props.timeTemplate({
                     selectHour,
                     selectMinute,
                     selectSecond,
-                    time: props.value ? formatTime(props.value) : ''
+                    time: formatTime(value)
                 });
             }
 
@@ -3826,7 +3828,7 @@ export const Calendar = React.memo(
 
         const content = createContent();
         const datePicker = createDatePicker();
-        const timePicker = createUEXTimePicker();
+        const timePicker = createTimeTemplate();
         const buttonBar = createButtonBar();
         const footer = createFooter();
         const monthPicker = createMonthPicker();
