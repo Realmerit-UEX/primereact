@@ -249,7 +249,7 @@ export interface CascadeSelectProps extends Omit<React.DetailedHTMLProps<React.I
     /**
      * The template of items.
      */
-    itemTemplate?: React.ReactNode | ((option: any) => React.ReactNode) | undefined;
+    itemTemplate?: React.ReactNode | ((value: any, option?: any) => React.ReactNode) | undefined;
     /**
      * When present, it specifies that the component should be disabled.
      * @defaultValue false
