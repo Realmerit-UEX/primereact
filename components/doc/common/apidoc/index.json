@@ -5939,6 +5939,13 @@
                             "description": "When specified, disables the component."
                         },
                         {
+                            "name": "disabledDate",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "Function",
+                            "default": ""
+                        },
+                        {
                             "name": "disabledDates",
                             "optional": true,
                             "readonly": false,
@@ -6145,6 +6152,21 @@
                             "type": "string",
                             "default": "",
                             "description": "Style class of the datetimepicker panel."
+                        },
+                        {
+                            "name": "panelContentClassName",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "string",
+                            "default": "",
+                            "description": "面板主体内容样式"
+                        },
+                        {
+                            "name": "panelContentWrapperClassName",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "string",
+                            "default": ""
                         },
                         {
                             "name": "panelStyle",
@@ -6679,6 +6701,18 @@
                             ],
                             "returnType": "Date",
                             "description": "Function for overriding default behavior that parses text into the Date."
+                        },
+                        {
+                            "name": "timeTemplate",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "CalendarTimeTemplateEvent"
+                                }
+                            ],
+                            "returnType": "ReactNode",
+                            "description": "UEX自定义时间选择器样式"
                         },
                         {
                             "name": "yearNavigatorTemplate",
@@ -7541,6 +7575,38 @@
                     ],
                     "callbacks": []
                 },
+                "CalendarTimeTemplateEvent": {
+                    "description": "自定义时间选择器",
+                    "relatedProp": "",
+                    "props": [
+                        {
+                            "name": "selectHour",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "Function"
+                        },
+                        {
+                            "name": "selectMinute",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "Function"
+                        },
+                        {
+                            "name": "selectSecond",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "Function"
+                        },
+                        {
+                            "name": "time",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "string",
+                            "description": "当前时间"
+                        }
+                    ],
+                    "callbacks": []
+                },
                 "CalendarHeaderTemplateEvent": {
                     "relatedProp": "",
                     "props": [
@@ -7646,6 +7712,12 @@
                             "readonly": false,
                             "type": "boolean",
                             "description": "When specified, disables the component."
+                        },
+                        {
+                            "name": "disabledDate",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "Function"
                         },
                         {
                             "name": "disabledDates",
@@ -7928,6 +8000,19 @@
                             "description": "Whether to display timepicker."
                         },
                         {
+                            "name": "panelContentClassName",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "string",
+                            "description": "面板主体内容样式"
+                        },
+                        {
+                            "name": "panelContentWrapperClassName",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "string"
+                        },
+                        {
                             "name": "showWeek",
                             "optional": true,
                             "readonly": false,
@@ -8083,6 +8168,18 @@
                         }
                     ],
                     "callbacks": [
+                        {
+                            "name": "timeTemplate",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "CalendarTimeTemplateEvent"
+                                }
+                            ],
+                            "returnType": "ReactNode",
+                            "description": "UEX自定义时间选择器样式"
+                        },
                         {
                             "name": "formatDateTime",
                             "parameters": [
@@ -9041,6 +9138,12 @@
                             "parameters": [],
                             "returnType": "HTMLElement",
                             "description": "Used to get overlay element."
+                        },
+                        {
+                            "name": "hide",
+                            "parameters": [],
+                            "returnType": "void",
+                            "description": "Used to hide Panel"
                         }
                     ]
                 },
@@ -9168,6 +9271,14 @@
                             "description": "Name of the input element."
                         },
                         {
+                            "name": "notFoundContent",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "ReactNode",
+                            "default": "",
+                            "description": "没有内容时的自定义占位"
+                        },
+                        {
                             "name": "optionGroupChildren",
                             "optional": true,
                             "readonly": false,
@@ -9214,6 +9325,14 @@
                             "type": "string",
                             "default": "",
                             "description": "Property name or getter function to use as the value of an option, defaults to the option itself when not defined."
+                        },
+                        {
+                            "name": "panelHeaderTemplate",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "ReactNode | Function",
+                            "default": "",
+                            "description": "The template of header."
                         },
                         {
                             "name": "placeholder",
@@ -9416,6 +9535,33 @@
                             "optional": false,
                             "readonly": false,
                             "type": "CascadeSelectContext"
+                        }
+                    ],
+                    "callbacks": []
+                },
+                "CascadeSelectPanelHeaderTemplateOptions": {
+                    "relatedProp": "",
+                    "props": [
+                        {
+                            "name": "className",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "string",
+                            "description": "Style class of the panel."
+                        },
+                        {
+                            "name": "element",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "Element",
+                            "description": "The JSX element that represents the panel."
+                        },
+                        {
+                            "name": "props",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "CascadeSelectProps",
+                            "description": "The props of the CascadeSelect component."
                         }
                     ],
                     "callbacks": []
@@ -34771,6 +34917,14 @@
                             "type": "ReactNode | Function",
                             "default": "",
                             "description": "Function that gets an item in the value and returns the content for it."
+                        },
+                        {
+                            "name": "selectedTemplate",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "ReactNode | Function",
+                            "default": "",
+                            "description": "Function that gets all in the value and returns the content for it."
                         },
                         {
                             "name": "selectionLimit",
