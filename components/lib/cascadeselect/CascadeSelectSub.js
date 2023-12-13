@@ -239,7 +239,7 @@ export const CascadeSelectSub = React.memo((props) => {
             },
             getPTOptions('text')
         );
-        const content = props.template ? ObjectUtils.getJSXElement(props.template, getOptionValue(option),option) : <span {...textProps}>{getOptionLabelToRender(option)}</span>;
+        const content = props.template ? ObjectUtils.getJSXElement(props.template, getOptionValue(option), option) : <span {...textProps}>{getOptionLabelToRender(option)}</span>;
         const optionGroupIconProps = mergeProps(
             {
                 className: cx('optionGroupIcon')
