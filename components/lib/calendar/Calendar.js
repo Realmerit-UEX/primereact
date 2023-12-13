@@ -1581,7 +1581,9 @@ export const Calendar = React.memo(
         };
 
         const appendDisabled = () => {
-            return props.appendTo === 'self' || props.inline;
+            const appendTo = props.appendTo || (context && context.appendTo) || PrimeReact.appendTo;
+
+            return appendTo === 'self' || props.inline;
         };
 
         const alignOverlay = () => {
@@ -2618,6 +2620,12 @@ export const Calendar = React.memo(
         useUpdateEffect(() => {
             setCurrentView(props.view);
         }, [props.view]);
+
+        useUpdateEffect(() => {
+            if (overlayVisibleState || props.visible) {
+                alignOverlay();
+            }
+        }, [currentView, overlayVisibleState, props.visible]);
 
         useUpdateEffect(() => {
             if (!props.onViewDateChange && !viewStateChanged.current) {
@@ -3742,8 +3750,8 @@ export const Calendar = React.memo(
                                     context: {
                                         month: m,
                                         monthIndex: i,
-                                        selected: isMonthSelected(i),
-                                        disabled: !m.selectable
+                                        disabled: !isSelectable(0, i, currentYear),
+                                        selected: isMonthSelected(i)
                                     }
                                 })
                             );
@@ -3784,8 +3792,8 @@ export const Calendar = React.memo(
                                     context: {
                                         year: y,
                                         yearIndex: i,
-                                        selected: isYearSelected(i),
-                                        disabled: !y.selectable
+                                        selected: isYearSelected(y),
+                                        disabled: !isSelectable(0, -1, y)
                                     }
                                 })
                             );
