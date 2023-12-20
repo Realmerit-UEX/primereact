@@ -801,14 +801,16 @@ export const InputNumber = React.memo(
         };
 
         const isValueChanged = (currentValue, newValue) => {
-            if ((newValue === null || newValue === undefined) && (currentValue !== null && currentValue !== undefined)) {
+            if ((newValue === null || newValue === undefined) && currentValue !== null && currentValue !== undefined) {
                 return true;
             }
 
             if (newValue != null && newValue != undefined) {
                 let parsedCurrentValue = typeof currentValue === 'string' ? parseValue(currentValue) : currentValue;
+
                 return newValue !== parsedCurrentValue;
             }
+
             return false;
         };
 
@@ -1054,7 +1056,7 @@ export const InputNumber = React.memo(
 
             const newValue = validateValue(props.value);
 
-            if ((props.value !== null && props.value !== undefined) && props.value !== newValue) {
+            if (props.value !== null && props.value !== undefined && props.value !== newValue) {
                 updateModel(null, newValue);
             }
         });
