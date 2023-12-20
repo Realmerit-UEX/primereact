@@ -289,16 +289,29 @@ export const CascadeSelectSub = React.memo((props) => {
         return props.options?.length ? props.options.map(createOption) : props.notFoundContent;
     };
 
-    const submenu = createMenu();
-    const listProps = mergeProps(
-        {
-            ref: elementRef,
-            className: cx(props.level === 0 ? 'list' : 'sublist', { context }),
-            role: 'listbox',
-            'aria-orientation': 'horizontal'
-        },
-        props.level === 0 ? getPTOptions('list') : getPTOptions('sublist')
-    );
+    const createElement = () => {
+        const listWrapperProps = mergeProps(
+            {
+                className: cx('sublistWrapper')
+            },
+            getPTOptions('sublistWrapper')
+        );
+        const listProps = mergeProps(
+            {
+                ref: elementRef,
+                className: cx(props.level === 0 ? 'list' : 'sublist', { context }),
+                role: 'listbox',
+                'aria-orientation': 'horizontal'
+            },
+            props.level === 0 ? getPTOptions('list') : getPTOptions('sublist')
+        );
+        const submenu = createMenu();
+        const ul = <ul {...listProps}>{submenu}</ul>;
 
-    return <ul {...listProps}>{submenu}</ul>;
+        return props.level === 0 ? <>{ul}</> : <div {...listWrapperProps}>{ul}</div>;
+    };
+
+    const element = createElement();
+
+    return element;
 });
