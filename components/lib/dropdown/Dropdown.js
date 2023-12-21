@@ -172,6 +172,36 @@ export const Dropdown = React.memo(
                     break;
             }
         };
+        const onEditableInputKeyDown = (event) => {
+            switch (event.which) {
+                //down
+                case 40:
+                    onDownKey(event);
+                    break;
+
+                //up
+                case 38:
+                    onUpKey(event);
+                    break;
+
+                //space and enter
+                case 32:
+                case 13:
+                    overlayVisibleState ? hide() : show();
+                    event.preventDefault();
+                    break;
+
+                //escape and tab
+                case 27:
+                case 9:
+                    hide();
+                    break;
+
+                default:
+                    search(event);
+                    break;
+            }
+        };
 
         const onFilterInputKeyDown = (event) => {
             switch (event.which) {
@@ -400,7 +430,7 @@ export const Dropdown = React.memo(
 
         const onEditableInputFocus = (event) => {
             setFocusedState(true);
-            hide();
+            overlayVisibleState ? hide() : show();
             props.onFocus && props.onFocus(event);
         };
 
@@ -770,6 +800,7 @@ export const Dropdown = React.memo(
                         onInput: onEditableInputChange,
                         onFocus: onEditableInputFocus,
                         onBlur: onInputBlur,
+                        onKeyDown: onEditableInputKeyDown,
                         'aria-haspopup': 'listbox',
                         tabIndex: props.tabIndex || 0,
                         ...ariaProps
