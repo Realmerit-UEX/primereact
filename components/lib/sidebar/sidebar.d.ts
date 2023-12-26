@@ -98,6 +98,8 @@ export interface SidebarProps extends Omit<React.DetailedHTMLProps<React.HTMLAtt
      * @defaultValue false
      */
     visible?: boolean | undefined;
+    /** @param 关闭时销毁 Modal 里的子元素 */
+    destroyOnClose?: boolean;
     /**
      * Specifies the position of the sidebar, valid values are "left" and "right".
      * @defaultValue left
