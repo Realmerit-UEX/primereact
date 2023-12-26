@@ -428,8 +428,16 @@ export const Dialog = React.forwardRef((inProps, ref) => {
             setMaskVisibleState(true);
         }
 
-        if (props.visible !== visibleState && maskVisibleState) {
-            setVisibleState(props.visible);
+        if (props.destroyOnClose) {
+            if (props.visible !== visibleState && maskVisibleState) {
+                setVisibleState(props.visible);
+            }
+        } else if (!props.destroyOnClose && maskRef.current) {
+            if (props.visible && maskVisibleState) {
+                maskRef.current.style.display = 'flex';
+            } else if (!props.visible && maskVisibleState) {
+                maskRef.current.style.display = 'none';
+            }
         }
 
         if (props.visible) {
@@ -437,7 +445,7 @@ export const Dialog = React.forwardRef((inProps, ref) => {
             // so we can return focus to it once we close the dialog.
             focusElementOnHide.current = document.activeElement;
         }
-    }, [props.visible, maskVisibleState]);
+    }, [props.visible, maskVisibleState, props.destroyOnClose]);
 
     useUpdateEffect(() => {
         if (maskVisibleState) {
