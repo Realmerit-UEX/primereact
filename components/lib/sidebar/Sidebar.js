@@ -130,8 +130,16 @@ export const Sidebar = React.forwardRef((inProps, ref) => {
             setMaskVisibleState(true);
         }
 
-        if (props.visible !== visibleState && maskVisibleState) {
-            setVisibleState(props.visible);
+        if (props.destroyOnClose) {
+            if (props.visible !== visibleState && maskVisibleState) {
+                setVisibleState(props.visible);
+            }
+        } else if (!props.destroyOnClose && maskRef.current) {
+            if (props.visible && maskVisibleState) {
+                maskRef.current.style.display = 'flex';
+            } else if (!props.visible && maskVisibleState) {
+                maskRef.current.style.display = 'none';
+            }
         }
     });
 

@@ -305,6 +305,8 @@ export interface DialogProps {
      * @defaultValue false
      */
     visible?: boolean | undefined;
+    /** @param 关闭时销毁 Modal 里的子元素 */
+    destroyOnClose?: boolean;
     /**
      * Uses to pass attributes to DOM elements inside the component.
      * @type {DialogPassThroughOptions}
