@@ -172,6 +172,7 @@ export const Dropdown = React.memo(
                     break;
             }
         };
+
         const onEditableInputKeyDown = (event) => {
             switch (event.which) {
                 //down

@@ -14450,6 +14450,14 @@
                             "description": "Element to receive the focus when the dialog gets visible, valid values are \"accept\" and \"reject\"."
                         },
                         {
+                            "name": "destroyOnClose",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "boolean",
+                            "default": "",
+                            "description": ""
+                        },
+                        {
                             "name": "dismissableMask",
                             "optional": true,
                             "readonly": false,
@@ -21714,6 +21722,14 @@
                             "type": "CSSProperties",
                             "default": "",
                             "description": "Style of the content section."
+                        },
+                        {
+                            "name": "destroyOnClose",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "boolean",
+                            "default": "",
+                            "description": ""
                         },
                         {
                             "name": "dismissableMask",
@@ -42800,6 +42816,14 @@
                             "type": "boolean",
                             "default": "true",
                             "description": "Specifies if pressing escape key should hide the sidebar."
+                        },
+                        {
+                            "name": "destroyOnClose",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "boolean",
+                            "default": "",
+                            "description": ""
                         },
                         {
                             "name": "dismissable",
