@@ -803,6 +803,11 @@ interface CalendarBaseProps {
      */
     showIcon?: boolean | undefined;
     /**
+     * Icon position of the component. This only applies if the showIcon option is set to true.
+     * @defaultValue 'button'
+     */
+    iconDisplay?: 'button' | 'input' | undefined;
+    /**
      * Whether to show the milliseconds in time picker.
      * @defaultValue false
      */

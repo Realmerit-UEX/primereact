@@ -567,10 +567,6 @@ export const MegaMenu = React.memo(
                 },
                 getPTOptions(category, 'label', index)
             );
-            const label = category.label && <span {...labelProps}>{category.label}</span>;
-            const itemContent = category.template ? ObjectUtils.getJSXElement(category.template, category) : null;
-            const submenuIcon = createSubmenuIcon(category);
-            const panel = createCategoryPanel(category);
 
             const headerActionProps = mergeProps(
                 {
@@ -600,15 +596,24 @@ export const MegaMenu = React.memo(
                 getPTOptions(category, 'menuitem', index)
             );
 
+            const label = category.label && <span {...labelProps}>{category.label}</span>;
+            const submenuIcon = createSubmenuIcon(category);
+            const panel = createCategoryPanel(category);
+            const isTemplate = category.template != null;
+            const itemContent = isTemplate ? (
+                ObjectUtils.getJSXElement(category.template, category, headerActionProps)
+            ) : (
+                <a {...headerActionProps}>
+                    {icon}
+                    {label}
+                    {submenuIcon}
+                    <Ripple />
+                </a>
+            );
+
             return (
                 <li {...menuItemProps}>
-                    <a {...headerActionProps}>
-                        {icon}
-                        {label}
-                        {itemContent}
-                        {submenuIcon}
-                        <Ripple />
-                    </a>
+                    {itemContent}
                     {panel}
                 </li>
             );

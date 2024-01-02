@@ -33,8 +33,8 @@ export const ConfirmDialog = React.memo(
         const confirmProps = React.useRef(null);
         const isCallbackExecuting = React.useRef(false);
         const focusElementOnHide = React.useRef(null);
-        const getCurrentProps = () => confirmProps.current || props;
-        const getPropValue = (key) => (confirmProps.current || props)[key];
+        const getCurrentProps = () => Object.assign(props, confirmProps.current);
+        const getPropValue = (key) => Object.assign(props, confirmProps.current)[key];
         const callbackFromProp = (key, ...param) => ObjectUtils.getPropValue(getPropValue(key), param);
 
         const acceptLabel = getPropValue('acceptLabel') || localeOption('accept');
@@ -65,12 +65,16 @@ export const ConfirmDialog = React.memo(
         };
 
         const show = () => {
-            setVisibleState(true);
-            isCallbackExecuting.current = false;
+            const currentProps = getCurrentProps();
 
-            // Remember the focused element before we opened the dialog
-            // so we can return focus to it once we close the dialog.
-            focusElementOnHide.current = document.activeElement;
+            if (currentProps.group === props.group) {
+                setVisibleState(true);
+                isCallbackExecuting.current = false;
+
+                // Remember the focused element before we opened the dialog
+                // so we can return focus to it once we close the dialog.
+                focusElementOnHide.current = document.activeElement;
+            }
         };
 
         const hide = (result = 'cancel') => {
@@ -156,6 +160,7 @@ export const ConfirmDialog = React.memo(
                     icon: getPropValue('acceptIcon'),
                     className: classNames(getPropValue('acceptClassName'), cx('acceptButton')),
                     onClick: accept,
+                    pt: ptm('acceptButton'),
                     unstyled: props.unstyled,
                     __parentMetadata: {
                         parent: metaData
@@ -220,6 +225,7 @@ export const ConfirmDialog = React.memo(
                     pt: currentProps.pt,
                     unstyled: props.unstyled,
                     appendTo: getPropValue('appendTo'),
+                    group: props.group,
                     __parentMetadata: {
                         parent: metaData
                     }
@@ -228,7 +234,7 @@ export const ConfirmDialog = React.memo(
             );
 
             return (
-                <Dialog {...rootProps}>
+                <Dialog {...rootProps} content={inProps?.content}>
                     {icon}
                     <span {...messageProps}>{message}</span>
                 </Dialog>

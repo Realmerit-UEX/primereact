@@ -5994,6 +5994,14 @@
                             "description": "Icon of the calendar button."
                         },
                         {
+                            "name": "iconDisplay",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "\"input\" | \"button\"",
+                            "default": "'button'",
+                            "description": "Icon position of the component. This only applies if the showIcon option is set to true."
+                        },
+                        {
                             "name": "iconPos",
                             "optional": true,
                             "readonly": false,
@@ -7956,6 +7964,13 @@
                             "readonly": false,
                             "type": "boolean",
                             "description": "When enabled, displays a button with icon next to input."
+                        },
+                        {
+                            "name": "iconDisplay",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "\"input\" | \"button\"",
+                            "description": "Icon position of the component. This only applies if the showIcon option is set to true."
                         },
                         {
                             "name": "showMillisec",
@@ -14749,6 +14764,19 @@
                             "description": "Callback to execute when action is confirmed."
                         },
                         {
+                            "name": "content",
+                            "parameters": [
+                                {
+                                    "name": "props",
+                                    "optional": false,
+                                    "type": "ContentProps",
+                                    "description": "The values of dialog."
+                                }
+                            ],
+                            "returnType": "ReactNode",
+                            "description": "Specifies a custom content for the dialog. For more complex markup, use the \"content\" slot instead."
+                        },
+                        {
                             "name": "onClick",
                             "parameters": [
                                 {
@@ -15385,6 +15413,19 @@
                             "description": "Callback to execute when action is confirmed."
                         },
                         {
+                            "name": "content",
+                            "parameters": [
+                                {
+                                    "name": "props",
+                                    "optional": false,
+                                    "type": "ContentProps",
+                                    "description": "The values of dialog."
+                                }
+                            ],
+                            "returnType": "ReactNode",
+                            "description": "Specifies a custom content for the dialog. For more complex markup, use the \"content\" slot instead."
+                        },
+                        {
                             "name": "onHide",
                             "parameters": [
                                 {
@@ -15619,6 +15660,37 @@
                             "parameters": [],
                             "returnType": "void",
                             "description": "Callback to execute when action is rejected."
+                        }
+                    ]
+                },
+                "ContentProps": {
+                    "description": "Defines current content values and refs for headless development.",
+                    "relatedProp": "content",
+                    "props": [
+                        {
+                            "name": "acceptBtnRef",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "RefObject<HTMLButtonElement>"
+                        },
+                        {
+                            "name": "rejectBtnRef",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "RefObject<HTMLButtonElement>"
+                        },
+                        {
+                            "name": "message",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "ReactNode"
+                        }
+                    ],
+                    "callbacks": [
+                        {
+                            "name": "hide",
+                            "parameters": [],
+                            "returnType": "void"
                         }
                     ]
                 },
@@ -21969,6 +22041,19 @@
                     "description": "Defines callbacks that determine the behavior of the component based on a given condition or report the actions that the component takes.",
                     "values": [
                         {
+                            "name": "content",
+                            "parameters": [
+                                {
+                                    "name": "props",
+                                    "optional": false,
+                                    "type": "ContentProps",
+                                    "description": "The values of dialog."
+                                }
+                            ],
+                            "returnType": "ReactNode",
+                            "description": "Specifies a custom content for the dialog. For more complex markup, use the \"content\" slot instead."
+                        },
+                        {
                             "name": "onClick",
                             "parameters": [
                                 {
@@ -22276,6 +22361,89 @@
                             "optional": false,
                             "readonly": false,
                             "type": "string"
+                        }
+                    ],
+                    "callbacks": []
+                },
+                "ContentProps": {
+                    "description": "Defines current content values and refs for headless development.",
+                    "relatedProp": "content",
+                    "props": [
+                        {
+                            "name": "headerRef",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "RefObject<HTMLElement>",
+                            "description": "Allows you to specify the header of the content."
+                        },
+                        {
+                            "name": "contentRef",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "RefObject<HTMLElement>",
+                            "description": "Allows you to specify the content."
+                        },
+                        {
+                            "name": "footerRef",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "RefObject<HTMLElement>",
+                            "description": "Allows you to specify the footer of the content."
+                        },
+                        {
+                            "name": "closeRef",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "RefObject<HTMLElement | HTMLButtonElement>",
+                            "description": "Allows you to specify the close button of the dialog."
+                        },
+                        {
+                            "name": "message",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "ContentPropsMessage",
+                            "description": "Dialog's props values."
+                        }
+                    ],
+                    "callbacks": [
+                        {
+                            "name": "hide",
+                            "parameters": [
+                                {
+                                    "name": "e",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>"
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback for hiding the dialog."
+                        }
+                    ]
+                },
+                "ContentPropsMessage": {
+                    "description": "Defines current content values and refs for headless development.",
+                    "relatedProp": "message",
+                    "props": [
+                        {
+                            "name": "header",
+                            "optional": false,
+                            "readonly": true,
+                            "type": "string",
+                            "description": "Header of the dialog."
+                        },
+                        {
+                            "name": "content",
+                            "optional": false,
+                            "readonly": true,
+                            "type": "string",
+                            "description": "Content of the dialog."
+                        },
+                        {
+                            "name": "message",
+                            "optional": false,
+                            "readonly": true,
+                            "type": "string",
+                            "description": "Message of the dialog."
                         }
                     ],
                     "callbacks": []
@@ -25325,6 +25493,27 @@
                             "readonly": false,
                             "type": "Element",
                             "description": "The default element created by the component."
+                        },
+                        {
+                            "name": "props",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "FileUploadProps",
+                            "description": "The props passed to the component."
+                        }
+                    ],
+                    "callbacks": []
+                },
+                "FileUploadProgressBarTemplateOptions": {
+                    "description": "Custom file upload progressbar template options",
+                    "relatedProp": "",
+                    "props": [
+                        {
+                            "name": "progress",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "number",
+                            "description": "Current progress state as a number."
                         },
                         {
                             "name": "props",
@@ -47626,6 +47815,19 @@
                     "description": "Defines callbacks that determine the behavior of the component based on a given condition or report the actions that the component takes.",
                     "values": [
                         {
+                            "name": "content",
+                            "parameters": [
+                                {
+                                    "name": "props",
+                                    "optional": false,
+                                    "type": "ContentProps",
+                                    "description": "The values of toast."
+                                }
+                            ],
+                            "returnType": "ReactNode",
+                            "description": "Specifies a custom content for the toast. For more complex markup, use the \"content\" slot instead."
+                        },
+                        {
                             "name": "onClick",
                             "parameters": [
                                 {
@@ -47986,6 +48188,41 @@
                             "readonly": false,
                             "type": "PassThroughOptions",
                             "description": "Used to configure passthrough(pt) options of the component."
+                        }
+                    ],
+                    "callbacks": []
+                },
+                "ContentPropsMessage": {
+                    "description": "Defines current content values and refs for headless development.",
+                    "relatedProp": "message",
+                    "props": [
+                        {
+                            "name": "summary",
+                            "optional": false,
+                            "readonly": true,
+                            "type": "string",
+                            "description": "Summary of the toast."
+                        },
+                        {
+                            "name": "detail",
+                            "optional": false,
+                            "readonly": true,
+                            "type": "string",
+                            "description": "Detail of the toast."
+                        }
+                    ],
+                    "callbacks": []
+                },
+                "ContentProps": {
+                    "description": "Defines current content values and refs for headless development.",
+                    "relatedProp": "content",
+                    "props": [
+                        {
+                            "name": "message",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "ContentPropsMessage",
+                            "description": "Toast's props values."
                         }
                     ],
                     "callbacks": []
