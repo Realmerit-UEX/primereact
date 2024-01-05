@@ -450,6 +450,8 @@ export const Dropdown = React.memo(
         };
 
         const onEditableInputBlur = (event) => {
+            setFocusedState(false);
+
             const currentValue = inputRef.current ? inputRef.current.value : undefined;
 
             hide();
