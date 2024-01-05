@@ -195,7 +195,7 @@ export const Dropdown = React.memo(
                 case 13:
                 case 27:
                 case 9:
-                    onEditableInputBlur(event);
+                    onEditableInputSpecialEvent(event);
                     event.preventDefault();
                     break;
 
@@ -450,6 +450,28 @@ export const Dropdown = React.memo(
         };
 
         const onEditableInputBlur = (event) => {
+            const currentValue = inputRef.current ? inputRef.current.value : undefined;
+
+            hide();
+
+            props.onChange({
+                originalEvent: event.originalEvent,
+                value: currentValue,
+                stopPropagation: () => {
+                    event.originalEvent.stopPropagation();
+                },
+                preventDefault: () => {
+                    event.originalEvent.preventDefault();
+                },
+                target: {
+                    name: props.name,
+                    id: props.id,
+                    value: currentValue
+                }
+            });
+        };
+
+        const onEditableInputSpecialEvent = (event) => {
             const currentValue = inputRef.current ? inputRef.current.value : undefined;
 
             overlayVisibleState ? hide() : show();
