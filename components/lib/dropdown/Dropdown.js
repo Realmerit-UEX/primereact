@@ -27,6 +27,7 @@ export const Dropdown = React.memo(
         const currentSearchChar = React.useRef(null);
         const isLazy = props.virtualScrollerOptions && props.virtualScrollerOptions.lazy;
         const hasFilter = ObjectUtils.isNotEmpty(filterState);
+        const isComposingRef = React.useRef(null);
         const appendTo = props.appendTo || (context && context.appendTo) || PrimeReact.appendTo;
         const { ptm, cx, sx, isUnstyled } = DropdownBase.setMetaData({
             props,
@@ -37,7 +38,6 @@ export const Dropdown = React.memo(
                 overlayVisible: overlayVisibleState
             }
         });
-        let isComposing = false;
 
         useHandleStyle(DropdownBase.css.styles, isUnstyled, { name: 'dropdown' });
 
@@ -175,19 +175,20 @@ export const Dropdown = React.memo(
         };
 
         const onEditableInputKeyDown = (event) => {
-            if (event.which === 229 && !isComposing) {
+            // 正在输入中的的时候不作处理
+            if (event.which === 229 && !isComposingRef.current) {
                 return;
             }
 
             switch (event.which) {
                 //down
                 case 40:
-                    onDownKey(event);
+                    overlayVisibleState ? onDownKey(event) : show();
                     break;
 
                 //up
                 case 38:
-                    onUpKey(event);
+                    overlayVisibleState ? onUpKey(event) : show();
                     break;
 
                 //space and enter and escape and tab
@@ -205,11 +206,11 @@ export const Dropdown = React.memo(
         };
 
         const onInputCompositionStart = (e) => {
-            isComposing = true;
+            isComposingRef.current = true;
         };
 
         const onInputCompositionEnd = (e) => {
-            isComposing = false;
+            isComposingRef.current = false;
         };
 
         const onFilterInputKeyDown = (event) => {
@@ -420,7 +421,7 @@ export const Dropdown = React.memo(
         const onEditableInputChange = (event) => {
             show();
 
-            if (isComposing) {
+            if (isComposingRef.current) {
                 return;
             }
 
