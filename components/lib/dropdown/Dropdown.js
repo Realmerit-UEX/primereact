@@ -191,8 +191,7 @@ export const Dropdown = React.memo(
                     overlayVisibleState ? onUpKey(event) : show();
                     break;
 
-                //space and enter and escape and tab
-                case 32:
+                //enter and escape and tab
                 case 13:
                 case 27:
                 case 9:
