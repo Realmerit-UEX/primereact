@@ -37,6 +37,7 @@ export const Dropdown = React.memo(
                 overlayVisible: overlayVisibleState
             }
         });
+        let isComposing = false;
 
         useHandleStyle(DropdownBase.css.styles, isUnstyled, { name: 'dropdown' });
 
@@ -172,7 +173,12 @@ export const Dropdown = React.memo(
                     break;
             }
         };
+
         const onEditableInputKeyDown = (event) => {
+            if (event.which === 229 && !isComposing) {
+                return;
+            }
+
             switch (event.which) {
                 //down
                 case 40:
@@ -184,23 +190,26 @@ export const Dropdown = React.memo(
                     onUpKey(event);
                     break;
 
-                //space and enter
+                //space and enter and escape and tab
                 case 32:
                 case 13:
-                    overlayVisibleState ? hide() : show();
+                case 27:
+                case 9:
+                    onEditableInputBlur(event);
                     event.preventDefault();
                     break;
 
-                //escape and tab
-                case 27:
-                case 9:
-                    hide();
-                    break;
-
                 default:
-                    search(event);
                     break;
             }
+        };
+
+        const onInputCompositionStart = (e) => {
+            isComposing = true;
+        };
+
+        const onInputCompositionEnd = (e) => {
+            isComposing = false;
         };
 
         const onFilterInputKeyDown = (event) => {
@@ -409,6 +418,12 @@ export const Dropdown = React.memo(
         };
 
         const onEditableInputChange = (event) => {
+            show();
+
+            if (isComposing) {
+                return;
+            }
+
             if (props.onChange) {
                 props.onChange({
                     originalEvent: event.originalEvent,
@@ -432,6 +447,28 @@ export const Dropdown = React.memo(
             setFocusedState(true);
             overlayVisibleState ? hide() : show();
             props.onFocus && props.onFocus(event);
+        };
+
+        const onEditableInputBlur = (event) => {
+            const currentValue = inputRef.current ? inputRef.current.value : undefined;
+
+            overlayVisibleState ? hide() : show();
+
+            props.onChange({
+                originalEvent: event.originalEvent,
+                value: currentValue,
+                stopPropagation: () => {
+                    event.originalEvent.stopPropagation();
+                },
+                preventDefault: () => {
+                    event.originalEvent.preventDefault();
+                },
+                target: {
+                    name: props.name,
+                    id: props.id,
+                    value: currentValue
+                }
+            });
         };
 
         const onOptionClick = (event) => {
@@ -799,8 +836,10 @@ export const Dropdown = React.memo(
                         maxLength: props.maxLength,
                         onInput: onEditableInputChange,
                         onFocus: onEditableInputFocus,
-                        onBlur: onInputBlur,
+                        onBlur: onEditableInputBlur,
                         onKeyDown: onEditableInputKeyDown,
+                        onCompositionStart: onInputCompositionStart,
+                        onCompositionEnd: onInputCompositionEnd,
                         'aria-haspopup': 'listbox',
                         tabIndex: props.tabIndex || 0,
                         ...ariaProps
