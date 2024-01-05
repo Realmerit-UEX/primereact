@@ -77,7 +77,7 @@ export default function EditableDemo() {
                 </p>
             </DocSectionText>
             <div className="card flex justify-content-center">
-                <Dropdown value={selectedCity} onChange={(e) => setSelectedCity(e.value)} options={cities} optionLabel="name" editable placeholder="Select a City" className="w-full md:w-14rem" />
+                <Dropdown value={selectedCity} options={cities} optionLabel="name" editable placeholder="Select a City" className="w-full md:w-14rem" />
             </div>
             <DocSectionCode code={code} />
         </>

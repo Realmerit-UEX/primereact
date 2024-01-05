@@ -456,21 +456,23 @@ export const Dropdown = React.memo(
 
             hide();
 
-            props.onChange({
-                originalEvent: event.originalEvent,
-                value: currentValue,
-                stopPropagation: () => {
-                    event.originalEvent.stopPropagation();
-                },
-                preventDefault: () => {
-                    event.originalEvent.preventDefault();
-                },
-                target: {
-                    name: props.name,
-                    id: props.id,
-                    value: currentValue
-                }
-            });
+            if (props.onChange) {
+                props.onChange({
+                    originalEvent: event.originalEvent,
+                    value: currentValue,
+                    stopPropagation: () => {
+                        event.originalEvent.stopPropagation();
+                    },
+                    preventDefault: () => {
+                        event.originalEvent.preventDefault();
+                    },
+                    target: {
+                        name: props.name,
+                        id: props.id,
+                        value: currentValue
+                    }
+                });
+            }
         };
 
         const onEditableInputSpecialEvent = (event) => {
@@ -478,21 +480,23 @@ export const Dropdown = React.memo(
 
             overlayVisibleState ? hide() : show();
 
-            props.onChange({
-                originalEvent: event.originalEvent,
-                value: currentValue,
-                stopPropagation: () => {
-                    event.originalEvent.stopPropagation();
-                },
-                preventDefault: () => {
-                    event.originalEvent.preventDefault();
-                },
-                target: {
-                    name: props.name,
-                    id: props.id,
-                    value: currentValue
-                }
-            });
+            if (props.onChange) {
+                props.onChange({
+                    originalEvent: event.originalEvent,
+                    value: currentValue,
+                    stopPropagation: () => {
+                        event.originalEvent.stopPropagation();
+                    },
+                    preventDefault: () => {
+                        event.originalEvent.preventDefault();
+                    },
+                    target: {
+                        name: props.name,
+                        id: props.id,
+                        value: currentValue
+                    }
+                });
+            }
         };
 
         const onOptionClick = (event) => {
