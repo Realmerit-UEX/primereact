@@ -176,7 +176,7 @@ export const Dropdown = React.memo(
 
         const onEditableInputKeyDown = (event) => {
             // 正在输入中的的时候不作处理
-            if (event.which === 229 && !isComposingRef.current) {
+            if (event.which === 229 || isComposingRef.current) {
                 return;
             }
 
