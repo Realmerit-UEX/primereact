@@ -27,11 +27,10 @@ export const BodyCell = React.memo((props) => {
     const { ptm, ptmo, cx } = props.ptCallbacks;
 
     const getColumnProp = (name) => ColumnBase.getCProp(props.column, name);
-    const getColumnProps = (column) => ColumnBase.getCProps(column);
+    const getColumnProps = () => ColumnBase.getCProps(props.column);
 
     const getColumnPTOptions = (key) => {
-        const cProps = getColumnProps(props.column);
-
+        const cProps = getColumnProps();
         const columnMetaData = {
             props: cProps,
             parent: props.metaData,
@@ -68,10 +67,6 @@ export const BodyCell = React.memo((props) => {
         },
         options: true
     });
-
-    if (props.editMode === 'row' && props.editing !== editingState) {
-        setEditingState(props.editing);
-    }
 
     const isEditable = () => {
         return getColumnProp('editor');
@@ -517,6 +512,12 @@ export const BodyCell = React.memo((props) => {
         }
     });
 
+    React.useEffect(() => {
+        if (props.editMode === 'row' && props.editing !== editingState) {
+            setEditingState(props.editing);
+        }
+    }, [props.editMode, props.editing, editingState]);
+
     useUpdateEffect(() => {
         if (props.editMode === 'cell' || props.editMode === 'row') {
             setEditingRowDataState(getEditingRowData());
@@ -563,7 +564,6 @@ export const BodyCell = React.memo((props) => {
         const tabIndex = getTabIndex(cellSelected);
         const selectionMode = getColumnProp('selectionMode');
         const rowReorder = getColumnProp('rowReorder');
-        const rowEditor = getColumnProp('rowEditor');
         const header = getColumnProp('header');
         const body = getColumnProp('body');
         const editor = getColumnProp('editor');
@@ -572,6 +572,7 @@ export const BodyCell = React.memo((props) => {
         const value = resolveFieldData();
         const columnBodyOptions = { column: props.column, field: field, rowIndex: props.rowIndex, frozenRow: props.frozenRow, props: props.tableProps };
         const expander = ObjectUtils.getPropValue(getColumnProp('expander'), props.rowData, columnBodyOptions);
+        const rowEditor = ObjectUtils.getPropValue(getColumnProp('rowEditor'), props.rowData, columnBodyOptions);
         const cellClassName = ObjectUtils.getPropValue(props.cellClassName, value, columnBodyOptions);
         const bodyClassName = ObjectUtils.getPropValue(getColumnProp('bodyClassName'), props.rowData, columnBodyOptions);
         const style = getStyle();

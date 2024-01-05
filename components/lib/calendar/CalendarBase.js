@@ -40,7 +40,7 @@ const styles = `
     }
     
     .p-fluid .p-calendar .p-inputtext {
-        width: 1%;
+        width: 100%;
     }
     
     /* Datepicker */
@@ -178,21 +178,22 @@ const styles = `
 const classes = {
     root: ({ props, focusedState, isFilled }) =>
         classNames('p-calendar p-component p-inputwrapper', {
-            [`p-calendar-w-btn p-calendar-w-btn-${props.iconPos}`]: props.showIcon,
+            [`p-calendar-w-btn p-calendar-w-btn-${props.iconPos}`]: props.showIcon && props.iconDisplay !== 'input',
             'p-calendar-disabled': props.disabled,
             'p-calendar-timeonly': props.timeOnly,
             'p-inputwrapper-filled': props.value || isFilled,
             'p-inputwrapper-focus': focusedState
         }),
     dropdownButton: 'p-datepicker-trigger',
+    dropdownIcon: 'p-datepicker-trigger',
     buttonbar: 'p-datepicker-buttonbar',
     todayButton: 'p-button-text',
     clearButton: 'p-button-text',
     footer: 'p-datepicker-footer',
     yearPicker: 'p-yearpicker',
-    year: ({ isYearSelected, isSelectable, y }) => classNames('p-yearpicker-year', { 'p-highlight': isYearSelected(y), 'p-disabled': !isSelectable(0, -1, y) }),
+    year: ({ isYearSelected, y, isMonthYearDisabled }) => classNames('p-yearpicker-year', { 'p-highlight': isYearSelected(y), 'p-disabled': isMonthYearDisabled(-1, y) }),
     monthPicker: 'p-monthpicker',
-    month: ({ isMonthSelected, isSelectable, i, currentYear }) => classNames('p-monthpicker-month', { 'p-highlight': isMonthSelected(i), 'p-disabled': !isSelectable(0, i, currentYear) }),
+    month: ({ isMonthSelected, isMonthYearDisabled, i, currentYear }) => classNames('p-monthpicker-month', { 'p-highlight': isMonthSelected(i), 'p-disabled': isMonthYearDisabled(i, currentYear) }),
     hourPicker: 'p-hour-picker',
     secondPicker: 'p-second-picker',
     minutePicker: 'p-minute-picker',
@@ -237,10 +238,12 @@ export const CalendarBase = ComponentBase.extend({
         clearButtonClassName: 'p-button-secondary',
         dateFormat: null,
         dateTemplate: null,
+        timeTemplate: null,
         decadeTemplate: null,
         decrementIcon: null,
         disabled: false,
         disabledDates: null,
+        disabledDate: null,
         disabledDays: null,
         enabledDates: null,
         footerTemplate: null,
@@ -283,6 +286,8 @@ export const CalendarBase = ComponentBase.extend({
         onViewDateChange: null,
         onVisibleChange: null,
         panelClassName: null,
+        panelContentClassName: null,
+        panelContentWrapperClassName: null,
         panelStyle: null,
         parseDateTime: null,
         placeholder: null,

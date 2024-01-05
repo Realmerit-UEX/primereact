@@ -474,12 +474,11 @@ export const Dropdown = React.memo(
         const onOptionClick = (event) => {
             const option = event.option;
 
-            if (!option.disabled) {
+            if (!isOptionDisabled(option)) {
                 selectItem(event);
                 DomHandler.focus(focusInputRef.current);
+                hide();
             }
-
-            hide();
         };
 
         const onFilterInputChange = (event) => {

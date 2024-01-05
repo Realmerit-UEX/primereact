@@ -267,6 +267,7 @@ export const SidebarBase = ComponentBase.extend({
         maskStyle: null,
         maskClassName: null,
         visible: false,
+        destroyOnClose: false,
         position: 'left',
         fullScreen: false,
         blockScroll: false,

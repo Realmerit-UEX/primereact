@@ -143,6 +143,17 @@ interface ConfirmPopupOptions {
 }
 
 /**
+ * Defines current content values and refs for headless development.
+ * @see {@link ConfirmPopupProps.content}
+ */
+interface ContentProps {
+    acceptBtnRef: React.RefObject<HTMLButtonElement>;
+    rejectBtnRef: React.RefObject<HTMLButtonElement>;
+    message: React.ReactNode | string;
+    hide(): void;
+}
+
+/**
  * Defines valid properties in ConfirmPopup component.
  * @group Properties
  */
@@ -211,7 +222,7 @@ export interface ConfirmPopupProps {
      * DOM element instance where the overlay panel should be mounted. Valid values are any DOM Element and 'self'. The self value is used to render a component where it is located.
      * @defaultValue document.body
      */
-    appendTo?: 'self' | HTMLElement | undefined | null;
+    appendTo?: 'self' | HTMLElement | undefined | null | (() => HTMLElement);
     /**
      * Enables to hide the popup when outside is clicked.
      * @defaultValue true
@@ -266,6 +277,12 @@ export interface ConfirmPopupProps {
      * @defaultValue false
      */
     unstyled?: boolean;
+    /**
+     * Specifies a custom content for the dialog. For more complex markup, use the "content" slot instead.
+     * @param {ContentProps} props - The values of dialog.
+     * @return {React.ReactNode}
+     */
+    content?(props: ContentProps): React.ReactNode;
 }
 
 /**

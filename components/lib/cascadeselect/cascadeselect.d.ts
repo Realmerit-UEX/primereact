@@ -215,6 +215,10 @@ export interface CascadeSelectProps extends Omit<React.DetailedHTMLProps<React.I
      */
     options?: SelectItemOptionsType | undefined;
     /**
+     * 没有内容时的自定义占位
+     */
+    notFoundContent?: React.ReactNode;
+    /**
      * Property name or getter function to use as the label of an option.
      */
     optionLabel?: string | undefined;
@@ -245,7 +249,7 @@ export interface CascadeSelectProps extends Omit<React.DetailedHTMLProps<React.I
     /**
      * The template of items.
      */
-    itemTemplate?: React.ReactNode | ((option: any) => React.ReactNode) | undefined;
+    itemTemplate?: React.ReactNode | ((value: any, option?: any) => React.ReactNode) | undefined;
     /**
      * When present, it specifies that the component should be disabled.
      * @defaultValue false
@@ -275,7 +279,7 @@ export interface CascadeSelectProps extends Omit<React.DetailedHTMLProps<React.I
      * DOM element instance where the overlay panel should be mounted. Valid values are any DOM Element and "self". The "self" value is used to render a component where it is located.
      * @defaultValue document.body
      */
-    appendTo?: 'self' | HTMLElement | undefined | null;
+    appendTo?: 'self' | HTMLElement | undefined | null | (() => HTMLElement);
     /**
      * The properties of CSSTransition can be customized, except for "nodeRef" and "in" properties.
      * @type {CSSTransitionProps}

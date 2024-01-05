@@ -98,6 +98,8 @@ export interface SidebarProps extends Omit<React.DetailedHTMLProps<React.HTMLAtt
      * @defaultValue false
      */
     visible?: boolean | undefined;
+    /** @param 关闭时销毁 Modal 里的子元素 */
+    destroyOnClose?: boolean;
     /**
      * Specifies the position of the sidebar, valid values are "left" and "right".
      * @defaultValue left
@@ -161,7 +163,7 @@ export interface SidebarProps extends Omit<React.DetailedHTMLProps<React.HTMLAtt
      * DOM element instance where the overlay panel should be mounted. Valid values are any DOM Element and self. The self value is used to render a component where it is located.
      * @defaultValue document.body
      */
-    appendTo?: 'self' | HTMLElement | null | undefined;
+    appendTo?: 'self' | HTMLElement | null | undefined | (() => HTMLElement);
     /**
      * The properties of CSSTransition can be customized, except for "nodeRef" and "in" properties.
      * @type {CSSTransitionProps}

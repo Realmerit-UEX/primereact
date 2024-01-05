@@ -217,6 +217,7 @@ export const CascadeSelectSub = React.memo((props) => {
                     onOptionGroupSelect={onOptionGroupSelect}
                     parentActive={parentActive}
                     optionGroupLabel={props.optionGroupLabel}
+                    notFoundContent={props.notFoundContent}
                     optionGroupChildren={props.optionGroupChildren}
                     dirty={props.dirty}
                     template={props.template}
@@ -238,7 +239,7 @@ export const CascadeSelectSub = React.memo((props) => {
             },
             getPTOptions('text')
         );
-        const content = props.template ? ObjectUtils.getJSXElement(props.template, getOptionValue(option)) : <span {...textProps}>{getOptionLabelToRender(option)}</span>;
+        const content = props.template ? ObjectUtils.getJSXElement(props.template, getOptionValue(option), option) : <span {...textProps}>{getOptionLabelToRender(option)}</span>;
         const optionGroupIconProps = mergeProps(
             {
                 className: cx('optionGroupIcon')
@@ -285,19 +286,32 @@ export const CascadeSelectSub = React.memo((props) => {
     };
 
     const createMenu = () => {
-        return props.options ? props.options.map(createOption) : null;
+        return props.options?.length ? props.options.map(createOption) : props.notFoundContent;
     };
 
-    const submenu = createMenu();
-    const listProps = mergeProps(
-        {
-            ref: elementRef,
-            className: cx(props.level === 0 ? 'list' : 'sublist', { context }),
-            role: 'listbox',
-            'aria-orientation': 'horizontal'
-        },
-        props.level === 0 ? getPTOptions('list') : getPTOptions('sublist')
-    );
+    const createElement = () => {
+        const listWrapperProps = mergeProps(
+            {
+                className: cx('sublistWrapper')
+            },
+            getPTOptions('sublistWrapper')
+        );
+        const listProps = mergeProps(
+            {
+                ref: elementRef,
+                className: cx(props.level === 0 ? 'list' : 'sublist', { context }),
+                role: 'listbox',
+                'aria-orientation': 'horizontal'
+            },
+            props.level === 0 ? getPTOptions('list') : getPTOptions('sublist')
+        );
+        const submenu = createMenu();
+        const ul = <ul {...listProps}>{submenu}</ul>;
 
-    return <ul {...listProps}>{submenu}</ul>;
+        return props.level === 0 ? <>{ul}</> : <div {...listWrapperProps}>{ul}</div>;
+    };
+
+    const element = createElement();
+
+    return element;
 });

@@ -76,7 +76,7 @@ export const Dialog = React.forwardRef((inProps, ref) => {
         let activeElement = document.activeElement;
         let isActiveElementInDialog = activeElement && dialogRef.current && dialogRef.current.contains(activeElement);
 
-        if (!isActiveElementInDialog && props.closable && props.showHeader) {
+        if (!isActiveElementInDialog && props.closable && props.showHeader && closeRef.current) {
             closeRef.current.focus();
         }
     };
@@ -383,6 +383,10 @@ export const Dialog = React.forwardRef((inProps, ref) => {
         unbindDocumentKeyDownListener();
     };
 
+    const destroyStyle = () => {
+        styleElement.current = DomHandler.removeInlineStyle(styleElement.current);
+    };
+
     const createStyle = () => {
         styleElement.current = DomHandler.createInlineStyle((context && context.nonce) || PrimeReact.nonce);
 
@@ -391,8 +395,8 @@ export const Dialog = React.forwardRef((inProps, ref) => {
         for (let breakpoint in props.breakpoints) {
             innerHTML += `
                 @media screen and (max-width: ${breakpoint}) {
-                    .p-dialog[${attributeSelector.current}] {
-                        width: ${props.breakpoints[breakpoint]};
+                    [data-pc-name="dialog"][${attributeSelector.current}] {
+                        width: ${props.breakpoints[breakpoint]} !important;
                     }
                 }
             `;
@@ -401,15 +405,21 @@ export const Dialog = React.forwardRef((inProps, ref) => {
         styleElement.current.innerHTML = innerHTML;
     };
 
+    useUpdateEffect(() => {
+        if (props.breakpoints) {
+            createStyle();
+        }
+
+        return () => {
+            destroyStyle();
+        };
+    }, [props.breakpoints]);
+
     useMountEffect(() => {
         updateGlobalDialogsRegistry(true);
 
         if (props.visible) {
             setMaskVisibleState(true);
-        }
-
-        if (props.breakpoints) {
-            createStyle();
         }
     });
 
@@ -418,8 +428,16 @@ export const Dialog = React.forwardRef((inProps, ref) => {
             setMaskVisibleState(true);
         }
 
-        if (props.visible !== visibleState && maskVisibleState) {
-            setVisibleState(props.visible);
+        if (props.destroyOnClose) {
+            if (props.visible !== visibleState && maskVisibleState) {
+                setVisibleState(props.visible);
+            }
+        } else if (!props.destroyOnClose && maskRef.current) {
+            if (props.visible && maskVisibleState) {
+                maskRef.current.style.display = 'flex';
+            } else if (!props.visible && maskVisibleState) {
+                maskRef.current.style.display = 'none';
+            }
         }
 
         if (props.visible) {
@@ -427,7 +445,7 @@ export const Dialog = React.forwardRef((inProps, ref) => {
             // so we can return focus to it once we close the dialog.
             focusElementOnHide.current = document.activeElement;
         }
-    }, [props.visible, maskVisibleState]);
+    }, [props.visible, maskVisibleState, props.destroyOnClose]);
 
     useUpdateEffect(() => {
         if (maskVisibleState) {
@@ -619,7 +637,43 @@ export const Dialog = React.forwardRef((inProps, ref) => {
         return null;
     };
 
-    const createElement = () => {
+    const findMessageProperty = (obj) => {
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                if (key === 'message') {
+                    return obj[key];
+                } else if (typeof obj[key] === 'object') {
+                    const result = findMessageProperty(obj[key]);
+
+                    if (result !== undefined) {
+                        return result;
+                    }
+                }
+            }
+        }
+
+        return undefined;
+    };
+
+    const createTemplateElement = ({ maskProps, rootProps, transitionProps }) => {
+        const messageProps = {
+            header: props.header,
+            content: props.message,
+            message: props?.children?.[1]?.props?.children
+        };
+
+        const templateElementProps = { headerRef, contentRef, footerRef, closeRef, hide: onClose, message: messageProps };
+
+        return (
+            <div {...maskProps}>
+                <CSSTransition nodeRef={dialogRef} {...transitionProps}>
+                    <div {...rootProps}>{ObjectUtils.getJSXElement(inProps.content, templateElementProps)}</div>
+                </CSSTransition>
+            </div>
+        );
+    };
+
+    const createElement = ({ maskProps, rootProps, transitionProps }) => {
         const header = createHeader();
         const content = createContent();
         const footer = createFooter();
@@ -627,6 +681,28 @@ export const Dialog = React.forwardRef((inProps, ref) => {
 
         const headerId = idState + '_header';
         const contentId = idState + '_content';
+
+        const essentialRootProps = {
+            ...rootProps,
+            'aria-labelledby': headerId,
+            'aria-describedby': contentId
+        };
+
+        return (
+            <div {...maskProps}>
+                <CSSTransition nodeRef={dialogRef} {...transitionProps}>
+                    <div {...essentialRootProps}>
+                        {header}
+                        {content}
+                        {footer}
+                        {resizer}
+                    </div>
+                </CSSTransition>
+            </div>
+        );
+    };
+
+    const createDialog = () => {
         const transitionTimeout = {
             enter: props.position === 'center' ? 150 : 300,
             exit: props.position === 'center' ? 150 : 300
@@ -650,8 +726,7 @@ export const Dialog = React.forwardRef((inProps, ref) => {
                 style: props.style,
                 onClick: props.onClick,
                 role: 'dialog',
-                'aria-labelledby': headerId,
-                'aria-describedby': contentId,
+
                 'aria-modal': props.modal,
                 onPointerDown: onDialogPointerDown
             },
@@ -674,24 +749,17 @@ export const Dialog = React.forwardRef((inProps, ref) => {
             ptm('transition')
         );
 
-        return (
-            <div {...maskProps}>
-                <CSSTransition nodeRef={dialogRef} {...transitionProps}>
-                    <div {...rootProps}>
-                        {header}
-                        {content}
-                        {footer}
-                        {resizer}
-                    </div>
-                </CSSTransition>
-            </div>
-        );
-    };
+        const isTemplate = inProps?.content;
 
-    const createDialog = () => {
-        const element = createElement();
+        if (isTemplate) {
+            const templateElement = createTemplateElement({ maskProps, rootProps, transitionProps });
 
-        return <Portal element={element} appendTo={props.appendTo} visible />;
+            return <Portal element={templateElement} appendTo={props.appendTo} visible />;
+        } else {
+            const element = createElement({ maskProps, rootProps, transitionProps });
+
+            return <Portal element={element} appendTo={props.appendTo} visible />;
+        }
     };
 
     return maskVisibleState && createDialog();

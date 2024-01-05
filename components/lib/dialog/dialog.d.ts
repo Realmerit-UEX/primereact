@@ -129,6 +129,59 @@ interface DialogMaximizeEvent {
 }
 
 /**
+ * Defines current content values and refs for headless development.
+ * @see {@link DialogProps.content}
+ */
+interface ContentProps {
+    /**
+     * Allows you to specify the header of the content.
+     */
+    headerRef: React.RefObject<HTMLElement>;
+    /**
+     * Allows you to specify the content.
+     */
+    contentRef: React.RefObject<HTMLElement>;
+    /**
+     * Allows you to specify the footer of the content.
+     */
+    footerRef: React.RefObject<HTMLElement>;
+    /**
+     * Allows you to specify the close button of the dialog.
+     */
+    closeRef: React.RefObject<HTMLButtonElement | HTMLElement>;
+    /**
+     * Callback for hiding the dialog.
+     */
+    hide(e: React.SyntheticEvent): void;
+    /**
+     * Dialog's props values.
+     */
+    message: ContentPropsMessage;
+}
+
+/**
+ * Defines current content values and refs for headless development.
+ * @see {@link ContentProps.message}
+ */
+interface ContentPropsMessage {
+    /**
+     * Header of the dialog.
+     * @readonly
+     */
+    header: string;
+    /**
+     * Content of the dialog.
+     * @readonly
+     */
+    content: string;
+    /**
+     * Message of the dialog.
+     * @readonly
+     */
+    message: string;
+}
+
+/**
  * Defines valid properties in Dialog component.
  * @group Properties
  */
@@ -137,7 +190,7 @@ export interface DialogProps {
      * DOM element instance where the overlay panel should be mounted. Valid values are any DOM Element and 'self'. The self value is used to render a component where it is located.
      * @defaultValue document.body
      */
-    appendTo?: 'self' | HTMLElement | undefined | null;
+    appendTo?: 'self' | HTMLElement | undefined | null | (() => HTMLElement);
     /**
      * Defines a string that labels the close icon.
      */
@@ -305,6 +358,8 @@ export interface DialogProps {
      * @defaultValue false
      */
     visible?: boolean | undefined;
+    /** @param 关闭时销毁 Modal 里的子元素 */
+    destroyOnClose?: boolean;
     /**
      * Uses to pass attributes to DOM elements inside the component.
      * @type {DialogPassThroughOptions}
@@ -373,6 +428,12 @@ export interface DialogProps {
      * Callback to invoke when dialog is showed.
      */
     onShow?(): void;
+    /**
+     * Specifies a custom content for the dialog. For more complex markup, use the "content" slot instead.
+     * @param {ContentProps} props - The values of dialog.
+     * @return {React.ReactNode}
+     */
+    content?(props: ContentProps): React.ReactNode;
 }
 
 /**

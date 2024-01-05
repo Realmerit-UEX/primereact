@@ -69,9 +69,8 @@ export interface CalendarPassThroughOptions {
     header?: CalendarPassThroughType<React.HTMLAttributes<HTMLDivElement>>;
     /**
      * Uses to pass attributes to the Button component.
-     * @see {@link ButtonPassThroughOptions}
      */
-    previousButton?: ButtonPassThroughOptions;
+    previousButton?: CalendarPassThroughType<React.HTMLAttributes<HTMLButtonElement>>;
     /**
      * Uses to pass attributes to the previous icon's DOM element.
      */
@@ -98,9 +97,8 @@ export interface CalendarPassThroughOptions {
     decadeTitleText?: CalendarPassThroughType<React.HTMLAttributes<HTMLSpanElement>>;
     /**
      * Uses to pass attributes to the Button component.
-     * @see {@link ButtonPassThroughOptions}
      */
-    nextButton?: ButtonPassThroughOptions;
+    nextButton?: CalendarPassThroughType<React.HTMLAttributes<HTMLButtonElement>>;
     /**
      * Uses to pass attributes to the next icon's DOM element.
      */
@@ -415,6 +413,37 @@ interface CalendarSelectEvent {
 }
 
 /**
+ * 自定义时间选择器
+ */
+interface CalendarTimeTemplateEvent {
+    /**
+     * 设置小时
+     * @param e
+     * @param newHour
+     * @returns
+     */
+    selectHour: (e: React.MouseEvent<HTMLElement>, newHour: number) => void;
+    /**
+     * 设置分钟
+     * @param e
+     * @param newMinute
+     * @returns
+     */
+    selectMinute: (e: React.MouseEvent<HTMLElement>, newMinute: number) => void;
+    /**
+     * 设置秒
+     * @param e
+     * @param newSecond
+     * @returns
+     */
+    selectSecond: (e: React.MouseEvent<HTMLElement>, newSecond: number) => void;
+    /**
+     * 当前时间
+     */
+    time: string;
+}
+
+/**
  * Custom date template event
  * @see {@link CalendarProps.dateTemplate}
  * @event
@@ -575,7 +604,7 @@ interface CalendarBaseProps {
      * DOM element instance where the overlay panel should be mounted. Valid values are any DOM Element and "self". The "self" value is used to render a component where it is located.
      * @defaultValue document.body
      */
-    appendTo?: 'self' | HTMLElement | undefined | null;
+    appendTo?: 'self' | HTMLElement | undefined | null | (() => HTMLElement);
     /**
      * When present, it specifies that the component should automatically get focus on load.
      * @defaultValue false
@@ -618,6 +647,10 @@ interface CalendarBaseProps {
      * @defaultValue false
      */
     disabled?: boolean | undefined;
+    /**
+     * 检查日期是否合法
+     */
+    disabledDate?: (year: number, month: number, day: number) => boolean;
     /**
      * Array with dates to disable.
      */
@@ -770,6 +803,11 @@ interface CalendarBaseProps {
      */
     showIcon?: boolean | undefined;
     /**
+     * Icon position of the component. This only applies if the showIcon option is set to true.
+     * @defaultValue 'button'
+     */
+    iconDisplay?: 'button' | 'input' | undefined;
+    /**
      * Whether to show the milliseconds in time picker.
      * @defaultValue false
      */
@@ -799,6 +837,19 @@ interface CalendarBaseProps {
      * @defaultValue false
      */
     showTime?: boolean | undefined;
+    /**
+     * 面板主体内容样式
+     */
+    panelContentClassName?: string | undefined;
+    /*
+     * 面板主体样式
+     */
+    panelContentWrapperClassName?: string | undefined;
+    /**
+     * UEX自定义时间选择器样式
+     */
+    timeTemplate?(event: CalendarTimeTemplateEvent): React.ReactNode;
+
     /**
      * When enabled, calendar will show week numbers.
      * @defaultValue false

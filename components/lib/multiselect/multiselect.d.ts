@@ -421,7 +421,7 @@ export interface MultiSelectProps extends Omit<React.DetailedHTMLProps<React.Inp
      * DOM element instance where the overlay panel should be mounted. Valid values are any DOM Element and 'self'. The self value is used to render a component where it is located.
      * @defaultValue document.body
      */
-    appendTo?: 'self' | HTMLElement | undefined | null;
+    appendTo?: 'self' | HTMLElement | undefined | null | (() => HTMLElement);
     /**
      * Establishes relationships between the component and label(s) where its value should be one or more element IDs.
      */
@@ -649,6 +649,10 @@ export interface MultiSelectProps extends Omit<React.DetailedHTMLProps<React.Inp
      * Function that gets an item in the value and returns the content for it.
      */
     selectedItemTemplate?: React.ReactNode | ((value: any) => React.ReactNode);
+    /**
+     * Function that gets all in the value and returns the content for it.
+     */
+    selectedTemplate?: React.ReactNode | ((value: any[] | null) => React.ReactNode);
     /**
      * Label to display after exceeding max selected labels.
      * @defaultValue {0} items selected
