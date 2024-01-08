@@ -183,12 +183,12 @@ export const Dropdown = React.memo(
             switch (event.which) {
                 //down
                 case 40:
-                    overlayVisibleState ? onDownKey(event) : show();
+                    onDownKey(event);
                     break;
 
                 //up
                 case 38:
-                    overlayVisibleState ? onUpKey(event) : show();
+                    onUpKey(event);
                     break;
 
                 //enter and escape and tab
