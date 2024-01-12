@@ -127,7 +127,8 @@ export const RadioButton = React.memo(
             {
                 className: classNames(props.className, cx('root', { focusedState })),
                 style: props.style,
-                onClick: onClick
+                onClick: onClick,
+                'data-p-checked': props.checked
             },
             RadioButtonBase.getOtherProps(props),
             ptm('root')

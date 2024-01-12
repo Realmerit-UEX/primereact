@@ -56,7 +56,6 @@ export const ConfirmPopup = React.memo(
 
         const acceptLabel = getPropValue('acceptLabel') || localeOption('accept');
         const rejectLabel = getPropValue('rejectLabel') || localeOption('reject');
-
         const displayOrder = useDisplayOrder('dialog', visibleState);
 
         useGlobalOnEscapeKey({

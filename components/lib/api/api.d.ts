@@ -131,6 +131,8 @@ export type InputStyleType = 'outlined' | 'filled';
 
 export type AppendToType = 'self' | HTMLElement | undefined | null | (() => HTMLElement);
 
+export type StyleContainerType = ShadowRoot | HTMLElement | undefined | null;
+
 /**
  * Filter match modes for DataTable filter menus.
  */
@@ -157,6 +159,11 @@ export interface APIOptions {
      * This option allows components with overlays like dropdowns or popups to be mounted into either the component or any DOM element, such as document body and self.
      */
     appendTo?: AppendToType;
+    /**
+     * This option allows `useStyle` to insert dynamic CSS styles into a specific container. This is useful when styles need to be scoped such as in a Shadow DOM.
+     * @defaultValue document.head
+     */
+    styleContainer?: StyleContainerType;
     /**
      * ZIndexes are managed automatically to make sure layering of overlay components work seamlessly when combining multiple components. When autoZIndex is false, each group increments its zIndex within itself.
      */
@@ -229,6 +236,10 @@ export interface APIOptions {
      * Sets the "appendTo" state of the context.
      */
     setAppendTo?: Dispatch<SetStateAction<AppendToType>>;
+    /**
+     * Sets the "styleContainer" state of the context.
+     */
+    setStyleContainer?: Dispatch<SetStateAction<StyleContainerType>>;
     /**
      * Sets the "autoZIndex" state of the context.
      */
@@ -832,10 +843,6 @@ export interface LocaleOptions {
      */
     close?: string;
     /**
-     * Completed
-     */
-    completed?: string;
-    /**
      * Pending
      */
     pending?: string;
@@ -864,81 +871,9 @@ export interface LocaleOptions {
      */
     monthNamesShort?: string[];
     /**
-     * Choose Year
-     */
-    chooseYear?: string;
-    /**
-     * Choose Month
-     */
-    chooseMonth?: string;
-    /**
-     *Choose Date
-     */
-    chooseDate?: string;
-    /**
-     * Previous Decade
-     */
-    prevDecade?: string;
-    /**
-     *
-     */
-    nextDecade?: string;
-    /**
-     * Previous Year
-     */
-    prevYear?: string;
-    /**
-     * Next Year
-     */
-    nextYear?: string;
-    /**
-     * Previous Month
-     */
-    prevMonth?: string;
-    /**
-     * Next Month
-     */
-    nextMonth?: string;
-    /**
-     *Previous Hour
-     */
-    prevHour?: string;
-    /**
-     *Next Hour
-     */
-    nextHour?: string;
-    /**
-     *Previous Minute
-     */
-    prevMinute?: string;
-    /**
-     * Next Minute
-     */
-    nextMinute?: string;
-    /**
-     * Previous Second
-     */
-    prevSecond?: string;
-    /**
-     * Next Second
-     */
-    nextSecond?: string;
-    /**
-     * PM
-     */
-    am?: string;
-    /**
-     * AM
-     */
-    pm?: string;
-    /**
      * Today
      */
     today?: string;
-    /**
-     * Now
-     */
-    now?: string;
     /**
      * Wk
      */
@@ -968,29 +903,16 @@ export interface LocaleOptions {
      */
     passwordPrompt?: string;
     /**
-     * No results found
+     * No available options
      */
     emptyFilterMessage?: string;
     /**
-     * {0} results are available
-     */
-    searchMessage?: string;
-    /**
-     * {0} items selected
-     */
-    selectionMessage?: string;
-    /**
-     * No selected item
-     */
-    emptySelectionMessage?: string;
-    /**
      * No results found
      */
-    emptySearchMessage?: string;
-    /**
-     * No available options
-     */
     emptyMessage?: string;
+    /**
+     * True
+     */
     aria?: {
         /**
          * True
@@ -1005,75 +927,7 @@ export interface LocaleOptions {
          */
         nullLabel?: string;
         /**
-         * 1 star
-         */
-        star?: string;
-        /**
-         * {star} stars
-         */
-        stars?: string;
-        /*
-         * All items selected
-         */
-        selectAll?: string;
-        /**
-         * All items unselected
-         */
-        unselectAll?: string;
-        /**
-         * Close
-         */
-        close?: string;
-        /*
-         * Previous
-         */
-        previous?: string;
-        /**
-         * Next
-         */
-        next?: string;
-        /**
-         * Navigation
-         */
-        navigation?: string;
-        /*
-         * Scroll Top
-         */
-        scrollTop?: string;
-        /**
-         * Move Top
-         */
-        moveTop?: string;
-        /**
-         * Move Up
-         */
-        moveUp?: string;
-        /**
-         * Move Down
-         */
-        moveDown?: string;
-        /**
-         * Move Bottom
-         */
-        moveBottom?: string;
-        /**
-         * Move to Target
-         */
-        moveToTarget?: string;
-        /**
-         * Move to Source
-         */
-        moveToSource?: string;
-        /*
-         * Move All to Target
-         */
-        moveAllToTarget?: string;
-        /**
-         * Move All to Source
-         */
-        moveAllToSource?: string;
-        /**
-         * Page {page}
+         * Page
          */
         pageLabel?: string;
         /**
@@ -1093,97 +947,21 @@ export interface LocaleOptions {
          */
         previousPageLabel?: string;
         /**
-         * Rows per page
+         * Select
          */
-        rowsPerPageLabel?: string;
+        selectLabel?: string;
         /**
-         * Jump to Page Dropdown
+         * Unselect
          */
-        jumpToPageDropdownLabel?: string;
+        unselectLabel?: string;
         /**
-         * Jump to Page Input
+         * Expand
          */
-        jumpToPageInputLabel?: string;
+        expandLabel?: string;
         /**
-         * Row Selected
+         * Collapse
          */
-        selectRow?: string;
-        /*
-         * Row Unselected
-         */
-        unselectRow?: string;
-        /**
-         * Row Expanded
-         */
-        expandRow?: string;
-        /**
-         * Row Collapsed
-         */
-        collapseRow?: string;
-        /**
-         * Show Filter Menu
-         */
-        showFilterMenu?: string;
-        /**
-         * Hide Filter Menu
-         */
-        hideFilterMenu?: string;
-        /**
-         * Filter Operator
-         */
-        filterOperator?: string;
-        /**
-         * Filter Constraint
-         */
-        filterConstraint?: string;
-        /**
-         * Edit Row
-         */
-        editRow?: string;
-        /**
-         * Save Edit
-         */
-        saveEdit?: string;
-        /**
-         * Cancel Edit
-         */
-        cancelEdit?: string;
-        /**
-         * List View
-         */
-        listView?: string;
-        /**
-         * Grid View
-         */
-        gridView?: string;
-        /**
-         * Slide
-         */
-        slide?: string;
-        /**
-         * {slideNumber}
-         */
-        slideNumber?: string;
-        /**
-         * Zoom Image
-         */
-        zoomImage?: string;
-        /**
-         * Zoom In
-         */
-        zoomIn?: string;
-        /**
-         * Zoom Out
-         */
-        zoomOut?: string;
-        /**
-         * Rotate Right
-         */
-        rotateRight?: string;
-        /**
-         * Rotate Left
-         */
-        rotateLeft?: string;
+        collapseLabel?: string;
     };
 }
 

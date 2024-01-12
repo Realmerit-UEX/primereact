@@ -12,12 +12,12 @@ import { CSSTransitionProps as ReactCSSTransitionProps } from 'react-transition-
 import { ComponentHooks } from '../componentbase/componentbase';
 import { CSSTransitionProps } from '../csstransition';
 import { PassThroughOptions } from '../passthrough';
+import { TooltipPassThroughOptions } from '../tooltip/tooltip';
+import { TooltipOptions } from '../tooltip/tooltipoptions';
 import { TreeNodeTemplateOptions, TreePassThroughOptions, TreeTogglerTemplateOptions } from '../tree/tree';
 import { TreeNode } from '../treenode';
 import { FormEvent } from '../ts-helpers';
 import { IconType, PassThroughType } from '../utils/utils';
-import { TooltipPassThroughOptions } from '../tooltip/tooltip';
-import { TooltipOptions } from '../tooltip/tooltipoptions';
 
 export declare type TreeSelectPassThroughType<T> = PassThroughType<T, TreeSelectPassThroughMethodOptions>;
 export declare type TreeSelectPassThroughTransitionType = ReactCSSTransitionProps | ((options: TreeSelectPassThroughMethodOptions) => ReactCSSTransitionProps) | undefined;
@@ -76,6 +76,16 @@ export interface TreeSelectPassThroughOptions {
      * @see {@link TreePassThroughOptionType}
      */
     tree?: TreePassThroughOptions;
+    /**
+     * Callback to invoke when menu receives focus.
+     * @param {React.SyntheticEvent} event - Browser event.
+     */
+    onFocus?(event: React.SyntheticEvent): void;
+    /**
+     * Callback to invoke when menu loses focus.
+     * @param {React.SyntheticEvent} event - Browser event.
+     */
+    onBlur?(event: React.SyntheticEvent): void;
     /**
      * Uses to pass attributes to the empty message's DOM element.
      */

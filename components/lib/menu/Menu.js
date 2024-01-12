@@ -30,7 +30,6 @@ export const Menu = React.memo(
         const menuRef = React.useRef(null);
         const listRef = React.useRef(null);
         const targetRef = React.useRef(null);
-
         const popupMenuDisplayOrder = useDisplayOrder('menu', !!(visibleState && props.popup));
 
         useGlobalOnEscapeKey({

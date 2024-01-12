@@ -138,14 +138,14 @@ export const Inplace = React.forwardRef((inProps, ref) => {
         });
     };
 
-    useUpdateEffect(() => {
-        props.active ? open(null) : close(null);
-    }, [props.active]);
-
     React.useImperativeHandle(ref, () => ({
         props,
         getElement: () => elementRef.current
     }));
+
+    useUpdateEffect(() => {
+        props.active ? open(null) : close(null);
+    }, [props.active]);
 
     const children = createChildren();
 

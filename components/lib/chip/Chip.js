@@ -40,9 +40,9 @@ export const Chip = React.memo(
             const removeIconProps = mergeProps(
                 {
                     key: 'removeIcon',
+                    role: 'button',
                     tabIndex: 0,
                     className: cx('removeIcon'),
-                    role: 'button',
                     onClick: close,
                     onKeyDown
                 },

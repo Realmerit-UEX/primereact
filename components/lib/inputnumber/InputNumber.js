@@ -29,7 +29,6 @@ export const InputNumber = React.memo(
         const inputRef = React.useRef(null);
         const timer = React.useRef(null);
         const lastValue = React.useRef(null);
-
         const numberFormat = React.useRef(null);
         const groupChar = React.useRef(null);
         const prefixChar = React.useRef(null);
@@ -44,9 +43,7 @@ export const InputNumber = React.memo(
         const _suffix = React.useRef(null);
         const _prefix = React.useRef(null);
         const _index = React.useRef(null);
-
         const isFocusedByClick = React.useRef(false);
-
         const _locale = props.locale || (context && context.locale) || PrimeReact.locale;
         const stacked = props.showButtons && props.buttonLayout === 'stacked';
         const horizontal = props.showButtons && props.buttonLayout === 'horizontal';
@@ -82,15 +79,15 @@ export const InputNumber = React.memo(
             _index.current = (d) => index.get(d);
         };
 
+        const escapeRegExp = (text) => {
+            return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+        };
+
         /**
          * get decimal separator in current locale
          */
         const getDecimalSeparator = () => {
             return new Intl.NumberFormat(_locale, { useGrouping: false }).format(1.1).trim().replace(_numeral.current, '');
-        };
-
-        const escapeRegExp = (text) => {
-            return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
         };
 
         const getDecimalExpression = () => {
@@ -478,6 +475,14 @@ export const InputNumber = React.memo(
 
                     break;
 
+                // End
+                case 35:
+                // Home/Pos1
+                case 36:
+                    setTimeout(() => {
+                        initCursor();
+                    });
+
                 default:
                     break;
             }
@@ -545,15 +550,6 @@ export const InputNumber = React.memo(
             return false;
         };
 
-        const isFloat = (val) => {
-            let formatter = new Intl.NumberFormat(_locale, getOptions());
-            let parseVal = parseValue(formatter.format(val));
-
-            if (parseVal === null) return false;
-
-            return parseVal % 1 !== 0;
-        };
-
         const replaceDecimalSeparator = (val) => {
             if (isFloat(val)) {
                 return val.toString().replace(/\.(?=[^.]*$)/, _decimalSeparator.current);
@@ -574,6 +570,15 @@ export const InputNumber = React.memo(
 
         const isDecimalMode = () => {
             return props.mode === 'decimal';
+        };
+
+        const isFloat = (val) => {
+            let formatter = new Intl.NumberFormat(_locale, getOptions());
+            let parseVal = parseValue(formatter.format(val));
+
+            if (parseVal === null) return false;
+
+            return parseVal % 1 !== 0;
         };
 
         const getDecimalCharIndexes = (val) => {
@@ -897,7 +902,13 @@ export const InputNumber = React.memo(
                     inputEl.setSelectionRange(selectionEnd, selectionEnd);
                 } else if (newLength === currentLength) {
                     if (operation === 'insert' || operation === 'delete-back-single') {
-                        const newSelectionEnd = selectionEnd + Number(isDecimalSign(value) || isDecimalSign(insertedValueStr));
+                        let newSelectionEnd = selectionEnd;
+
+                        if (insertedValueStr === '0') {
+                            newSelectionEnd = selectionEnd + 1;
+                        } else {
+                            newSelectionEnd = newSelectionEnd + Number(isDecimalSign(value) || isDecimalSign(insertedValueStr));
+                        }
 
                         inputEl.setSelectionRange(newSelectionEnd, newSelectionEnd);
                     } else if (operation === 'delete-single') {

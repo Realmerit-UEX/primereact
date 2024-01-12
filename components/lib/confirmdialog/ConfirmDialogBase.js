@@ -21,6 +21,7 @@ export const ConfirmDialogBase = ComponentBase.extend({
         acceptLabel: null,
         appendTo: null,
         breakpoints: null,
+        children: undefined,
         className: null,
         defaultFocus: 'accept',
         footer: null,
@@ -32,8 +33,7 @@ export const ConfirmDialogBase = ComponentBase.extend({
         rejectIcon: null,
         rejectLabel: null,
         tagKey: undefined,
-        visible: undefined,
-        children: undefined
+        visible: undefined
     },
     css: {
         classes

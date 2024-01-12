@@ -193,8 +193,8 @@ export interface InputNumberProps extends Omit<React.DetailedHTMLProps<React.HTM
      */
     maxFractionDigits?: number | undefined;
     /**
-     * How decimals should be rounded.
-     * The default value is `"halfExpand"`, [further information](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#roundingmode).
+     * How decimals should be rounded. [further information](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#roundingmode).
+     * @defaultValue halfExpand
      */
     roundingMode?: RoundingMode;
     /**

@@ -27,7 +27,6 @@ export const Sidebar = React.forwardRef((inProps, ref) => {
     const sidebarRef = React.useRef(null);
     const maskRef = React.useRef(null);
     const closeIconRef = React.useRef(null);
-
     const sidebarDisplayOrder = useDisplayOrder('sidebar', visibleState);
 
     useGlobalOnEscapeKey({
@@ -168,7 +167,6 @@ export const Sidebar = React.forwardRef((inProps, ref) => {
 
     const createCloseIcon = () => {
         const ariaLabel = props.ariaCloseLabel || localeOption('close');
-
         const closeButtonProps = mergeProps(
             {
                 type: 'button',
@@ -272,7 +270,7 @@ export const Sidebar = React.forwardRef((inProps, ref) => {
     );
 
     const createTemplateElement = () => {
-        const templateElementProps = { sidebarRef, closeIconRef, hide: onClose };
+        const templateElementProps = { closeIconRef, hide: onClose };
 
         return (
             <div {...maskProps}>

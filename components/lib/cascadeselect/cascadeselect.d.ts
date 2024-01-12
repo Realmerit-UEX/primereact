@@ -79,7 +79,6 @@ export interface CascadeSelectContext extends APIOptions {
      */
     label?: string;
 }
-
 /**
  * Custom passthrough(pt) options.
  * @see {@link CascadeSelectProps.pt}
@@ -118,13 +117,13 @@ export interface CascadeSelectPassThroughOptions {
      */
     list?: CascadeSelectPassThroughType<React.HTMLAttributes<HTMLUListElement>>;
     /**
-     * Uses to pass attributes to the sub-list's DOM element.
-     */
-    sublist?: CascadeSelectPassThroughType<React.HTMLAttributes<HTMLUListElement>>;
-    /**
      * Uses to pass attributes to the item's DOM element.
      */
     item?: CascadeSelectPassThroughType<React.HTMLAttributes<HTMLLIElement>>;
+    /**
+     * Uses to pass attributes to the sub-list's DOM element.
+     */
+    sublist?: CascadeSelectPassThroughType<React.HTMLAttributes<HTMLUListElement>>;
     /**
      * Uses to pass attributes to the content's DOM element.
      */

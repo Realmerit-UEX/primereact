@@ -18,6 +18,14 @@ export const MultiSelectItem = React.memo((props) => {
         });
     };
 
+    const onFocus = (event) => {
+        setFocusedState(true);
+    };
+
+    const onBlur = (event) => {
+        setFocusedState(false);
+    };
+
     const onClick = (event) => {
         if (props.onClick) {
             props.onClick({
@@ -37,14 +45,6 @@ export const MultiSelectItem = React.memo((props) => {
                 option: props.option
             });
         }
-    };
-
-    const onFocus = (event) => {
-        setFocusedState(true);
-    };
-
-    const onBlur = (event) => {
-        setFocusedState(false);
     };
 
     const checkboxIconProps = mergeProps(
@@ -80,10 +80,10 @@ export const MultiSelectItem = React.memo((props) => {
             className: classNames(props.className, props.option.className, cx('item', { itemProps: props })),
             style: props.style,
             onClick: onClick,
-            tabIndex: tabIndex,
             onKeyDown: onKeyDown,
             onFocus: onFocus,
             onBlur: onBlur,
+            tabIndex: tabIndex,
             role: 'option',
             'aria-selected': props.selected,
             'data-p-highlight': props.selected,

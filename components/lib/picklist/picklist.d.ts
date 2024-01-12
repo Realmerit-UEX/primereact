@@ -268,6 +268,16 @@ export interface PickListProps {
      */
     className?: string | undefined;
     /**
+     * Callback to invoke when menu receives focus.
+     * @param {React.SyntheticEvent} event - Browser event.
+     */
+    onFocus?(event: React.SyntheticEvent): void;
+    /**
+     * Callback to invoke when menu loses focus.
+     * @param {React.SyntheticEvent} event - Browser event.
+     */
+    onBlur?(event: React.SyntheticEvent): void;
+    /**
      * Inline style of the source list element.
      */
     sourceStyle?: React.CSSProperties | undefined;
@@ -398,7 +408,7 @@ export interface PickListProps {
     /**
      * Name of the field that uniquely identifies the a record in the data.
      */
-    dataKey?: string | undefined;
+    dataKey: string;
     /**
      * The breakpoint to define the maximum width boundary when responsiveness is enabled.
      * @defaultValue '960px'.
