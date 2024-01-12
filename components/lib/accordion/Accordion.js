@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { CSSTransition } from '../csstransition/CSSTransition';
-import { useMountEffect } from '../hooks/Hooks';
-import { DomHandler, classNames, IconUtils, mergeProps, ObjectUtils, UniqueComponentId } from '../utils/Utils';
-import { AccordionBase, AccordionTabBase } from './AccordionBase';
-import { ChevronRightIcon } from '../icons/chevronright';
-import { ChevronDownIcon } from '../icons/chevrondown';
 import { PrimeReactContext } from '../api/Api';
 import { useHandleStyle } from '../componentbase/ComponentBase';
+import { CSSTransition } from '../csstransition/CSSTransition';
+import { useMountEffect } from '../hooks/Hooks';
+import { ChevronDownIcon } from '../icons/chevrondown';
+import { ChevronRightIcon } from '../icons/chevronright';
+import { DomHandler, IconUtils, ObjectUtils, UniqueComponentId, classNames, mergeProps } from '../utils/Utils';
+import { AccordionBase, AccordionTabBase } from './AccordionBase';
 
 export const AccordionTab = () => {};
 
@@ -47,7 +47,7 @@ export const Accordion = React.forwardRef((inProps, ref) => {
             }
         };
 
-        return mergeProps(ptm(`accordion.${key}`, { tab: tabMetaData }), ptm(`accordiontab.${key}`, { accordiontab: tabMetaData }), ptm(`accordiontab.${key}`, tabMetaData), ptmo(getTabProp(tab, 'pt'), key, tabMetaData));
+        return mergeProps(ptm(`accordion.${key}`, { tab: tabMetaData }), ptm(`tab.${key}`, { accordiontab: tabMetaData }), ptm(`tab.${key}`, tabMetaData), ptmo(getTabProp(tab, 'pt'), key, tabMetaData));
     };
 
     const getTabProp = (tab, name) => AccordionTabBase.getCProp(tab, name);
@@ -201,7 +201,7 @@ export const Accordion = React.forwardRef((inProps, ref) => {
         const tabIndex = getTabProp(tab, 'disabled') ? -1 : getTabProp(tab, 'tabIndex');
         const headerTitleProps = mergeProps(
             {
-                className: cx('accordiontab.headertitle')
+                className: cx('tab.headertitle')
             },
             getTabPT(tab, 'headertitle', index)
         );
@@ -218,7 +218,7 @@ export const Accordion = React.forwardRef((inProps, ref) => {
         const toggleIcon = IconUtils.getJSXIcon(icon, { ...headerIconProps }, { props, selected });
         const headerProps = mergeProps(
             {
-                className: classNames(getTabProp(tab, 'headerClassName'), getTabProp(tab, 'className'), cx('accordiontab.header', { selected, getTabProp, tab })),
+                className: classNames(getTabProp(tab, 'headerClassName'), getTabProp(tab, 'className'), cx('tab.header', { selected, getTabProp, tab })),
                 style,
                 'data-p-highlight': selected,
                 'data-p-disabled': getTabProp(tab, 'disabled')
@@ -261,7 +261,7 @@ export const Accordion = React.forwardRef((inProps, ref) => {
             {
                 id: contentId,
                 ref: contentRef,
-                className: classNames(getTabProp(tab, 'contentClassName'), getTabProp(tab, 'className'), cx('accordiontab.toggleablecontent')),
+                className: classNames(getTabProp(tab, 'contentClassName'), getTabProp(tab, 'className'), cx('tab.toggleablecontent')),
                 style,
                 role: 'region',
                 'aria-labelledby': ariaLabelledby
@@ -271,14 +271,14 @@ export const Accordion = React.forwardRef((inProps, ref) => {
 
         const contentProps = mergeProps(
             {
-                className: cx('accordiontab.content')
+                className: cx('tab.content')
             },
             getTabPT(tab, 'content', index)
         );
 
         const transitionProps = mergeProps(
             {
-                classNames: cx('accordiontab.transition'),
+                classNames: cx('tab.transition'),
                 timeout: { enter: 1000, exit: 450 },
                 in: selected,
                 unmountOnExit: true,
@@ -306,7 +306,7 @@ export const Accordion = React.forwardRef((inProps, ref) => {
             const rootProps = mergeProps(
                 {
                     key,
-                    className: cx('accordiontab.root', { selected })
+                    className: cx('tab.root', { selected })
                 },
                 AccordionTabBase.getCOtherProps(tab),
                 getTabPT(tab, 'root', index)

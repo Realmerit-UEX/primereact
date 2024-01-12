@@ -85,6 +85,8 @@ export const TreeTableScrollableView = React.memo((props) => {
         const scrollBarWidth = DomHandler.calculateScrollbarWidth(el);
 
         if (!props.frozen) {
+            const scrollBarWidth = DomHandler.calculateScrollbarWidth();
+
             scrollHeaderBoxRef.current.style.marginRight = scrollBarWidth + 'px';
 
             if (scrollFooterBoxRef.current) {

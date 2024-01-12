@@ -1222,7 +1222,7 @@ interface DataTableBaseProps<TValue extends DataTableValueArray> extends Omit<Re
      * DOM element instance where the overlay panel should be mounted. Valid values are any DOM Element and 'self'. The self value is used to render a component where it is located.
      * @defaultValue document.body
      */
-    paginatorDropdownAppendTo?: 'self' | HTMLElement | null | undefined | (() => HTMLElement);
+    paginatorDropdownAppendTo?: 'self' | HTMLElement | undefined | null | (() => HTMLElement);
     /**
      * Content for the left side of the paginator.
      */
@@ -1543,7 +1543,7 @@ interface DataTableBaseProps<TValue extends DataTableValueArray> extends Omit<Re
      */
     onRowEditChange?(event: DataTableRowEditEvent): void;
     /**
-     * Callback to invoke when any change (edit start, edit cancel, edit save) is made to a row. This event fires after any preceding event.
+     * Callback to invoke when row edit is completed.
      * @param {DataTableRowEditCompleteEvent} event - Custom row edit complete event.
      */
     onRowEditComplete?(event: DataTableRowEditCompleteEvent): void;

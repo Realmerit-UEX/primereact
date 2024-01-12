@@ -3,6 +3,7 @@ import PrimeReact, { FilterService, PrimeReactContext } from '../api/Api';
 import { useHandleStyle } from '../componentbase/ComponentBase';
 import { useMountEffect, useOverlayListener, useUnmountEffect, useUpdateEffect } from '../hooks/Hooks';
 import { ChevronDownIcon } from '../icons/chevrondown';
+import { SpinnerIcon } from '../icons/spinner';
 import { TimesIcon } from '../icons/times';
 import { OverlayService } from '../overlayservice/OverlayService';
 import { Tooltip } from '../tooltip/Tooltip';
@@ -78,11 +79,11 @@ export const Dropdown = React.memo(
         };
 
         const isClearClicked = (event) => {
-            return DomHandler.hasClass(event.target, 'p-dropdown-clear-icon') || DomHandler.hasClass(event.target, 'p-dropdown-filter-clear-icon');
+            return DomHandler.isAttributeEquals(event.target, 'data-pc-section', 'clearicon') || DomHandler.isAttributeEquals(event.target.parentElement || event.target, 'data-pc-section', 'filterclearicon');
         };
 
         const onClick = (event) => {
-            if (props.disabled) {
+            if (props.disabled || props.loading) {
                 return;
             }
 
@@ -93,7 +94,7 @@ export const Dropdown = React.memo(
                 return;
             }
 
-            if (DomHandler.hasClass(event.target, 'p-dropdown-clear-icon') || event.target.tagName === 'INPUT') {
+            if (isClearClicked(event) || event.target.tagName === 'INPUT') {
                 return;
             } else if (!overlayRef.current || !(overlayRef.current && overlayRef.current.contains(event.target))) {
                 DomHandler.focus(focusInputRef.current);
@@ -551,6 +552,10 @@ export const Dropdown = React.memo(
                 });
             }
 
+            if (props.filter) {
+                resetFilter();
+            }
+
             updateEditableLabel();
         };
 
@@ -654,7 +659,7 @@ export const Dropdown = React.memo(
         };
 
         const scrollInView = () => {
-            const highlightItem = DomHandler.findSingle(overlayRef.current, 'li.p-highlight');
+            const highlightItem = DomHandler.findSingle(overlayRef.current, 'li[data-p-highlight="true"]');
 
             if (highlightItem && highlightItem.scrollIntoView) {
                 highlightItem.scrollIntoView({ block: 'nearest', inline: 'nearest' });
@@ -867,8 +872,8 @@ export const Dropdown = React.memo(
                         onKeyDown: onEditableInputKeyDown,
                         onCompositionStart: onInputCompositionStart,
                         onCompositionEnd: onInputCompositionEnd,
-                        'aria-haspopup': 'listbox',
                         tabIndex: props.tabIndex || 0,
+                        'aria-haspopup': 'listbox',
                         ...ariaProps
                     },
                     ptm('input')
@@ -907,6 +912,31 @@ export const Dropdown = React.memo(
             return null;
         };
 
+        const createLoadingIcon = () => {
+            const loadingIconProps = mergeProps(
+                {
+                    className: cx('loadingIcon'),
+                    'data-pr-overlay-visible': overlayVisibleState
+                },
+                ptm('loadingIcon')
+            );
+            const icon = props.loadingIcon || <SpinnerIcon spin />;
+            const loadingIcon = IconUtils.getJSXIcon(icon, { ...loadingIconProps }, { props });
+            const ariaLabel = props.placeholder || props.ariaLabel;
+            const loadingButtonProps = mergeProps(
+                {
+                    className: cx('trigger'),
+                    role: 'button',
+                    'aria-haspopup': 'listbox',
+                    'aria-expanded': overlayVisibleState,
+                    'aria-label': ariaLabel
+                },
+                ptm('trigger')
+            );
+
+            return <div {...loadingButtonProps}>{loadingIcon}</div>;
+        };
+
         const createDropdownIcon = () => {
             const dropdownIconProps = mergeProps(
                 {
@@ -942,7 +972,7 @@ export const Dropdown = React.memo(
         const hiddenSelect = createHiddenSelect();
         const keyboardHelper = createKeyboardHelper();
         const labelElement = createLabel();
-        const dropdownIcon = createDropdownIcon();
+        const dropdownIcon = props.loading ? createLoadingIcon() : createDropdownIcon();
         const clearIcon = createClearIcon();
         const rootProps = mergeProps(
             {

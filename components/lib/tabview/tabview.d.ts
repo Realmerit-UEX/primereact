@@ -85,38 +85,6 @@ export interface TabPanelPassThroughMethodOptions {
 }
 
 /**
- * Custom passthrough(pt) options.
- * @see {@link TabPanelProps.pt}
- */
-export interface TabPanelPassThroughOptions {
-    /**
-     * Uses to pass attributes to the root's DOM element.
-     */
-    root?: TabPanelPassThroughType<React.HTMLAttributes<HTMLDivElement>>;
-    /**
-     * Uses to pass attributes to the header's DOM element.
-     */
-    header?: TabPanelPassThroughType<React.HTMLAttributes<HTMLLIElement>>;
-    /**
-     * Uses to pass attributes to the header action's DOM element.
-     */
-    headerAction?: TabPanelPassThroughType<React.HTMLAttributes<HTMLAnchorElement>>;
-    /**
-     * Uses to pass attributes to the title's DOM element.
-     */
-    headerTitle?: TabPanelPassThroughType<React.HTMLAttributes<HTMLSpanElement>>;
-    /**
-     * Uses to pass attributes to the list's DOM element.
-     */
-    content?: TabPanelPassThroughType<React.HTMLAttributes<HTMLDivElement>>;
-    /**
-     * Used to manage all lifecycle hooks
-     * @see {@link ComponentHooks}
-     */
-    hooks?: ComponentHooks;
-}
-
-/**
  * Defines current inline context in Tabview component.
  */
 export interface TabViewContext {
@@ -148,6 +116,38 @@ export interface TabViewContext {
      * @defaultValue false
      */
     disabled: boolean;
+}
+
+/**
+ * Custom passthrough(pt) options.
+ * @see {@link TabPanelProps.pt}
+ */
+export interface TabPanelPassThroughOptions {
+    /**
+     * Uses to pass attributes to the root's DOM element.
+     */
+    root?: TabPanelPassThroughType<React.HTMLAttributes<HTMLDivElement>>;
+    /**
+     * Uses to pass attributes to the header's DOM element.
+     */
+    header?: TabPanelPassThroughType<React.HTMLAttributes<HTMLLIElement>>;
+    /**
+     * Uses to pass attributes to the header action's DOM element.
+     */
+    headerAction?: TabPanelPassThroughType<React.HTMLAttributes<HTMLAnchorElement>>;
+    /**
+     * Uses to pass attributes to the title's DOM element.
+     */
+    headerTitle?: TabPanelPassThroughType<React.HTMLAttributes<HTMLSpanElement>>;
+    /**
+     * Uses to pass attributes to the list's DOM element.
+     */
+    content?: TabPanelPassThroughType<React.HTMLAttributes<HTMLDivElement>>;
+    /**
+     * Used to manage all lifecycle hooks
+     * @see {@link ComponentHooks}
+     */
+    hooks?: ComponentHooks;
 }
 
 /**

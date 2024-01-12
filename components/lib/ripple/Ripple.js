@@ -12,14 +12,16 @@ export const Ripple = React.memo(
         const context = React.useContext(PrimeReactContext);
         const props = RippleBase.getProps(inProps, context);
         const isRippleActive = (context && context.ripple) || PrimeReact.ripple;
+
         const metaData = {
             props
         };
+
+        useStyle(RippleBase.css.styles, { name: 'ripple', manual: !isRippleActive });
+
         const { ptm, cx } = RippleBase.setMetaData({
             ...metaData
         });
-
-        useStyle(RippleBase.css.styles, { name: 'ripple', manual: !isRippleActive });
 
         const getTarget = () => {
             return inkRef.current && inkRef.current.parentElement;

@@ -944,7 +944,6 @@ export const TreeTable = React.forwardRef((inProps, ref) => {
                 selectionKeys={props.selectionKeys}
                 selectionMode={props.selectionMode}
                 togglerTemplate={props.togglerTemplate}
-                tableProps={props}
                 value={value}
             />
         );

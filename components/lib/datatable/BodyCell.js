@@ -178,7 +178,7 @@ export const BodyCell = React.memo((props) => {
 
             if (valid) {
                 if (submit && onCellEditComplete) {
-                    onCellEditComplete(params);
+                    setTimeout(() => onCellEditComplete(params));
                 }
 
                 closeCell(event);
@@ -571,8 +571,8 @@ export const BodyCell = React.memo((props) => {
         const align = getColumnProp('align');
         const value = resolveFieldData();
         const columnBodyOptions = { column: props.column, field: field, rowIndex: props.rowIndex, frozenRow: props.frozenRow, props: props.tableProps };
-        const expander = ObjectUtils.getPropValue(getColumnProp('expander'), props.rowData, columnBodyOptions);
         const rowEditor = ObjectUtils.getPropValue(getColumnProp('rowEditor'), props.rowData, columnBodyOptions);
+        const expander = ObjectUtils.getPropValue(getColumnProp('expander'), props.rowData, columnBodyOptions);
         const cellClassName = ObjectUtils.getPropValue(props.cellClassName, value, columnBodyOptions);
         const bodyClassName = ObjectUtils.getPropValue(getColumnProp('bodyClassName'), props.rowData, columnBodyOptions);
         const style = getStyle();

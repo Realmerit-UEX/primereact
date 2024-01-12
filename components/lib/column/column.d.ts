@@ -512,7 +512,7 @@ interface ColumnEditorOptions {
     props: any;
     /**
      * Callback function triggered on editor change.
-     * @param {*} value - the new value of the cell
+     * @param {*} value - Browser event
      */
     editorCallback?(value: any): void;
 }
@@ -1049,7 +1049,7 @@ export interface ColumnProps {
      * Displays icons to edit row.
      * @defaultValue false
      */
-    rowEditor?: boolean | undefined;
+    rowEditor?: boolean | ((data: any, options: ColumnBodyOptions) => boolean);
     /**
      * Whether this column displays an icon to reorder the rows.
      * @defaultValue false

@@ -745,6 +745,13 @@
                             "description": "This option allows components with overlays like dropdowns or popups to be mounted into either the component or any DOM element, such as document body and self."
                         },
                         {
+                            "name": "styleContainer",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "StyleContainerType",
+                            "description": "This option allows  `useStyle`  to insert dynamic CSS styles into a specific container. This is useful when styles need to be scoped such as in a Shadow DOM."
+                        },
+                        {
                             "name": "autoZIndex",
                             "optional": true,
                             "readonly": false,
@@ -841,6 +848,13 @@
                             "readonly": false,
                             "type": "Dispatch<SetStateAction<AppendToType>>",
                             "description": "Sets the \"appendTo\" state of the context."
+                        },
+                        {
+                            "name": "setStyleContainer",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "Dispatch<SetStateAction<StyleContainerType>>",
+                            "description": "Sets the \"styleContainer\" state of the context."
                         },
                         {
                             "name": "setAutoZIndex",
@@ -1813,13 +1827,6 @@
                             "description": "Close"
                         },
                         {
-                            "name": "completed",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Completed"
-                        },
-                        {
                             "name": "pending",
                             "optional": true,
                             "readonly": false,
@@ -1869,137 +1876,11 @@
                             "description": "['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']"
                         },
                         {
-                            "name": "chooseYear",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Choose Year"
-                        },
-                        {
-                            "name": "chooseMonth",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Choose Month"
-                        },
-                        {
-                            "name": "chooseDate",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Choose Date"
-                        },
-                        {
-                            "name": "prevDecade",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Previous Decade"
-                        },
-                        {
-                            "name": "nextDecade",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": ""
-                        },
-                        {
-                            "name": "prevYear",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Previous Year"
-                        },
-                        {
-                            "name": "nextYear",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Next Year"
-                        },
-                        {
-                            "name": "prevMonth",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Previous Month"
-                        },
-                        {
-                            "name": "nextMonth",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Next Month"
-                        },
-                        {
-                            "name": "prevHour",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Previous Hour"
-                        },
-                        {
-                            "name": "nextHour",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Next Hour"
-                        },
-                        {
-                            "name": "prevMinute",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Previous Minute"
-                        },
-                        {
-                            "name": "nextMinute",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Next Minute"
-                        },
-                        {
-                            "name": "prevSecond",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Previous Second"
-                        },
-                        {
-                            "name": "nextSecond",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Next Second"
-                        },
-                        {
-                            "name": "am",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "PM"
-                        },
-                        {
-                            "name": "pm",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "AM"
-                        },
-                        {
                             "name": "today",
                             "optional": true,
                             "readonly": false,
                             "type": "string",
                             "description": "Today"
-                        },
-                        {
-                            "name": "now",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "Now"
                         },
                         {
                             "name": "weekHeader",
@@ -2055,48 +1936,21 @@
                             "optional": true,
                             "readonly": false,
                             "type": "string",
-                            "description": "No results found"
-                        },
-                        {
-                            "name": "searchMessage",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "{0} results are available"
-                        },
-                        {
-                            "name": "selectionMessage",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "{0} items selected"
-                        },
-                        {
-                            "name": "emptySelectionMessage",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "No selected item"
-                        },
-                        {
-                            "name": "emptySearchMessage",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "string",
-                            "description": "No results found"
+                            "description": "No available options"
                         },
                         {
                             "name": "emptyMessage",
                             "optional": true,
                             "readonly": false,
                             "type": "string",
-                            "description": "No available options"
+                            "description": "No results found"
                         },
                         {
                             "name": "aria",
                             "optional": true,
                             "readonly": false,
-                            "type": "Object"
+                            "type": "Object",
+                            "description": "True"
                         }
                     ],
                     "callbacks": []
@@ -3533,6 +3387,9 @@
                 },
                 "AppendToType": {
                     "values": "\"self\" | HTMLElement | undefined | null | Function"
+                },
+                "StyleContainerType": {
+                    "values": "ShadowRoot | HTMLElement | undefined | null"
                 }
             }
         }
@@ -5994,14 +5851,6 @@
                             "description": "Icon of the calendar button."
                         },
                         {
-                            "name": "iconDisplay",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "\"input\" | \"button\"",
-                            "default": "'button'",
-                            "description": "Icon position of the component. This only applies if the showIcon option is set to true."
-                        },
-                        {
                             "name": "iconPos",
                             "optional": true,
                             "readonly": false,
@@ -7966,13 +7815,6 @@
                             "description": "When enabled, displays a button with icon next to input."
                         },
                         {
-                            "name": "iconDisplay",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "\"input\" | \"button\"",
-                            "description": "Icon position of the component. This only applies if the showIcon option is set to true."
-                        },
-                        {
                             "name": "showMillisec",
                             "optional": true,
                             "readonly": false,
@@ -9635,6 +9477,13 @@
                             "description": "This option allows components with overlays like dropdowns or popups to be mounted into either the component or any DOM element, such as document body and self."
                         },
                         {
+                            "name": "styleContainer",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "StyleContainerType",
+                            "description": "This option allows  `useStyle`  to insert dynamic CSS styles into a specific container. This is useful when styles need to be scoped such as in a Shadow DOM."
+                        },
+                        {
                             "name": "autoZIndex",
                             "optional": true,
                             "readonly": false,
@@ -9731,6 +9580,13 @@
                             "readonly": false,
                             "type": "Dispatch<SetStateAction<AppendToType>>",
                             "description": "Sets the \"appendTo\" state of the context."
+                        },
+                        {
+                            "name": "setStyleContainer",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "Dispatch<SetStateAction<StyleContainerType>>",
+                            "description": "Sets the \"styleContainer\" state of the context."
                         },
                         {
                             "name": "setAutoZIndex",
@@ -9913,18 +9769,18 @@
                             "description": "Uses to pass attributes to the list's DOM element."
                         },
                         {
-                            "name": "sublist",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "CascadeSelectPassThroughType<HTMLAttributes<HTMLUListElement>>",
-                            "description": "Uses to pass attributes to the sub-list's DOM element."
-                        },
-                        {
                             "name": "item",
                             "optional": true,
                             "readonly": false,
                             "type": "CascadeSelectPassThroughType<HTMLAttributes<HTMLLIElement>>",
                             "description": "Uses to pass attributes to the item's DOM element."
+                        },
+                        {
+                            "name": "sublist",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "CascadeSelectPassThroughType<HTMLAttributes<HTMLUListElement>>",
+                            "description": "Uses to pass attributes to the sub-list's DOM element."
                         },
                         {
                             "name": "content",
@@ -10808,7 +10664,7 @@
                                 }
                             ],
                             "returnType": "void",
-                            "description": "Callback to invoke when a chip is removed."
+                            "description": "Callback to invoke when a chip is removed.\n*"
                         }
                     ]
                 }
@@ -12318,7 +12174,7 @@
                             "name": "rowEditor",
                             "optional": true,
                             "readonly": false,
-                            "type": "boolean",
+                            "type": "boolean | Function",
                             "default": "false",
                             "description": "Displays icons to edit row."
                         },
@@ -13770,7 +13626,7 @@
                                     "name": "value",
                                     "optional": false,
                                     "type": "any",
-                                    "description": "the new value of the cell"
+                                    "description": "Browser event"
                                 }
                             ],
                             "returnType": "void",
@@ -14441,6 +14297,14 @@
                             "description": "Specifies if pressing escape key should hide the dialog."
                         },
                         {
+                            "name": "content",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "ReactNode | Function",
+                            "default": "",
+                            "description": "Specifies a custom content for the dialog. For more complex markup, use the \"content\" slot instead."
+                        },
+                        {
                             "name": "contentClassName",
                             "optional": true,
                             "readonly": false,
@@ -14762,19 +14626,6 @@
                             "parameters": [],
                             "returnType": "void",
                             "description": "Callback to execute when action is confirmed."
-                        },
-                        {
-                            "name": "content",
-                            "parameters": [
-                                {
-                                    "name": "props",
-                                    "optional": false,
-                                    "type": "ContentProps",
-                                    "description": "The values of dialog."
-                                }
-                            ],
-                            "returnType": "ReactNode",
-                            "description": "Specifies a custom content for the dialog. For more complex markup, use the \"content\" slot instead."
                         },
                         {
                             "name": "onClick",
@@ -15274,6 +15125,14 @@
                             "description": "Specifies if pressing escape key should hide the popup."
                         },
                         {
+                            "name": "content",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "ReactNode | Function",
+                            "default": "",
+                            "description": "Specifies a custom content for the dialog. For more complex markup, use the \"content\" slot instead."
+                        },
+                        {
                             "name": "defaultFocus",
                             "optional": true,
                             "readonly": false,
@@ -15411,19 +15270,6 @@
                             "parameters": [],
                             "returnType": "void",
                             "description": "Callback to execute when action is confirmed."
-                        },
-                        {
-                            "name": "content",
-                            "parameters": [
-                                {
-                                    "name": "props",
-                                    "optional": false,
-                                    "type": "ContentProps",
-                                    "description": "The values of dialog."
-                                }
-                            ],
-                            "returnType": "ReactNode",
-                            "description": "Specifies a custom content for the dialog. For more complex markup, use the \"content\" slot instead."
                         },
                         {
                             "name": "onHide",
@@ -15671,26 +15517,30 @@
                             "name": "acceptBtnRef",
                             "optional": false,
                             "readonly": false,
-                            "type": "RefObject<HTMLButtonElement>"
+                            "type": "RefObject<HTMLButtonElement>",
+                            "description": "Reference for the accept button. Used to focus the element and execute the action."
                         },
                         {
                             "name": "rejectBtnRef",
                             "optional": false,
                             "readonly": false,
-                            "type": "RefObject<HTMLButtonElement>"
+                            "type": "RefObject<HTMLButtonElement>",
+                            "description": "Reference for the reject button. Used to focus the element and execute the action."
                         },
                         {
                             "name": "message",
                             "optional": false,
                             "readonly": false,
-                            "type": "ReactNode"
+                            "type": "ReactNode",
+                            "description": "Message value of confirm popup."
                         }
                     ],
                     "callbacks": [
                         {
                             "name": "hide",
                             "parameters": [],
-                            "returnType": "void"
+                            "returnType": "void",
+                            "description": "Hide action of confirm popup."
                         }
                     ]
                 },
@@ -15777,6 +15627,22 @@
                             "type": "null | HTMLElement | \"self\" | Function",
                             "default": "document.body",
                             "description": "DOM element instance where the overlay panel should be mounted. Valid values are any DOM Element and 'self'. The self value is used to render a component where it is located."
+                        },
+                        {
+                            "name": "ariaLabel",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "string",
+                            "default": "",
+                            "description": "Used to define a string that labels the component."
+                        },
+                        {
+                            "name": "ariaLabelledBy",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "string",
+                            "default": "",
+                            "description": "Establishes relationships between the component and label(s) where its value should be one or more element IDs."
                         },
                         {
                             "name": "autoZIndex",
@@ -16002,9 +15868,43 @@
                             "readonly": false,
                             "type": "ContextMenuPassThroughTransitionType",
                             "description": "Used to control React Transition API."
+                        },
+                        {
+                            "name": "tabIndex",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "number",
+                            "description": "Index of the element in tabbing order."
                         }
                     ],
-                    "callbacks": []
+                    "callbacks": [
+                        {
+                            "name": "onFocus",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when ContextMenu receives focus."
+                        },
+                        {
+                            "name": "onBlur",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when ContextMenu loses focus."
+                        }
+                    ]
                 },
                 "ContextMenuState": {
                     "description": "Defines current inline state in ContextMenu component.",
@@ -17633,7 +17533,7 @@
                                 }
                             ],
                             "returnType": "void",
-                            "description": "Callback to invoke when any change (edit start, edit cancel, edit save) is made to a row. This event fires after any preceding event."
+                            "description": "Callback to invoke when row edit is completed."
                         },
                         {
                             "name": "onRowEditInit",
@@ -20576,7 +20476,7 @@
                                 }
                             ],
                             "returnType": "void",
-                            "description": "Callback to invoke when any change (edit start, edit cancel, edit save) is made to a row. This event fires after any preceding event."
+                            "description": "Callback to invoke when row edit is completed."
                         },
                         {
                             "name": "onRowEditInit",
@@ -21780,6 +21680,14 @@
                             "description": "Specifies if pressing escape key should hide the dialog."
                         },
                         {
+                            "name": "content",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "ReactNode | Function",
+                            "default": "",
+                            "description": "Specifies a custom content for the dialog. For more complex markup, use the \"content\" slot instead."
+                        },
+                        {
                             "name": "contentClassName",
                             "optional": true,
                             "readonly": false,
@@ -22040,19 +21948,6 @@
                 "callbacks": {
                     "description": "Defines callbacks that determine the behavior of the component based on a given condition or report the actions that the component takes.",
                     "values": [
-                        {
-                            "name": "content",
-                            "parameters": [
-                                {
-                                    "name": "props",
-                                    "optional": false,
-                                    "type": "ContentProps",
-                                    "description": "The values of dialog."
-                                }
-                            ],
-                            "returnType": "ReactNode",
-                            "description": "Specifies a custom content for the dialog. For more complex markup, use the \"content\" slot instead."
-                        },
                         {
                             "name": "onClick",
                             "parameters": [
@@ -22684,6 +22579,14 @@
                             "description": "Used to configure passthrough(pt) options of the component."
                         },
                         {
+                            "name": "tabIndex",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "number",
+                            "default": "",
+                            "description": "Index of the element in tabbing order."
+                        },
+                        {
                             "name": "unstyled",
                             "optional": true,
                             "readonly": false,
@@ -22695,7 +22598,34 @@
                 },
                 "callbacks": {
                     "description": "Defines callbacks that determine the behavior of the component based on a given condition or report the actions that the component takes.",
-                    "values": []
+                    "values": [
+                        {
+                            "name": "onBlur",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when dock loses focus."
+                        },
+                        {
+                            "name": "onFocus",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when dock receives focus."
+                        }
+                    ]
                 }
             }
         },
@@ -30376,8 +30306,8 @@
                             "optional": true,
                             "readonly": false,
                             "type": "RoundingMode",
-                            "default": "",
-                            "description": "How decimals should be rounded.\nThe default value is  `\"halfExpand\"` , [further information](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#roundingmode)."
+                            "default": "halfExpand",
+                            "description": "How decimals should be rounded. [further information](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#roundingmode)."
                         },
                         {
                             "name": "showButtons",
@@ -32551,6 +32481,14 @@
                             "description": "Icon of the submenu."
                         },
                         {
+                            "name": "tabIndex",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "number",
+                            "default": "",
+                            "description": "Index of the element in tabbing order."
+                        },
+                        {
                             "name": "unstyled",
                             "optional": true,
                             "readonly": false,
@@ -32562,7 +32500,34 @@
                 },
                 "callbacks": {
                     "description": "Defines callbacks that determine the behavior of the component based on a given condition or report the actions that the component takes.",
-                    "values": []
+                    "values": [
+                        {
+                            "name": "onBlur",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when menu loses focus."
+                        },
+                        {
+                            "name": "onFocus",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when menu receives focus."
+                        }
+                    ]
                 }
             }
         },
@@ -33287,6 +33252,13 @@
                             "readonly": false,
                             "type": "any",
                             "description": "Current trigger state."
+                        },
+                        {
+                            "name": "selected",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "boolean",
+                            "description": "For item, this is the state of the item."
                         }
                     ],
                     "callbacks": []
@@ -33482,6 +33454,14 @@
                             "description": "Used to configure passthrough(pt) options of the component."
                         },
                         {
+                            "name": "tabIndex",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "number",
+                            "default": "",
+                            "description": "Index of the element in tabbing order."
+                        },
+                        {
                             "name": "transitionOptions",
                             "optional": true,
                             "readonly": false,
@@ -33502,6 +33482,32 @@
                 "callbacks": {
                     "description": "Defines callbacks that determine the behavior of the component based on a given condition or report the actions that the component takes.",
                     "values": [
+                        {
+                            "name": "onBlur",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when menu loses focus."
+                        },
+                        {
+                            "name": "onFocus",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when menu receives focus."
+                        },
                         {
                             "name": "onHide",
                             "parameters": [
@@ -33691,6 +33697,22 @@
                     "description": "Defines valid properties in Menubar component. In addition to these, all properties of HTMLDivElement can be used in this component.",
                     "values": [
                         {
+                            "name": "ariaLabel",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "string",
+                            "default": "",
+                            "description": "Used to define a string that labels the component."
+                        },
+                        {
+                            "name": "ariaLabelledBy",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "string",
+                            "default": "",
+                            "description": "Establishes relationships between the component and label(s) where its value should be one or more element IDs."
+                        },
+                        {
                             "name": "children",
                             "optional": true,
                             "readonly": true,
@@ -33766,7 +33788,34 @@
                 },
                 "callbacks": {
                     "description": "Defines callbacks that determine the behavior of the component based on a given condition or report the actions that the component takes.",
-                    "values": []
+                    "values": [
+                        {
+                            "name": "onBlur",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when menu loses focus."
+                        },
+                        {
+                            "name": "onFocus",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when menu receives focus."
+                        }
+                    ]
                 }
             }
         },
@@ -35567,18 +35616,18 @@
                             "description": "Uses to pass attributes to the header's DOM element."
                         },
                         {
-                            "name": "headerCheckboxContainer",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "MultiSelectPassThroughType<HTMLAttributes<HTMLDivElement>>",
-                            "description": "Uses to pass attributes to the header checkbox's container DOM element."
-                        },
-                        {
                             "name": "headerCheckbox",
                             "optional": true,
                             "readonly": false,
                             "type": "CheckboxPassThroughOptions",
                             "description": "Uses to pass attributes to the header checkbox's DOM element."
+                        },
+                        {
+                            "name": "headerCheckboxContainer",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "MultiSelectPassThroughType<HTMLAttributes<HTMLDivElement>>",
+                            "description": "Uses to pass attributes to the header checkbox's container DOM element."
                         },
                         {
                             "name": "headerCheckboxIcon",
@@ -36426,7 +36475,7 @@
                         },
                         {
                             "name": "dataKey",
-                            "optional": true,
+                            "optional": false,
                             "readonly": false,
                             "type": "string",
                             "default": "",
@@ -36595,6 +36644,19 @@
                             "description": "The template of each item"
                         },
                         {
+                            "name": "onBlur",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when menu loses focus."
+                        },
+                        {
                             "name": "onChange",
                             "parameters": [
                                 {
@@ -36606,6 +36668,19 @@
                             ],
                             "returnType": "void",
                             "description": "Callback to invoke to when a mouse button is pressed."
+                        },
+                        {
+                            "name": "onFocus",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when menu receives focus."
                         }
                     ]
                 }
@@ -38477,9 +38552,9 @@
                         },
                         {
                             "name": "appendTo",
-                            "optional": false,
+                            "optional": true,
                             "readonly": false,
-                            "type": "undefined | null | HTMLElement | \"self\" | Function",
+                            "type": "null | HTMLElement | \"self\" | Function",
                             "description": "DOM element instance where the overlay panel should be mounted. Valid values are any DOM Element and \"self\". The \"self\" value is used to render a component where it is located."
                         },
                         {
@@ -39361,7 +39436,34 @@
                 },
                 "callbacks": {
                     "description": "Defines callbacks that determine the behavior of the component based on a given condition or report the actions that the component takes.",
-                    "values": []
+                    "values": [
+                        {
+                            "name": "onHide",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "PanelMenuHeaderItemClickEvent",
+                                    "description": "custom event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when a panel gets collapsed."
+                        },
+                        {
+                            "name": "onShow",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "PanelMenuHeaderItemClickEvent",
+                                    "description": "custom event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when a panel gets expanded."
+                        }
+                    ]
                 }
             }
         },
@@ -39571,6 +39673,24 @@
                             "readonly": false,
                             "type": "boolean",
                             "description": "Current active state of menuitem as a boolean."
+                        }
+                    ],
+                    "callbacks": []
+                },
+                "PanelMenuHeaderItemClickEvent": {
+                    "relatedProp": "",
+                    "props": [
+                        {
+                            "name": "originalEvent",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "MouseEvent<HTMLElement, MouseEvent>"
+                        },
+                        {
+                            "name": "item",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "MenuItem"
                         }
                     ],
                     "callbacks": []
@@ -40205,7 +40325,7 @@
                         },
                         {
                             "name": "dataKey",
-                            "optional": true,
+                            "optional": false,
                             "readonly": false,
                             "type": "string",
                             "default": "",
@@ -40553,6 +40673,19 @@
                     "description": "Defines callbacks that determine the behavior of the component based on a given condition or report the actions that the component takes.",
                     "values": [
                         {
+                            "name": "onBlur",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when menu loses focus."
+                        },
+                        {
                             "name": "onChange",
                             "parameters": [
                                 {
@@ -40564,6 +40697,19 @@
                             ],
                             "returnType": "void",
                             "description": "Callback to invoke when items are moved from source to target."
+                        },
+                        {
+                            "name": "onFocus",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when menu receives focus."
                         },
                         {
                             "name": "onMoveAllToSource",
@@ -43031,6 +43177,14 @@
                             "description": ""
                         },
                         {
+                            "name": "content",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "ReactNode | Function",
+                            "default": "",
+                            "description": "Specifies a custom content for the sidebar. For more complex markup, use the \"content\" slot instead."
+                        },
+                        {
                             "name": "dismissable",
                             "optional": true,
                             "readonly": false,
@@ -43204,14 +43358,14 @@
                             "description": "Uses to pass attributes to the header's DOM element."
                         },
                         {
-                            "name": "closeButton",
+                            "name": "closeButtonIcon",
                             "optional": true,
                             "readonly": false,
-                            "type": "SidebarPassThroughType<HTMLAttributes<HTMLButtonElement>>",
+                            "type": "SidebarPassThroughType<HTMLAttributes<HTMLSpanElement>>",
                             "description": "Uses to pass attributes to the close button's DOM element."
                         },
                         {
-                            "name": "closeButtonIcon",
+                            "name": "closeIcon",
                             "optional": true,
                             "readonly": false,
                             "type": "SidebarPassThroughType<HTMLAttributes<HTMLSpanElement>>",
@@ -43268,6 +43422,34 @@
                         }
                     ],
                     "callbacks": []
+                },
+                "ContentProps": {
+                    "description": "Defines current content values and refs for headless development.",
+                    "relatedProp": "content",
+                    "props": [
+                        {
+                            "name": "closeIconRef",
+                            "optional": false,
+                            "readonly": false,
+                            "type": "RefObject<HTMLElement | HTMLButtonElement>",
+                            "description": "Allows you to specify the close button of the sidebar."
+                        }
+                    ],
+                    "callbacks": [
+                        {
+                            "name": "hide",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Used to get the event of the element."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback for hiding the sidebar."
+                        }
+                    ]
                 }
             }
         },
@@ -44911,18 +45093,18 @@
                             "description": "Uses to pass attributes to the root's DOM element."
                         },
                         {
-                            "name": "button",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "ButtonPassThroughOptions",
-                            "description": "Uses to pass attributes to the Button component."
-                        },
-                        {
                             "name": "icon",
                             "optional": true,
                             "readonly": false,
                             "type": "SplitButtonPassThroughType<SVGProps<SVGSVGElement> | HTMLAttributes<SVGSVGElement | HTMLSpanElement>>",
                             "description": "Uses to pass attributes to the icon's DOM element."
+                        },
+                        {
+                            "name": "button",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "ButtonPassThroughOptions",
+                            "description": "Uses to pass attributes to the Button component."
                         },
                         {
                             "name": "menuButton",
@@ -45098,6 +45280,14 @@
                             "type": "number",
                             "default": "",
                             "description": "Size of the element relative to 100%."
+                        },
+                        {
+                            "name": "step",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "number",
+                            "default": "5",
+                            "description": "Step factor to increment/decrement the size of the panels while pressing the arrow keys."
                         },
                         {
                             "name": "style",
@@ -46468,55 +46658,6 @@
                     ],
                     "callbacks": []
                 },
-                "TabPanelPassThroughOptions": {
-                    "description": "Custom passthrough(pt) options.",
-                    "relatedProp": "pt",
-                    "props": [
-                        {
-                            "name": "root",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "TabPanelPassThroughType<HTMLAttributes<HTMLDivElement>>",
-                            "description": "Uses to pass attributes to the root's DOM element."
-                        },
-                        {
-                            "name": "header",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "TabPanelPassThroughType<HTMLAttributes<HTMLLIElement>>",
-                            "description": "Uses to pass attributes to the header's DOM element."
-                        },
-                        {
-                            "name": "headerAction",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "TabPanelPassThroughType<HTMLAttributes<HTMLAnchorElement>>",
-                            "description": "Uses to pass attributes to the header action's DOM element."
-                        },
-                        {
-                            "name": "headerTitle",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "TabPanelPassThroughType<HTMLAttributes<HTMLSpanElement>>",
-                            "description": "Uses to pass attributes to the title's DOM element."
-                        },
-                        {
-                            "name": "content",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "TabPanelPassThroughType<HTMLAttributes<HTMLDivElement>>",
-                            "description": "Uses to pass attributes to the list's DOM element."
-                        },
-                        {
-                            "name": "hooks",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "ComponentHooks",
-                            "description": "Used to manage all lifecycle hooks"
-                        }
-                    ],
-                    "callbacks": []
-                },
                 "TabViewContext": {
                     "description": "Defines current inline context in Tabview component.",
                     "relatedProp": "",
@@ -46562,6 +46703,55 @@
                             "readonly": false,
                             "type": "boolean",
                             "description": "Is this tab currently disabled."
+                        }
+                    ],
+                    "callbacks": []
+                },
+                "TabPanelPassThroughOptions": {
+                    "description": "Custom passthrough(pt) options.",
+                    "relatedProp": "pt",
+                    "props": [
+                        {
+                            "name": "root",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "TabPanelPassThroughType<HTMLAttributes<HTMLDivElement>>",
+                            "description": "Uses to pass attributes to the root's DOM element."
+                        },
+                        {
+                            "name": "header",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "TabPanelPassThroughType<HTMLAttributes<HTMLLIElement>>",
+                            "description": "Uses to pass attributes to the header's DOM element."
+                        },
+                        {
+                            "name": "headerAction",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "TabPanelPassThroughType<HTMLAttributes<HTMLAnchorElement>>",
+                            "description": "Uses to pass attributes to the header action's DOM element."
+                        },
+                        {
+                            "name": "headerTitle",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "TabPanelPassThroughType<HTMLAttributes<HTMLSpanElement>>",
+                            "description": "Uses to pass attributes to the title's DOM element."
+                        },
+                        {
+                            "name": "content",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "TabPanelPassThroughType<HTMLAttributes<HTMLDivElement>>",
+                            "description": "Uses to pass attributes to the list's DOM element."
+                        },
+                        {
+                            "name": "hooks",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "ComponentHooks",
+                            "description": "Used to manage all lifecycle hooks"
                         }
                     ],
                     "callbacks": []
@@ -47313,6 +47503,32 @@
                     "description": "Defines callbacks that determine the behavior of the component based on a given condition or report the actions that the component takes.",
                     "values": [
                         {
+                            "name": "onBlur",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when menu loses focus."
+                        },
+                        {
+                            "name": "onFocus",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when menu receives focus."
+                        },
+                        {
                             "name": "onHide",
                             "parameters": [
                                 {
@@ -47794,6 +48010,14 @@
                             "description": "Used to get the child elements of the component."
                         },
                         {
+                            "name": "content",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "ReactNode | Function",
+                            "default": "",
+                            "description": "Specifies a custom content for the toast. For more complex markup, use the \"content\" slot instead."
+                        },
+                        {
                             "name": "position",
                             "optional": true,
                             "readonly": false,
@@ -47830,19 +48054,6 @@
                 "callbacks": {
                     "description": "Defines callbacks that determine the behavior of the component based on a given condition or report the actions that the component takes.",
                     "values": [
-                        {
-                            "name": "content",
-                            "parameters": [
-                                {
-                                    "name": "props",
-                                    "optional": false,
-                                    "type": "ContentProps",
-                                    "description": "The values of toast."
-                                }
-                            ],
-                            "returnType": "ReactNode",
-                            "description": "Specifies a custom content for the toast. For more complex markup, use the \"content\" slot instead."
-                        },
                         {
                             "name": "onClick",
                             "parameters": [
@@ -49666,6 +49877,22 @@
                 "props": {
                     "description": "Defines valid properties in TreeProps component.",
                     "values": [
+                        {
+                            "name": "ariaLabel",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "string",
+                            "default": "",
+                            "description": "Defines a string value that labels an interactive element."
+                        },
+                        {
+                            "name": "ariaLabelledby",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "string",
+                            "default": "",
+                            "description": "Identifier of the underlying menu element."
+                        },
                         {
                             "name": "checkboxIcon",
                             "optional": true,
@@ -51730,7 +51957,34 @@
                             "description": "Uses to pass attributes to the Tooltip component."
                         }
                     ],
-                    "callbacks": []
+                    "callbacks": [
+                        {
+                            "name": "onFocus",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when menu receives focus."
+                        },
+                        {
+                            "name": "onBlur",
+                            "parameters": [
+                                {
+                                    "name": "event",
+                                    "optional": false,
+                                    "type": "SyntheticEvent<Element, Event>",
+                                    "description": "Browser event."
+                                }
+                            ],
+                            "returnType": "void",
+                            "description": "Callback to invoke when menu loses focus."
+                        }
+                    ]
                 },
                 "TreeSelectState": {
                     "description": "Defines current inline state in TreeSelect component.",

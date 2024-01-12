@@ -33,7 +33,6 @@ export const SlideMenu = React.memo(
         const targetRef = React.useRef(null);
         const backward = React.useRef(null);
         const slideMenuContent = React.useRef(null);
-
         const slideMenuDisplayOrder = useDisplayOrder('slide-menu', visibleState);
 
         useGlobalOnEscapeKey({

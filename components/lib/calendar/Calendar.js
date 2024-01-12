@@ -93,6 +93,7 @@ export const Calendar = React.memo(
         const onInputBlur = (event) => {
             !props.keepInvalid && updateInputfield(props.value);
             props.onBlur && props.onBlur(event);
+            setFocusedState(false);
         };
 
         const onInputKeyDown = (event) => {
@@ -1536,8 +1537,6 @@ export const Calendar = React.memo(
                 setOverlayVisibleState(false);
                 _hideCallback();
             }
-
-            setFocusedState(false);
         };
 
         const onOverlayEnter = () => {
@@ -1568,6 +1567,7 @@ export const Calendar = React.memo(
             bindOverlayListener();
             props.onShow && props.onShow();
             DomHandler.focusFirstElement(overlayRef.current);
+            setFocusedState(false);
         };
 
         const onOverlayExit = () => {
@@ -2065,6 +2065,25 @@ export const Calendar = React.memo(
             return false;
         };
 
+        const isMonthYearDisabled = (month, year) => {
+            const daysCountInAllMonth = month === -1 ? new Array(12).fill(0).map((_, i) => getDaysCountInMonth(i, year)) : [getDaysCountInMonth(month, year)];
+
+            for (let i = 0; i < daysCountInAllMonth.length; i++) {
+                const monthDays = daysCountInAllMonth[i];
+                const _month = month === -1 ? i : month;
+
+                for (let day = 1; day <= monthDays; day++) {
+                    let isDateSelectable = isSelectable(day, _month, year);
+
+                    if (isDateSelectable) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        };
+
         const updateInputfield = (value) => {
             if (!inputRef.current) {
                 return;
@@ -2342,8 +2361,14 @@ export const Calendar = React.memo(
             if (isNaN(h) || isNaN(m) || h > 23 || m > 59 || (props.hourFormat === '12' && h > 12) || (props.showSeconds && (isNaN(s) || s > 59)) || (props.showMillisec && (isNaN(s) || s > 1000))) {
                 throw new Error('Invalid time');
             } else {
-                if (props.hourFormat === '12' && h !== 12 && ampm === 'PM') {
-                    h += 12;
+                if (props.hourFormat === '12') {
+                    if (h !== 12 && ampm === 'PM') {
+                        h += 12;
+                    }
+
+                    if (h === 12 && ampm === 'AM') {
+                        h -= 12;
+                    }
                 }
 
                 return { hour: h, minute: m, second: s, millisecond: ms };
@@ -2620,15 +2645,6 @@ export const Calendar = React.memo(
         }, [props.view]);
 
         useUpdateEffect(() => {
-            if (overlayVisibleState || props.visible) {
-                // Github #5529
-                setTimeout(() => {
-                    alignOverlay();
-                });
-            }
-        }, [currentView, overlayVisibleState, props.visible]);
-
-        useUpdateEffect(() => {
             if (!props.onViewDateChange && !viewStateChanged.current) {
                 setValue(props.value);
             }
@@ -2637,6 +2653,15 @@ export const Calendar = React.memo(
                 updateViewDate(null, getViewDate(props.viewDate));
             }
         }, [props.onViewDateChange, props.value, props.viewDate]);
+
+        useUpdateEffect(() => {
+            if (overlayVisibleState || props.visible) {
+                // Github #5529
+                setTimeout(() => {
+                    alignOverlay();
+                });
+            }
+        }, [currentView, overlayVisibleState, props.visible]);
 
         useUpdateEffect(() => {
             const newDate = props.value;
@@ -3675,36 +3700,21 @@ export const Calendar = React.memo(
             const input = createInputElement();
             const button = createButton();
 
-            switch (props.iconDisplay) {
-                case 'input':
-                    const icon = ObjectUtils.getJSXElement(props.icon, props.onInputIcon) || <CalendarIcon />;
-
-                    return (
-                        <span className={`p-input-icon-${props.iconPos}`}>
-                            {icon}
-                            {input}
-                        </span>
-                    );
-
-                case 'button':
-                default:
-                    if (props.iconPos === 'left') {
-                        return (
-                            <>
-                                {button}
-                                {input}
-                            </>
-                        );
-                    }
-
-                    return (
-                        <>
-                            {input}
-                            {button}
-                        </>
-                    );
-                    break;
+            if (props.iconPos === 'left') {
+                return (
+                    <>
+                        {button}
+                        {input}
+                    </>
+                );
             }
+
+            return (
+                <>
+                    {input}
+                    {button}
+                </>
+            );
         };
 
         const createButtonBar = () => {
@@ -3768,8 +3778,8 @@ export const Calendar = React.memo(
                                     context: {
                                         month: m,
                                         monthIndex: i,
-                                        disabled: isMonthYearDisabled(i, currentYear),
-                                        selected: isMonthSelected(i)
+                                        selected: isMonthSelected(i),
+                                        disabled: isMonthYearDisabled(i, currentYear)
                                     }
                                 })
                             );
@@ -3787,25 +3797,6 @@ export const Calendar = React.memo(
             return null;
         };
 
-        const isMonthYearDisabled = (month, year) => {
-            const daysCountInAllMonth = month === -1 ? new Array(12).fill(0).map((_, i) => getDaysCountInMonth(i, year)) : [getDaysCountInMonth(month, year)];
-
-            for (let i = 0; i < daysCountInAllMonth.length; i++) {
-                const monthDays = daysCountInAllMonth[i];
-                const _month = month === -1 ? i : month;
-
-                for (let day = 1; day <= monthDays; day++) {
-                    let isDateSelectable = isSelectable(day, _month, year);
-
-                    if (isDateSelectable) {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        };
-
         const createYearPicker = () => {
             if (currentView === 'year') {
                 const yearPickerProps = mergeProps(
@@ -3820,7 +3811,7 @@ export const Calendar = React.memo(
                         {yearPickerValues().map((y, i) => {
                             const yearProps = mergeProps(
                                 {
-                                    className: cx('year', { isYearSelected, isSelectable, y, isMonthYearDisabled }),
+                                    className: cx('year', { isYearSelected, isMonthYearDisabled, y }),
                                     onClick: (event) => onYearSelect(event, y),
                                     'data-p-highlight': isYearSelected(y),
                                     'data-p-disabled': isMonthYearDisabled(-1, y)
@@ -3829,7 +3820,7 @@ export const Calendar = React.memo(
                                     context: {
                                         year: y,
                                         yearIndex: i,
-                                        selected: isYearSelected(y),
+                                        selected: isYearSelected(i),
                                         disabled: isMonthYearDisabled(-1, y)
                                     }
                                 })
