@@ -2,15 +2,16 @@ import * as React from 'react';
 import { PrimeReactContext } from '../api/Api';
 import { useHandleStyle } from '../componentbase/ComponentBase';
 import { CSSTransition } from '../csstransition/CSSTransition';
-import { useMountEffect } from '../hooks/Hooks';
+import { useMergeProps, useMountEffect } from '../hooks/Hooks';
 import { ChevronDownIcon } from '../icons/chevrondown';
 import { ChevronRightIcon } from '../icons/chevronright';
-import { DomHandler, IconUtils, ObjectUtils, UniqueComponentId, classNames, mergeProps } from '../utils/Utils';
+import { DomHandler, IconUtils, ObjectUtils, UniqueComponentId, classNames } from '../utils/Utils';
 import { AccordionBase, AccordionTabBase } from './AccordionBase';
 
 export const AccordionTab = () => {};
 
 export const Accordion = React.forwardRef((inProps, ref) => {
+    const mergeProps = useMergeProps();
     const context = React.useContext(PrimeReactContext);
     const props = AccordionBase.getProps(inProps, context);
     const [idState, setIdState] = React.useState(props.id);
@@ -32,6 +33,8 @@ export const Accordion = React.forwardRef((inProps, ref) => {
 
     useHandleStyle(AccordionBase.css.styles, isUnstyled, { name: 'accordion' });
 
+    const getTabProp = (tab, name) => AccordionTabBase.getCProp(tab, name);
+
     const getTabPT = (tab, key, index) => {
         const atProps = AccordionTabBase.getCProps(tab);
         const tabMetaData = {
@@ -47,10 +50,8 @@ export const Accordion = React.forwardRef((inProps, ref) => {
             }
         };
 
-        return mergeProps(ptm(`accordion.${key}`, { tab: tabMetaData }), ptm(`tab.${key}`, { accordiontab: tabMetaData }), ptm(`tab.${key}`, tabMetaData), ptmo(getTabProp(tab, 'pt'), key, tabMetaData));
+        return mergeProps(ptm(`tab.${key}`, { tab: tabMetaData }), ptm(`tab.${key}`, { accordiontab: tabMetaData }), ptm(`tab.${key}`, tabMetaData), ptmo(getTabProp(tab, 'pt'), key, tabMetaData));
     };
-
-    const getTabProp = (tab, name) => AccordionTabBase.getCProp(tab, name);
 
     const onTabHeaderClick = (event, tab, index) => {
         changeActiveIndex(event, tab, index);

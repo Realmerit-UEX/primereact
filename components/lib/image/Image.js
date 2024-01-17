@@ -2,7 +2,7 @@ import * as React from 'react';
 import PrimeReact, { PrimeReactContext, localeOption } from '../api/Api';
 import { useHandleStyle } from '../componentbase/ComponentBase';
 import { CSSTransition } from '../csstransition/CSSTransition';
-import { ESC_KEY_HANDLING_PRIORITIES, useGlobalOnEscapeKey, useUnmountEffect } from '../hooks/Hooks';
+import { ESC_KEY_HANDLING_PRIORITIES, useGlobalOnEscapeKey, useMergeProps, useUnmountEffect } from '../hooks/Hooks';
 import { DownloadIcon } from '../icons/download';
 import { EyeIcon } from '../icons/eye';
 import { RefreshIcon } from '../icons/refresh';
@@ -11,11 +11,12 @@ import { SearchPlusIcon } from '../icons/searchplus';
 import { TimesIcon } from '../icons/times';
 import { UndoIcon } from '../icons/undo';
 import { Portal } from '../portal/Portal';
-import { DomHandler, IconUtils, ObjectUtils, ZIndexUtils, classNames, mergeProps } from '../utils/Utils';
+import { DomHandler, IconUtils, ObjectUtils, ZIndexUtils, classNames } from '../utils/Utils';
 import { ImageBase } from './ImageBase';
 
 export const Image = React.memo(
     React.forwardRef((inProps, ref) => {
+        const mergeProps = useMergeProps();
         const context = React.useContext(PrimeReactContext);
         const props = ImageBase.getProps(inProps, context);
 
@@ -27,7 +28,6 @@ export const Image = React.memo(
         const imageRef = React.useRef(null);
         const maskRef = React.useRef(null);
         const previewRef = React.useRef(null);
-        const previewClick = React.useRef(false);
         const previewButton = React.useRef(null);
         const zoomOutDisabled = scaleState <= 0.5;
         const zoomInDisabled = scaleState >= 1.5;
@@ -69,18 +69,10 @@ export const Image = React.memo(
         };
 
         const hide = () => {
-            if (!previewClick.current) {
-                setPreviewVisibleState(false);
-                DomHandler.unblockBodyScroll();
-                setRotateState(0);
-                setScaleState(1);
-            }
-
-            previewClick.current = false;
-        };
-
-        const onPreviewImageClick = () => {
-            previewClick.current = true;
+            setPreviewVisibleState(false);
+            DomHandler.unblockBodyScroll();
+            setRotateState(0);
+            setScaleState(1);
         };
 
         const onMaskClick = (event) => {
@@ -90,13 +82,7 @@ export const Image = React.memo(
                 return;
             }
 
-            if (!previewClick.current) {
-                setPreviewVisibleState(false);
-                setRotateState(0);
-                setScaleState(0);
-            }
-
-            previewClick.current = false;
+            hide();
         };
 
         const onMaskKeydown = (event) => {
@@ -119,17 +105,14 @@ export const Image = React.memo(
             const { alt: name, src } = props;
 
             DomHandler.saveAs({ name, src });
-            previewClick.current = true;
         };
 
         const rotateRight = () => {
             setRotateState((prevRotate) => prevRotate + 90);
-            previewClick.current = true;
         };
 
         const rotateLeft = () => {
             setRotateState((prevRotate) => prevRotate - 90);
-            previewClick.current = true;
         };
 
         const zoomIn = () => {
@@ -138,7 +121,6 @@ export const Image = React.memo(
 
                 return prevScale + 0.1;
             });
-            previewClick.current = true;
         };
 
         const zoomOut = () => {
@@ -147,7 +129,6 @@ export const Image = React.memo(
 
                 return prevScale - 0.1;
             });
-            previewClick.current = true;
         };
 
         const onEntering = () => {
@@ -304,7 +285,6 @@ export const Image = React.memo(
                     src: props.zoomSrc || props.src,
                     className: cx('preview'),
                     style: sx('preview', { rotateState, scaleState }),
-                    onClick: onPreviewImageClick,
                     crossOrigin: crossOrigin,
                     referrerPolicy: referrerPolicy,
                     useMap: useMap,
