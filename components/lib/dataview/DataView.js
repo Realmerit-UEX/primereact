@@ -1,17 +1,15 @@
 import * as React from 'react';
 import PrimeReact, { localeOption, PrimeReactContext } from '../api/Api';
 import { useHandleStyle } from '../componentbase/ComponentBase';
-import { useMergeProps } from '../hooks/Hooks';
 import { BarsIcon } from '../icons/bars';
 import { SpinnerIcon } from '../icons/spinner';
 import { ThLargeIcon } from '../icons/thlarge';
 import { Paginator } from '../paginator/Paginator';
 import { Ripple } from '../ripple/Ripple';
-import { classNames, IconUtils, ObjectUtils } from '../utils/Utils';
+import { classNames, IconUtils, mergeProps, ObjectUtils } from '../utils/Utils';
 import { DataViewBase, DataViewLayoutOptionsBase } from './DataViewBase';
 
 export const DataViewLayoutOptions = React.memo((inProps) => {
-    const mergeProps = useMergeProps();
     const context = React.useContext(PrimeReactContext);
     const props = DataViewLayoutOptionsBase.getProps(inProps, context);
     const { ptm, cx } = DataViewLayoutOptionsBase.setMetaData({
@@ -140,6 +138,18 @@ export const DataView = React.memo(
             }
         };
 
+        const getItems = (value) => {
+            if (props.paginator) {
+                const currentFirst = props.lazy ? 0 : first;
+                const totalRecords = getTotalRecords();
+                const last = Math.min(rows + currentFirst, totalRecords);
+
+                return value.slice(currentFirst, last) || [];
+            }
+
+            return value;
+        };
+
         const sort = () => {
             if (props.value) {
                 // performance optimization to prevent resolving field data in each loop
@@ -251,22 +261,9 @@ export const DataView = React.memo(
 
         const createItems = (value) => {
             if (ObjectUtils.isNotEmpty(value)) {
-                if (props.paginator) {
-                    const currentFirst = props.lazy ? 0 : first;
-                    const totalRecords = getTotalRecords();
-                    const last = Math.min(rows + currentFirst, totalRecords);
-                    let items = [];
+                let items = getItems(value);
 
-                    for (let i = currentFirst; i < last; i++) {
-                        const val = value[i];
-
-                        val && items.push(<DataViewItem key={getItemRenderKey(value) || i} template={props.itemTemplate} layout={props.layout} item={val} />);
-                    }
-
-                    return items;
-                }
-
-                return value.map((item, index) => {
+                return items.map((item, index) => {
                     return <DataViewItem key={getItemRenderKey(item) || index} template={props.itemTemplate} layout={props.layout} item={item} />;
                 });
             }
@@ -275,27 +272,31 @@ export const DataView = React.memo(
         };
 
         const createContent = (value) => {
-            const items = createItems(value);
-
-            const gridProps = mergeProps(
-                {
-                    className: cx('grid')
-                },
-                ptm('grid')
-            );
-
             const contentProps = mergeProps(
                 {
                     className: cx('content')
                 },
                 ptm('content')
             );
+            let content = null;
 
-            return (
-                <div {...contentProps}>
-                    <div {...gridProps}>{items}</div>
-                </div>
-            );
+            if (props.listTemplate) {
+                const items = getItems(value);
+
+                content = ObjectUtils.getJSXElement(props.listTemplate, items, props.layout);
+            } else {
+                const items = createItems(value);
+                const gridProps = mergeProps(
+                    {
+                        className: cx('grid')
+                    },
+                    ptm('grid')
+                );
+
+                content = <div {...gridProps}>{items}</div>;
+            }
+
+            return <div {...contentProps}>{content}</div>;
         };
 
         const processData = () => {
