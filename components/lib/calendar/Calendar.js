@@ -327,6 +327,7 @@ export const Calendar = React.memo(
             updateViewDate(event, newViewDate);
             event.preventDefault();
         };
+
         const focusToFirstCell = () => {
             if (currentView) {
                 let cell;
