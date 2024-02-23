@@ -3,7 +3,6 @@ import { PrimeReactContext } from '../api/Api';
 import { useHandleStyle } from '../componentbase/ComponentBase';
 import { CSSTransition } from '../csstransition/CSSTransition';
 import { useMergeProps, useMountEffect } from '../hooks/Hooks';
-import { useUpdateEffect } from '../hooks/useUpdateEffect';
 import { ChevronDownIcon } from '../icons/chevrondown';
 import { ChevronRightIcon } from '../icons/chevronright';
 import { DomHandler, IconUtils, ObjectUtils, UniqueComponentId, classNames } from '../utils/Utils';
@@ -39,10 +38,6 @@ export const PanelMenu = React.memo(
                 return;
             }
 
-            if (!item.url) {
-                event.preventDefault();
-            }
-
             if (item.command) {
                 item.command({
                     originalEvent: event,
@@ -53,6 +48,11 @@ export const PanelMenu = React.memo(
             if (item.items) {
                 changeActiveItem(event, item);
             }
+
+            if (!item.url) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
         };
 
         const getItemProp = (item, name) => {
@@ -60,7 +60,11 @@ export const PanelMenu = React.memo(
         };
 
         const isItemActive = (item) => {
-            return props.expandedKeys ? props.expandedKeys[getItemProp(item, 'key')] : props.multiple ? activeItemsState.some((subItem) => ObjectUtils.equals(item, subItem)) : ObjectUtils.equals(item, activeItemState);
+            if (props.expandedKeys) {
+                return props.expandedKeys[getItemProp(item, 'key')];
+            } else {
+                return props.multiple ? activeItemsState.some((subItem) => ObjectUtils.equals(item, subItem)) : ObjectUtils.equals(item, activeItemState);
+            }
         };
 
         const isItemVisible = (item) => {
@@ -181,13 +185,13 @@ export const PanelMenu = React.memo(
         const changeActiveItem = (event, item) => {
             if (!isItemDisabled(item)) {
                 const active = isItemActive(item);
-                const isOpen = !active;
+                const isExpanded = !active;
                 const _activeItemState = activeItemState && ObjectUtils.equals(item, activeItemState) ? null : item;
 
                 setActiveItemState(_activeItemState);
 
                 if (props.multiple) {
-                    const activeItems = activeItemsState;
+                    let activeItems = activeItemsState;
 
                     if (
                         activeItemsState.some((subItem) => {
@@ -202,8 +206,8 @@ export const PanelMenu = React.memo(
                     setActiveItemsState(activeItems);
                 }
 
-                changeExpandedKeys({ item, expanded: !active });
-                isOpen ? props.onOpen && props.onOpen({ originalEvent: event, item }) : props.onClose && props.onClose({ originalEvent: event, item });
+                changeExpandedKeys({ item, expanded: isExpanded });
+                isExpanded && event ? props.onOpen && props.onOpen({ originalEvent: event, item }) : props.onClose && props.onClose({ originalEvent: event, item });
             }
         };
 
@@ -242,8 +246,17 @@ export const PanelMenu = React.memo(
             !idState && setIdState(UniqueComponentId());
         });
 
-        useUpdateEffect(() => {
+        React.useEffect(() => {
             setAnimationDisabled(true);
+
+            props.model &&
+                props.model.forEach((item) => {
+                    if (item.expanded) {
+                        changeActiveItem(null, item);
+                        item.expanded = false;
+                    }
+                });
+            // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [props.model]);
 
         const onEnter = () => {
@@ -256,7 +269,7 @@ export const PanelMenu = React.memo(
             }
 
             const key = item.id || idState + '_' + index;
-            const active = isItemActive(item);
+            const active = isItemActive(item) || item.expanded;
             const iconClassName = classNames('p-menuitem-icon', item.icon);
             const headerIconProps = mergeProps(
                 {
