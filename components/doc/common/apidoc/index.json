@@ -43497,20 +43497,20 @@
                             "description": "Specifies if pressing escape key should hide the sidebar."
                         },
                         {
-                            "name": "destroyOnClose",
-                            "optional": true,
-                            "readonly": false,
-                            "type": "boolean",
-                            "default": "",
-                            "description": ""
-                        },
-                        {
                             "name": "content",
                             "optional": true,
                             "readonly": false,
                             "type": "ReactNode | Function",
                             "default": "",
                             "description": "Specifies a custom content for the sidebar. For more complex markup, use the \"content\" slot instead."
+                        },
+                        {
+                            "name": "destroyOnClose",
+                            "optional": true,
+                            "readonly": false,
+                            "type": "boolean",
+                            "default": "",
+                            "description": ""
                         },
                         {
                             "name": "dismissable",
