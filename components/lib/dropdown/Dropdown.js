@@ -672,8 +672,6 @@ export const Dropdown = React.memo(
                 return;
             }
 
-          
-
             let searchIndex = null;
 
             if (event.target.value) {
@@ -1154,17 +1152,11 @@ export const Dropdown = React.memo(
                         maxLength: props.maxLength,
                         onInput: onEditableInputChange,
                         onFocus: onEditableInputFocus,
-<<<<<<< HEAD
                         onBlur: onEditableInputBlur,
                         onKeyDown: onEditableInputKeyDown,
                         onCompositionStart: onInputCompositionStart,
                         onCompositionEnd: onInputCompositionEnd,
-                        tabIndex: props.tabIndex || 0,
-=======
-                        onKeyDown: onInputKeyDown,
-                        onBlur: onInputBlur,
                         tabIndex: !props.disabled ? props.tabIndex || 0 : -1,
->>>>>>> upstream/master
                         'aria-haspopup': 'listbox',
                         ...ariaProps
                     },
